@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
                           return InkWell(
                             onTap: () {
                               Get.toNamed(
-                                RouteName.detailHome,
+                                RouteName.notifikasiPage,
                                 arguments: controller.listBook[index].id,
                               );
                             },
@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
                                   controller.listBook[index].attributes
                                       .HeadlineImage.data.attributes.url,
                                   width: Get.width,
-                                  height: Get.height * 0.2,
+                                  height: Get.height * 0.3,
                                   fit: BoxFit.cover,
                                 ),
                                 Text(

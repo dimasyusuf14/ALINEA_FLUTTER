@@ -1,12 +1,12 @@
-class DetailHomeModel {
-  DetailHomeModel({
+class NotifikasiModel {
+  NotifikasiModel({
     required this.id,
     required this.attributes,
   });
   late final int id;
   late final Attributes attributes;
 
-  DetailHomeModel.fromJson(Map<String, dynamic> json) {
+  NotifikasiModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     attributes = json['attributes'] == null
         ? Attributes(

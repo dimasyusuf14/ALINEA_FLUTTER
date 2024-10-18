@@ -1,13 +1,13 @@
-import 'package:alinea/models/home/detail_home_model.dart';
+import 'package:alinea/models/notif/notifikasi_model.dart';
 import 'package:alinea/services/api_services.dart';
 import 'package:alinea/utilities/api_constant.dart';
 import 'package:alinea/utilities/utilities.dart';
 import 'package:get/get.dart';
 
-class DetailHomeController extends GetxController {
+class NotifikasiController extends GetxController {
   var id = 0.obs;
 
-  var detail = Rxn<DetailHomeModel>();
+  var detail = Rxn<NotifikasiModel>();
   var loadingDetail = DataLoad.done.obs;
 
 //TABBAR
@@ -33,7 +33,7 @@ class DetailHomeController extends GetxController {
         param: "/$id",
       );
       if (data['data'] != null) {
-        detail.value = DetailHomeModel.fromJson(data['data']);
+        detail.value = NotifikasiModel.fromJson(data['data']);
         loadingDetail.value = DataLoad.done;
       } else {
         loadingDetail.value = DataLoad.failed;

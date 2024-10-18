@@ -1,14 +1,15 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:alinea/controller/login/login_controller.dart';
+import 'package:alinea/controller/signUp/sign_up_controller.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class SignUpPage extends StatelessWidget {
+  SignUpPage({super.key});
 
-  LoginController controller = Get.put(LoginController());
+  SignUpController controller = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class LoginPage extends StatelessWidget {
             // top: Get.height * 0.3,
             top: MediaQuery.of(context).viewInsets.bottom > 0
                 ? Get.height * 0.1
-                : Get.height * 0.3,
+                : Get.height * 0.2,
             child: Container(
               padding:
                   EdgeInsets.only(left: 30, right: 30, top: 60, bottom: 50),
@@ -46,7 +47,7 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "MASUK",
+                      "DAFTAR",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -61,18 +62,21 @@ class LoginPage extends StatelessWidget {
                         children: const [
                           TextSpan(
                             text:
-                                "Silahkan masuk untuk mengakses koleksi buku di ",
+                                "Daftar sekarang di ",
                             style: TextStyle(
                               fontSize: 16,
                             ),
                           ),
                           TextSpan(
-                            text: "ALINEA",
+                            text: "ALINEA ",
                             style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
+                          ),
+                          TextSpan(
+                            text: "untuk melihat berbagai genre buku yang menarik."
                           ),
                         ],
                       ),
@@ -81,13 +85,30 @@ class LoginPage extends StatelessWidget {
                       height: 10,
                     ),
 
-                    //text input nim atau email
+                    //text inpuT email
                     TextField(
                       autocorrect: false,
                       controller: controller.emailController.value,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        labelText: "NIM dan Email",
+                        labelText: "Email",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(9),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: 20,
+                    ),
+
+                    //text input nim
+                    TextField(
+                      autocorrect: false,
+                      controller: controller.emailController.value,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        labelText: "NIM",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -123,39 +144,33 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20),
-                    // Remember Me and Forgot Password Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Obx(
-                              () => Checkbox(
-                                value: controller.checkC.value,
-                                onChanged: (value) =>
-                                    controller.checkC.toggle(),
-                                activeColor: Color(0XFF445DCC),
-                              ),
-                            ),
-                            Text(
-                              "Remember Me?",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
+                    //text input konfirmasi   pw
+                    Obx(
+                      () => TextField(
+                        autocorrect: false,
+                        controller: controller.passController.value,
+                        keyboardType: TextInputType.emailAddress,
+                        obscureText: controller.isHidden.value,
+                        decoration: InputDecoration(
+                          labelText: "Konfirmasi Password",
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              controller.isHidden.value =
+                                  !controller.isHidden.value;
+                            },
+                            icon: Icon(controller.isHidden.isFalse
+                                ? Icons.remove_red_eye
+                                : Icons.visibility_off),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(9),
+                          ),
                         ),
-
-                        // TextButton(
-                        //   onPressed: () {},
-                        //   child: Text("Lupa Password?"),
-                        // ),
-                      ],
+                      ),
                     ),
                     SizedBox(height: 20),
-                    // Login Button
-
+      
+                    // daftar Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -170,10 +185,10 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          "Masuk",
+                          "Daftar",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                         ),
                       ),
@@ -184,7 +199,7 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Belum punya akun? ",
+                          "Sudah punya akun? ",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
@@ -192,10 +207,10 @@ class LoginPage extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            Get.toNamed(RouteName.signUp);
+                            Get.toNamed(RouteName.login);
                           },
                           child: Text(
-                            "Daftar",
+                            "Masuk",
                             style: TextStyle(
                               color: Color(0XFF445DCC),
                               fontWeight: FontWeight.w700,

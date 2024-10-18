@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class LoginController extends GetxController {
+class SignUpController extends GetxController {
   var passController = TextEditingController().obs;
   var emailController = TextEditingController().obs;
-  var checkC = false.obs;
 
   var isHidden = false.obs;
 
-  void login() async {
+  void signUp() async {
     Helper.loadingScreen();
 
     var requestBodyMap = {
@@ -43,5 +42,5 @@ class LoginController extends GetxController {
     }
   }
 
-  void signUp() {}
+  void login() {}
 }
