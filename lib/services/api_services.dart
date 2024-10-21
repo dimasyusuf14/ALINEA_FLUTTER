@@ -14,7 +14,7 @@ class APIServices {
   static Future api({
     var requestBodyMap = const {},
     required String endPoint,
-    bool withToken = false,
+    bool withToken = true,
     String param = "",
     required var type,
   }) async {

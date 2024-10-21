@@ -17,7 +17,7 @@ class PagesRoute {
     GetPage(name: RouteName.homePage, page: () => HomePage()),
     GetPage(name: RouteName.mainPage, page: () => MainPage()),
     GetPage(name: RouteName.wellcomePage, page: () => WellcomePage()),
-     GetPage(name: RouteName.notifikasiPage, page: () => NotifikasiPage()),
+    GetPage(name: RouteName.notifikasiPage, page: () => NotifikasiPage()),
     // GetPage(name: RouteName.detailHome, page: () => DetailHomePage()),
   ];
 }

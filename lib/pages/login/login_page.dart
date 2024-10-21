@@ -84,7 +84,7 @@ class LoginPage extends StatelessWidget {
                     //text input nim atau email
                     TextField(
                       autocorrect: false,
-                      controller: controller.emailController.value,
+                      controller: controller.usernameController.value,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: "NIM dan Email",
@@ -160,7 +160,8 @@ class LoginPage extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.toNamed(RouteName.mainPage);
+                          // Get.toNamed(RouteName.mainPage);
+                          controller.login();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,

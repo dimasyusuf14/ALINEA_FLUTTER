@@ -18,83 +18,51 @@ class NotifikasiPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Obx(() {
-              if (controller.loadingDetail.value == DataLoad.loading) {
-                return Text(
-                  "ini loading",
-                  style: TextStyle(
-                    fontSize: 32.0,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 50.0,
+                ),
+                Obx(
+                  () => Center(
+                    child: Container(
+                      width: Get.width * 0.7,
+                      padding: const EdgeInsets.all(1),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.red,
+                      ),
+                      child: Row(
+                        children: controller.listTab
+                            .mapIndexed(
+                              (index, element) => TabbarCard(
+                                title: controller.listTab[index].tr,
+                                isActive:
+                                    controller.selectedIndex.value == index,
+                                onTap: () {
+                                  if (index ==
+                                      controller.selectedIndex.value) {
+                                  } else {
+                                    controller.selectedIndex.value = index;
+                                  }
+                                },
+                                isFirstIndex: index == 0,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
                   ),
-                );
-              } else if (controller.loadingDetail.value == DataLoad.failed) {
-                return Text(
-                  "INi ERROR",
-                  style: TextStyle(
-                    fontSize: 32.0,
-                  ),
-                );
-              } else {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 50.0,
-                      ),
-                      Obx(
-                        () => Center(
-                          child: Container(
-                            width: Get.width * 0.7,
-                            padding: const EdgeInsets.all(1),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              color: Colors.red,
-                            ),
-                            child: Row(
-                              children: controller.listTab
-                                  .mapIndexed(
-                                    (index, element) => TabbarCard(
-                                      title: controller.listTab[index].tr,
-                                      isActive:
-                                          controller.selectedIndex.value == index,
-                                      onTap: () {
-                                        if (index ==
-                                            controller.selectedIndex.value) {
-                                        } else {
-                                          controller.selectedIndex.value = index;
-                                        }
-                                      },
-                                      isFirstIndex: index == 0,
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Obx(
-                        () => controller.selectedIndex.value == 0
-                            ? Text("ininotif")
-                            : Text("ini pengaturan"),
-                      ),
-                      Text(
-                        controller.detail.value!.attributes.Title,
-                        style: TextStyle(
-                          fontSize: 32.0,
-                        ),
-                      ),
-                      HtmlWidget(
-                        controller.detail.value!.attributes.Content,
-                      ),
-                    ],
-                  ),
-                );
-              }
-            })
-          ],
-        ),
-      ),
+                ),
+                Obx(
+                  () => controller.selectedIndex.value == 0
+                      ? Text("ininotif")
+                      : Text("ini pengaturan"),
+                ),
+                
+              ],
+            ),
+          ),
     );
   }
 }

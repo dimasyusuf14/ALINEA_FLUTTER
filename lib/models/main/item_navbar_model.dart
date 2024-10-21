@@ -12,7 +12,7 @@
 import 'package:flutter/material.dart';
 
 class ItemNavbarModel {
-  Widget icon; // Change Icon to Widget
+  String icon; // Change Icon to Widget
   String title;
   Widget widget;
 

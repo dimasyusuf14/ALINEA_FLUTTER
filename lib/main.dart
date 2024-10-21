@@ -10,6 +10,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 void main() async {
   runApp(MyApp());
+  
 }
 
 class MyApp extends StatefulWidget {
@@ -22,14 +23,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-    ));
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    //   statusBarColor: Colors.transparent,
+    //   statusBarIconBrightness: Brightness.dark,
+    // ));
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    // ]);
     return RefreshConfiguration(
       footerBuilder: () => const ClassicFooter(
         loadingIcon: SizedBox(
@@ -52,7 +53,7 @@ class _MyAppState extends State<MyApp> {
             fontFamily: 'Inter',
             splashColor: Colors.transparent),
         debugShowCheckedModeBanner: false,
-        home: WellcomePage(),
+        home: MainPage(),
       ),
     );
   }
