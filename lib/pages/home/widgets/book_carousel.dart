@@ -52,7 +52,7 @@ class CarouselBook extends StatelessWidget {
                   // height: Get.height * 0.2,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -63,7 +63,7 @@ class CarouselBook extends StatelessWidget {
                           child: Image.network(
                             book.attributes.HeadlineImage.data.attributes.url,
                             fit: BoxFit.cover,
-                            width: 90,
+                            width: 95,
                             height: Get.height * 0.18,
                           ),
                         ),

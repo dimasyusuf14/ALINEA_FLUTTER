@@ -94,10 +94,25 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 // AppBarDefault(),
+
                 Expanded(
                     child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: const [
+                            Text(
+                              "Rak Buku",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Obx(
                         () {
                           if (controller.loadingFetchBook.value ==
