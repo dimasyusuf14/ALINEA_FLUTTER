@@ -1,4 +1,6 @@
 import 'package:alinea/controller/home/home_controller.dart';
+import 'package:alinea/pages/home/widgets/book_carousel.dart';
+import 'package:alinea/pages/home/widgets/modal_category.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/utilities/asset_constant.dart';
 import 'package:alinea/utilities/utilities.dart';
@@ -15,98 +17,79 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Color(0XFFE0E8F9),
       body: Column(
         children: [
-          Container(
-            color: Colors.blue,
-            height: Get.width * 0.8,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 50,
-                right: 20,
-                left: 20,
-              ),
-              child: Column(
-                children: [
-                  TextFormField(
-                    autocorrect: false,
-                    controller: SearchController(),
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Color(0XFFF1F4FD),
-                      hintText: "Cari Buku...",
-                      disabledBorder: InputBorder.none,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                color: Color(0XFF445DCC),
+                height: Get.width * 0.52,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 50,
+                    right: 20,
+                    left: 20,
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: Get.height * 0.2,
-                    width: Get.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: 145,
-                          // width: 250,
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                AssetConstant.sampul1,
-                                fit: BoxFit.cover,
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height,
-                          width: 170,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
-                                "Anak Kecil Yang Kehilangan Pundaknya",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            height: 50,
+                            width: Get.width * 0.73,
+                            child: TextFormField(
+                              autocorrect: false,
+                              controller: SearchController(),
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Color(0XFFF1F4FD),
+                                hintText: "Cari Buku...",
+                                disabledBorder: InputBorder.none,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              Text("kljhjhkj"),
-                              Text("kljhjhkj"),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                          SizedBox(width: 10),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            height: 50,
+                            width: 50,
+                            child: IconButton(
+                              onPressed: () {
+                                showCustomModal(context);
+                              },
+                              icon: Icon(Icons.menu),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
-          // Container(
-          //   height: Get.height * 0.5,
-          //   color: Colors.amber,
-          //   child: Stack(
-          //     children: [
-          //       Expanded(
-          //         child: Container(
-          //           height: Get.height * 0.2,
-          //           color: Colors.green,
-          //         ),
 
-          //       ),
-          //     ],
-          //   ),
-          // ),
+              Positioned(
+                top: Get.height * 0.15,
+                left: Get.width * 0,
+                right: Get.width * 0,
+                child: CarouselBook(),
+              ), //panggil carousel
+            ],
+          ),
+          SizedBox(
+            height: 80,
+          ),
           Expanded(
             child: Column(
               children: [
@@ -148,7 +131,7 @@ class HomePage extends StatelessWidget {
                                   return InkWell(
                                     onTap: () {
                                       Get.toNamed(
-                                        RouteName.notifikasiPage,
+                                        RouteName.detailPage,
                                         arguments:
                                             controller.listBook[index].id,
                                       );

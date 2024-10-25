@@ -21,7 +21,7 @@ class MainController extends GetxController {
     ),
     ItemNavbarModel(
       widget: HomePage(),
-      icon: AssetConstant.icNotif, // Regular Icon
+      icon: AssetConstant.icKeranjang, // Regular Icon
       title: "Keranjang",
     ),
     ItemNavbarModel(

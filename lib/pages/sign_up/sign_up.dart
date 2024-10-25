@@ -2,7 +2,10 @@
 
 import 'package:alinea/controller/login/login_controller.dart';
 import 'package:alinea/controller/signUp/sign_up_controller.dart';
+import 'package:alinea/pages/home/home_page.dart';
 import 'package:alinea/routes/route_name.dart';
+import 'package:alinea/widgets/button/button_primary.dart';
+import 'package:alinea/widgets/button/button_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -61,8 +64,7 @@ class SignUpPage extends StatelessWidget {
                       TextSpan(
                         children: const [
                           TextSpan(
-                            text:
-                                "Daftar sekarang di ",
+                            text: "Daftar sekarang di ",
                             style: TextStyle(
                               fontSize: 16,
                             ),
@@ -76,8 +78,8 @@ class SignUpPage extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: "untuk melihat berbagai genre buku yang menarik."
-                          ),
+                              text:
+                                  "untuk melihat berbagai genre buku yang menarik."),
                         ],
                       ),
                     ),
@@ -169,30 +171,16 @@ class SignUpPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20),
-      
+
                     // daftar Button
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.toNamed(RouteName.mainPage);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(9),
-                          ),
-                        ),
-                        child: Text(
-                          "Daftar",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
+                    Buttonprimary(
+                      onTap: () {
+                        Get.toNamed(RouteName.login);
+                      },
+                      title: 'Daftar',
+                      color: Colors.blue,
                     ),
+
                     SizedBox(height: 20),
                     // Register Text
                     Column(
@@ -205,18 +193,11 @@ class SignUpPage extends StatelessWidget {
                             fontSize: 15,
                           ),
                         ),
-                        InkWell(
+                        Buttontext(
                           onTap: () {
                             Get.toNamed(RouteName.login);
                           },
-                          child: Text(
-                            "Masuk",
-                            style: TextStyle(
-                              color: Color(0XFF445DCC),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                            ),
-                          ),
+                          title: "Masuk",
                         ),
                       ],
                     ),

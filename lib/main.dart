@@ -1,6 +1,7 @@
 
 import 'package:alinea/pages/login/login_page.dart';
 import 'package:alinea/pages/main/main_page.dart';
+import 'package:alinea/pages/sign_up/sign_up.dart';
 import 'package:alinea/pages/wellcome/wellcome_page.dart';
 import 'package:alinea/routes/page_route.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class _MyAppState extends State<MyApp> {
             fontFamily: 'Inter',
             splashColor: Colors.transparent),
         debugShowCheckedModeBanner: false,
-        home: MainPage(),
+        home: SignUpPage(),
       ),
     );
   }
