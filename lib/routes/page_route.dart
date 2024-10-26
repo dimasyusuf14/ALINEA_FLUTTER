@@ -4,6 +4,7 @@ import 'package:alinea/pages/home/home_page.dart';
 import 'package:alinea/pages/login/login_page.dart';
 import 'package:alinea/pages/main/main_page.dart';
 import 'package:alinea/pages/notif/notifikasi.dart';
+import 'package:alinea/pages/profile/profile_page.dart';
 import 'package:alinea/pages/sign_up/sign_up.dart';
 import 'package:alinea/pages/wellcome/wellcome_page.dart';
 import 'package:alinea/routes/route_name.dart';
@@ -20,5 +21,6 @@ class PagesRoute {
     GetPage(name: RouteName.wellcomePage, page: () => WellcomePage()),
     GetPage(name: RouteName.notifikasiPage, page: () => NotifikasiPage()),
     GetPage(name: RouteName.detailPage, page: () => DetailPage()),
+    GetPage(name: RouteName.profilePage, page: () => ProfilePage()),
   ];
 }

@@ -19,7 +19,7 @@ class TabbarCard extends StatelessWidget {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: isActive ? Theme.of(context).primaryColor : Colors.white,
+          color: isActive ? Color(0XFF445DCC) : Color(0XFFC9CCF4),
           borderRadius: isFirstIndex
               ? const BorderRadius.only(
                   bottomLeft: Radius.circular(6),
@@ -41,9 +41,9 @@ class TabbarCard extends StatelessWidget {
                 title,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 12,
+                  fontSize: 14,
                   color:
-                      isActive ? Colors.white : Theme.of(context).primaryColor,
+                      isActive ? Color(0XFFC9CCF4) : Color(0XFF445DCC),
                 ),
                 textAlign: TextAlign.center,
               ),

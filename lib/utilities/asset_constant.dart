@@ -11,7 +11,10 @@ class AssetConstant {
   static const String icSejarah = "assets/icons/ic_sejarah.svg";
   static const String icHoror = "assets/icons/ic_horor.svg";
   static const String icProfile = "assets/icons/ic_profile.svg";
-  
+  static const String icBookmark = "assets/icons/ic_bookmark.svg";
+  static const String icDenda = "assets/icons/ic_denda.svg";
+  static const String icRiwayat = "assets/icons/ic_riwayat.svg";
+  static const String icLogout = "assets/icons/ic_logout.svg";
 
   //IMAGE
   static const String bgLogin = "assets/images/bg.png";
@@ -19,4 +22,5 @@ class AssetConstant {
   static const String bgHomePage = "assets/images/bg_homepage.png";
   static const String logoAlinea = "assets/images/logo_alinea.png";
   static const String coverHarryPoter = "assets/images/cover_harryPtr.png";
+  static const String profilePict = "assets/images/profile_pict.jpg";
 }

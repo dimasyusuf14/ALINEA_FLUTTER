@@ -1,22 +1,26 @@
+import 'package:alinea/controller/auth_controller.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Buttonprimary extends StatelessWidget {
-  const Buttonprimary({
+  Buttonprimary({
     super.key,
-    required this.onTap,
+    // required this.onTap,
     required this.title,
-    required this.color, required this.width,
+    required this.color,
+    required this.width,
+    required this.onPressed,
   });
-  final VoidCallback onTap;
+  final VoidCallback onPressed;
   final String title;
   final Color color;
   final double width;
-
+  final AuthController _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: onPressed,
       child: Container(
         width: width,
         padding: EdgeInsets.symmetric(vertical: 10),
@@ -25,13 +29,19 @@ class Buttonprimary extends StatelessWidget {
           borderRadius: BorderRadius.circular(9),
         ),
         child: Center(
-          child: Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+          child: Obx(
+            () {
+              return _authController.isLoading.value
+                  ? CircularProgressIndicator()
+                  : Text(
+                      title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+            },
           ),
         ),
       ),

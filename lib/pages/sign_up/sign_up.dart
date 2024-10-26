@@ -185,7 +185,7 @@ class SignUpPage extends StatelessWidget {
 
                     // daftar Button
                     Buttonprimary(
-                      onTap: () {
+                      onPressed: () {
                         Get.toNamed(RouteName.login);
                       },
                       title: 'Daftar',

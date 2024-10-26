@@ -1,12 +1,14 @@
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/utilities/asset_constant.dart';
-import 'package:alinea/widgets/button/button_icon.dart';
+import 'package:alinea/widgets/button/button_category.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:alinea/controller/auth_controller.dart';
 
 void showCustomModal(BuildContext context) {
   OverlayState overlayState = Overlay.of(context);
-  late OverlayEntry overlayEntry; // Use 'late' to delay initialization
+  late OverlayEntry overlayEntry;
+  final AuthController _authController = Get.put(AuthController());
 
   overlayEntry = OverlayEntry(
     builder: (BuildContext context) {
@@ -27,7 +29,7 @@ void showCustomModal(BuildContext context) {
                 color: Colors.transparent,
                 child: Container(
                   width: 150,
-                  height: Get.height * 0.5,
+                  height: Get.height * 0.55,
                   padding: EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -42,45 +44,63 @@ void showCustomModal(BuildContext context) {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ButtonIcon(
+                      ButtonCategory(
                         onTap: () {
                           Get.toNamed(RouteName.mainPage);
                         },
                         icon: AssetConstant.icAksi,
                         bgcolor: Color(0XFFFFDADA),
                         iccolor: Color(0XFFFF0000),
+                        title: "Aksi",
                       ),
-                      ButtonIcon(
+                      ButtonCategory(
                         onTap: () {
                           Get.toNamed(RouteName.mainPage);
                         },
                         icon: AssetConstant.icFiksi,
                         bgcolor: Color(0XFFC3FFD4),
                         iccolor: Color(0XFF009F2C),
+                        title: "Fiksi",
                       ),
-                      ButtonIcon(
+                      ButtonCategory(
                         onTap: () {
                           Get.toNamed(RouteName.mainPage);
                         },
                         icon: AssetConstant.icRomance,
                         bgcolor: Color(0XFFFFE0F6),
                         iccolor: Color(0XFFFF00B8),
+                        title: "Romansa",
                       ),
-                      ButtonIcon(
+                      ButtonCategory(
                         onTap: () {
                           Get.toNamed(RouteName.mainPage);
                         },
                         icon: AssetConstant.icHoror,
                         bgcolor: Color(0XFFCFE5FF),
                         iccolor: Color(0XFF0075FF),
+                        title: "Horor",
                       ),
-                      ButtonIcon(
+                      ButtonCategory(
                         onTap: () {
                           Get.toNamed(RouteName.mainPage);
                         },
                         icon: AssetConstant.icSejarah,
                         bgcolor: Color(0XFFFFF8B7),
                         iccolor: Color(0XFFC4B000),
+                        title: "Sejarah",
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            _authController.logout();
+                            overlayEntry.remove();
+                          },
+                          icon: Icon(Icons.logout), // Logout icon
+                        ),
                       ),
                     ],
                   ),

@@ -5,6 +5,7 @@ import 'package:alinea/controller/home/home_controller.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/utilities/asset_constant.dart';
 import 'package:alinea/utilities/utilities.dart';
+import 'package:alinea/widgets/button/button_category.dart';
 import 'package:alinea/widgets/button/button_icon.dart';
 import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:alinea/widgets/tabbar/tabbar_card.dart';
@@ -138,7 +139,7 @@ class DetailPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Buttonprimary(
-                            onTap: () {
+                            onPressed: () {
                               Get.toNamed(RouteName.mainPage);
                             },
                             title: 'Pinjam Sekarang',

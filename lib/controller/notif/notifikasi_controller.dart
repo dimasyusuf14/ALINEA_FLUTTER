@@ -10,8 +10,8 @@ class NotifikasiController extends GetxController {
 //TABBAR
   var selectedIndex = 0.obs;
   List<String> listTab = [
-    "notifikasi",
-    'peringatan',
+    "Notifikasi",
+    'Peringatan',
   ];
 
   @override

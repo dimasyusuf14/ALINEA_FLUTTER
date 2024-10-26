@@ -37,7 +37,7 @@ class AuthController extends GetxController {
         box.write('token', token.value);
 
         // Redirect to the home page
-        Get.offAllNamed(RouteName.homePage);
+        Get.offAllNamed(RouteName.mainPage);
       } else {
         isLoading.value = false;
         handleErrorResponse(response);
