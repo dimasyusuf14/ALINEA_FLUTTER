@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:collection/collection.dart';
 
 class MainPage extends StatelessWidget {
-  MainPage({Key? key}) : super(key: key);
+  MainPage({super.key});
   final MainController mainController = Get.put(MainController());
 
   @override
@@ -36,7 +36,7 @@ class MainPage extends StatelessWidget {
             padding: EdgeInsets.only(bottom: Platform.isIOS ? 20 : 0),
             decoration: const BoxDecoration(
                 border: Border(
-              top: BorderSide(color: Colors.red, width: 1),
+              top: BorderSide(color: Colors.grey, width: 1),
             )),
             child: Obx(
               () => Row(

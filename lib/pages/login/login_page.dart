@@ -2,6 +2,8 @@
 
 import 'package:alinea/controller/login/login_controller.dart';
 import 'package:alinea/routes/route_name.dart';
+import 'package:alinea/widgets/button/button_primary.dart';
+import 'package:alinea/widgets/button/button_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -156,28 +158,13 @@ class LoginPage extends StatelessWidget {
                     SizedBox(height: 20),
                     // Login Button
 
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Get.toNamed(RouteName.mainPage);
-                          controller.login();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(9),
-                          ),
-                        ),
-                        child: Text(
-                          "Masuk",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
+                    Buttonprimary(
+                      onTap: () {
+                        Get.toNamed(RouteName.mainPage);
+                      },
+                      title: 'Masuk',
+                      color: Colors.blue,
+                      width: 345,
                     ),
                     SizedBox(height: 20),
                     // Register Text
@@ -191,18 +178,11 @@ class LoginPage extends StatelessWidget {
                             fontSize: 15,
                           ),
                         ),
-                        InkWell(
+                        Buttontext(
                           onTap: () {
                             Get.toNamed(RouteName.signUp);
                           },
-                          child: Text(
-                            "Daftar",
-                            style: TextStyle(
-                              color: Color(0XFF445DCC),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                            ),
-                          ),
+                          title: "Daftar",
                         ),
                       ],
                     ),

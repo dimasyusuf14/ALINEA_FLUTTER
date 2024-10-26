@@ -10,6 +10,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class ItemNavbarModel {
   String icon; // Change Icon to Widget
@@ -22,3 +23,4 @@ class ItemNavbarModel {
     required this.title,
   });
 }
+

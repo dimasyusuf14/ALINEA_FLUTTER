@@ -39,6 +39,8 @@ class HomeModel {
     _data['attributes'] = attributes.toJson();
     return _data;
   }
+
+  toList() {}
 }
 
 class Attributes {
