@@ -1,24 +1,39 @@
-// ignore_for_file: must_be_immutable
-
-import 'package:alinea/controller/login/login_controller.dart';
+import 'package:alinea/controller/auth_controller.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:alinea/widgets/button/button_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
-  LoginController controller = Get.put(LoginController());
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final AuthController _authController = Get.put(AuthController());
+
+  final box = GetStorage(); // Initialize GetStorage
 
   @override
   Widget build(BuildContext context) {
+    // Check if the user is already logged in
+    if (box.read('token') != null) {
+      Future.delayed(Duration.zero, () {
+        Get.offAllNamed(RouteName.homePage); // Replace with your home page route
+      });
+      return Container(); // Return an empty container while redirecting
+    }
+    
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          // Background image
           Positioned.fill(
             child: Image.asset(
               "assets/images/bg.png",
@@ -30,7 +45,7 @@ class LoginPage extends StatelessWidget {
             left: 0,
             right: 0,
             // top: Get.height * 0.3,
-            top: MediaQuery.of(context).viewInsets.bottom > 0
+            top: (MediaQuery.of(context).viewInsets.bottom > 0)
                 ? Get.height * 0.1
                 : Get.height * 0.3,
             child: Container(
@@ -80,117 +95,91 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
 
                     //text input nim atau email
-                    TextField(
-                      autocorrect: false,
-                      controller: controller.usernameController.value,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        labelText: "NIM dan Email",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(9),
+                    Obx(() => TextField(
+                        controller: _usernameController,
+                        autocorrect: false,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText: "NIM atau Email",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(9),
+                          ),
+                          errorText: _authController.errors['username'],
                         ),
-                      ),
+                      )
                     ),
 
                     SizedBox(
                       height: 20,
                     ),
 
-                    //text input pw
-                    Obx(
-                      () => TextField(
-                        autocorrect: false,
-                        controller: controller.passController.value,
-                        keyboardType: TextInputType.emailAddress,
-                        obscureText: controller.isHidden.value,
+                    Obx(() => TextField(
+                        controller: _passwordController,
+                        obscureText: true,
                         decoration: InputDecoration(
                           labelText: "Password",
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              controller.isHidden.value =
-                                  !controller.isHidden.value;
-                            },
-                            icon: Icon(controller.isHidden.isFalse
-                                ? Icons.remove_red_eye
-                                : Icons.visibility_off),
-                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(9),
                           ),
+                          errorText: _authController.errors['password'],
                         ),
+                      )
+                    ),
+
+                    SizedBox(
+                      height: 20,
+                    ),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 60,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                        ),
+                        onPressed: () async {
+                          await _authController.login(
+                            username: _usernameController.text.trim(),
+                            password: _passwordController.text.trim(),
+                          );
+                        },
+                        child: Obx((){
+                          return _authController.isLoading.value ? CircularProgressIndicator() : Text(
+                              "Masuk",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                        }),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    // Remember Me and Forgot Password Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Obx(
-                              () => Checkbox(
-                                value: controller.checkC.value,
-                                onChanged: (value) =>
-                                    controller.checkC.toggle(),
-                                activeColor: Color(0XFF445DCC),
-                              ),
-                            ),
-                            Text(
-                              "Remember Me?",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
-                        ),
 
-                        // TextButton(
-                        //   onPressed: () {},
-                        //   child: Text("Lupa Password?"),
-                        // ),
-                      ],
-                    ),
+                    // Buttonprimary(
+                    //   onTap: () {
+                    //     _authController.login(
+                    //       username: _usernameController.text.trim(),
+                    //       password: _passwordController.text.trim(),
+                    //     );
+                    //   },
+                    //   title: 'Masuk',
+                    //   color: Colors.blue,
+                    // ),
                     SizedBox(height: 20),
-                    // Login Button
-
-                    Buttonprimary(
-                      onTap: () {
-                        Get.toNamed(RouteName.mainPage);
-                      },
-                      title: 'Masuk',
-                      color: Colors.blue,
-                      width: 345,
-                    ),
-                    SizedBox(height: 20),
-                    // Register Text
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Belum punya akun? ",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                          ),
-                        ),
-                        Buttontext(
-                          onTap: () {
-                            Get.toNamed(RouteName.signUp);
-                          },
-                          title: "Daftar",
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );
