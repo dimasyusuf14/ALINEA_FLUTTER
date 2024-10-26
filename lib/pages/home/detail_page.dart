@@ -2,7 +2,11 @@
 
 import 'package:alinea/controller/home/detail_page_controller.dart';
 import 'package:alinea/controller/home/home_controller.dart';
+import 'package:alinea/routes/route_name.dart';
+import 'package:alinea/utilities/asset_constant.dart';
 import 'package:alinea/utilities/utilities.dart';
+import 'package:alinea/widgets/button/button_icon.dart';
+import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:alinea/widgets/tabbar/tabbar_card.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +45,10 @@ class DetailPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.amber,
                     borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Image.asset(
+                    AssetConstant.coverHarryPoter,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -129,19 +137,21 @@ class DetailPage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            height: 45,
-                            width: Get.width * 0.65,
-                            decoration: BoxDecoration(
-                              color: Colors.pink,
-                            ),
+                          Buttonprimary(
+                            onTap: () {
+                              Get.toNamed(RouteName.mainPage);
+                            },
+                            title: 'Pinjam Sekarang',
+                            color: Colors.blue,
+                            width: 285,
                           ),
-                          Container(
-                            height: 50,
-                            width: 70,
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                            ),
+                          ButtonIcon(
+                            onTap: () {
+                              Get.toNamed(RouteName.login);
+                            },
+                            icon: AssetConstant.icAddChart,
+                            bgcolor: Colors.blue,
+                            iccolor: Colors.white,
                           ),
                         ],
                       ),

@@ -164,6 +164,7 @@ class LoginPage extends StatelessWidget {
                       },
                       title: 'Masuk',
                       color: Colors.blue,
+                      width: 345,
                     ),
                     SizedBox(height: 20),
                     // Register Text

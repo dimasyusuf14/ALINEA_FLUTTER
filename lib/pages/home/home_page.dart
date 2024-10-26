@@ -106,7 +106,7 @@ class HomePage extends StatelessWidget {
                             Text(
                               "Rak Buku",
                               style: TextStyle(
-                                fontSize: 24,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -118,7 +118,7 @@ class HomePage extends StatelessWidget {
                           if (controller.loadingFetchBook.value ==
                               DataLoad.loading) {
                             return Text(
-                              "INI LOADING",
+                              "LOADING",
                               style: TextStyle(
                                 fontSize: 32.0,
                               ),
@@ -126,14 +126,17 @@ class HomePage extends StatelessWidget {
                           } else if (controller.loadingFetchBook.value ==
                               DataLoad.failed) {
                             return Text(
-                              "INI FAILED",
+                              "FAILED",
                               style: TextStyle(
                                 fontSize: 32.0,
                               ),
                             );
                           } else {
                             return Padding(
-                              padding: const EdgeInsets.all(16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 10,
+                              ),
                               child: MasonryGridView.count(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,

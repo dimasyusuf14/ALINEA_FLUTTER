@@ -179,6 +179,7 @@ class SignUpPage extends StatelessWidget {
                       },
                       title: 'Daftar',
                       color: Colors.blue,
+                      width: 345,
                     ),
 
                     SizedBox(height: 20),
