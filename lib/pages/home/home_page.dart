@@ -8,14 +8,25 @@ import 'package:alinea/widgets/appbar/appbar_default.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   HomeController controller = Get.put(HomeController());
+  final box = GetStorage(); // Initialize GetStorage
 
   @override
   Widget build(BuildContext context) {
+    // Check if the user is logged in
+    if (box.read('token') == null) {
+      // Redirect to login page if not logged in
+      Future.delayed(Duration.zero, () {
+        Get.offAllNamed(RouteName.login); // Replace with your login page route
+      });
+      return Container(); // Return empty container while redirecting
+    }
+
     return Scaffold(
       backgroundColor: Color(0XFFE0E8F9),
       body: Column(

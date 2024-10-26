@@ -8,14 +8,25 @@ import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:alinea/widgets/button/button_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
 
   SignUpController controller = Get.put(SignUpController());
 
+  final box = GetStorage(); // Initialize GetStorage
+
   @override
   Widget build(BuildContext context) {
+    // Check if the user is already logged in
+    if (box.read('token') != null) {
+      Future.delayed(Duration.zero, () {
+        Get.offAllNamed(RouteName.homePage); // Replace with your home page route
+      });
+      return Container(); // Return an empty container while redirecting
+    }
+    
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
