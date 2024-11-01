@@ -1,17 +1,31 @@
 import 'dart:io';
+import 'package:alinea/controller/home/home_controller.dart';
 import 'package:alinea/controller/main/main_controller.dart';
 import 'package:alinea/models/main/widgets/item_navbar.dart';
-import 'package:alinea/utilities/utilities.dart';
+import 'package:alinea/routes/route_name.dart';
+import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:collection/collection.dart';
+import 'package:get_storage/get_storage.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({super.key});
   final MainController mainController = Get.put(MainController());
+  final box = GetStorage(); // Initialize GetStorage
+
+  
 
   @override
   Widget build(BuildContext context) {
+    // Check if the user is logged in
+    if (box.read('token') == null) {
+      // Redirect to login page if not logged in
+      Future.delayed(Duration.zero, () {
+        Get.offAllNamed(RouteName.mainPage); // Replace with your login page route
+      });
+      return Container(); // Return empty container while redirecting
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(

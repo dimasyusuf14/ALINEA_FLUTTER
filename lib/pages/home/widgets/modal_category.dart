@@ -1,14 +1,12 @@
 import 'package:alinea/routes/route_name.dart';
-import 'package:alinea/utilities/asset_constant.dart';
+import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/widgets/button/button_category.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:alinea/controller/auth_controller.dart';
 
 void showCustomModal(BuildContext context) {
   OverlayState overlayState = Overlay.of(context);
   late OverlayEntry overlayEntry;
-  final AuthController _authController = Get.put(AuthController());
 
   overlayEntry = OverlayEntry(
     builder: (BuildContext context) {
@@ -88,19 +86,6 @@ void showCustomModal(BuildContext context) {
                         bgcolor: Color(0XFFFFF8B7),
                         iccolor: Color(0XFFC4B000),
                         title: "Sejarah",
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: IconButton(
-                          onPressed: () {
-                            _authController.logout();
-                            overlayEntry.remove();
-                          },
-                          icon: Icon(Icons.logout), // Logout icon
-                        ),
                       ),
                     ],
                   ),

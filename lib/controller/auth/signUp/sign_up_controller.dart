@@ -1,6 +1,6 @@
 import 'package:alinea/services/api_services.dart';
-import 'package:alinea/utilities/api_constant.dart';
-import 'package:alinea/utilities/utilities.dart';
+import 'package:alinea/services/utilities/api_constant.dart';
+import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

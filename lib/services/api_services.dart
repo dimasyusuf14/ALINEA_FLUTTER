@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:alinea/utilities/api_constant.dart';
+import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
-import '../utilities/utilities.dart';
+import 'utilities/utilities.dart';
 
 enum APIMethod { post, get, delete, put }
 
@@ -27,7 +27,7 @@ class APIServices {
 
     if (withToken) {
       final box = GetStorage();
-      var token = box.read('token');
+      var token = box.read("token");
       logPrint("Token : $token");
       headers.addAll({"Authorization": "Bearer $token"});
 

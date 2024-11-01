@@ -2,7 +2,7 @@
 import 'dart:async';
 
 import 'package:alinea/routes/route_name.dart';
-import 'package:alinea/utilities/utilities.dart';
+import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

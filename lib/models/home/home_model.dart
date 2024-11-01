@@ -1,241 +1,302 @@
-class HomeModel {
-  HomeModel({
+class BooksModel {
+  final int id;
+  final String cover;
+  final String title;
+  final String author;
+  final String isbn;
+  final String stock;
+  final String description;
+  final DateTime publishedDate;
+  final String status;
+  final String categoryId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  BooksModel({
     required this.id,
-    required this.attributes,
-  });
-  late final int id;
-  late final Attributes attributes;
-
-  HomeModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    attributes = json['attributes'] == null
-        ? Attributes(
-            Title: '',
-            Slug: '',
-            createdAt: '',
-            publishedAt: '',
-            ViewCount: 0,
-            Content: '',
-            HeadlineImage: HeadlineImageBerita(
-              data: DataHeadlineImage(
-                id: 0,
-                attributes: AttributesHeadlineImage(
-                    name: '', url: '', alternativeText: ''),
-              ),
-            ),
-            category: Category(
-              data: DataCategory(
-                id: 0,
-                attributesCategory: AttributesCategory(Name: '', Slug: ''),
-              ),
-            ),
-          )
-        : Attributes.fromJson(json['attributes']);
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['attributes'] = attributes.toJson();
-    return _data;
-  }
-
-  toList() {}
-}
-
-class Attributes {
-  Attributes({
-    required this.Title,
-    required this.Slug,
+    required this.cover,
+    required this.title,
+    required this.author,
+    required this.isbn,
+    required this.stock,
+    required this.description,
+    required this.publishedDate,
+    required this.status,
+    required this.categoryId,
     required this.createdAt,
-    required this.publishedAt,
-    required this.ViewCount,
-    required this.Content,
-    required this.HeadlineImage,
-    required this.category,
+    required this.updatedAt,
   });
-  late final String Title;
-  late final String Slug;
-  late final String createdAt;
-  late final String publishedAt;
-  late final int ViewCount;
-  late final String Content;
-  late final HeadlineImageBerita HeadlineImage;
-  late final Category category;
 
-  Attributes.fromJson(Map<String, dynamic> json) {
-    Title = json['Title'] ?? '';
-    Slug = json['Slug'] ?? '';
-    createdAt = json['createdAt'] ?? '';
-    publishedAt = json['publishedAt'] ?? '';
-    ViewCount = json['ViewCount'] ?? 0;
-    Content = json['Content'] ?? '';
-    HeadlineImage = json['HeadlineImage'] == null
-        ? HeadlineImageBerita(
-            data: DataHeadlineImage(
-              id: 0,
-              attributes: AttributesHeadlineImage(
-                  name: '', url: '', alternativeText: ''),
-            ),
-          )
-        : HeadlineImageBerita.fromJson(json['HeadlineImage']);
-    category = json['category'] == null
-        ? Category(
-            data: DataCategory(
-              id: 0,
-              attributesCategory: AttributesCategory(Name: '', Slug: ''),
-            ),
-          )
-        : Category.fromJson(json['category']);
-  }
+  // Deserialization from JSON
+  BooksModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'] ?? 0,
+        cover = json['cover'] ?? '',
+        title = json['title'] ?? '',
+        author = json['author'] ?? '',
+        isbn = json['isbn'] ?? '',
+        stock = json['stock'] ?? '',
+        description = json['description'] ?? '',
+        publishedDate = DateTime.parse(json['publishedDate'] ?? '1970-01-01'),
+        status = json['status'] ?? '',
+        categoryId = json['categoryId'] ?? '',
+        createdAt = DateTime.parse(json['createdAt'] ?? '1970-01-01'),
+        updatedAt = DateTime.parse(json['updatedAt'] ?? '1970-01-01');
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['Title'] = Title;
-    _data['Slug'] = Slug;
-    _data['createdAt'] = createdAt;
-    _data['publishedAt'] = publishedAt;
-    _data['ViewCount'] = ViewCount;
-    _data['Content'] = Content;
-    _data['HeadlineImage'] = HeadlineImage.toJson();
-    _data['category'] = category.toJson();
-    return _data;
-  }
+  // Serialization to JSON
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'cover': cover,
+        'title': title,
+        'author': author,
+        'isbn': isbn,
+        'stock': stock,
+        'description': description,
+        'publishedDate': publishedDate.toIso8601String(),
+        'status': status,
+        'categoryId': categoryId,
+        'createdAt': createdAt.toIso8601String(),
+        'updatedAt': updatedAt.toIso8601String(),
+      };
 }
 
-class HeadlineImageBerita {
-  HeadlineImageBerita({
-    required this.data,
-  });
-  late final DataHeadlineImage data;
+// class HomeModel {
+//   HomeModel({
+//     required this.id,
+//     required this.attributes,
+//   });
+//   late final int id;
+//   late final Attributes attributes;
 
-  HeadlineImageBerita.fromJson(Map<String, dynamic> json) {
-    data = json['data'] == null
-        ? DataHeadlineImage(
-            id: 0,
-            attributes:
-                AttributesHeadlineImage(name: '', url: '', alternativeText: ''),
-          )
-        : DataHeadlineImage.fromJson(json['data']);
-  }
+//   HomeModel.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     attributes = json['attributes'] == null
+//         ? Attributes(
+//             Title: '',
+//             Slug: '',
+//             createdAt: '',
+//             publishedAt: '',
+//             ViewCount: 0,
+//             Content: '',
+//             HeadlineImage: HeadlineImageBerita(
+//               data: DataHeadlineImage(
+//                 id: 0,
+//                 attributes: AttributesHeadlineImage(
+//                     name: '', url: '', alternativeText: ''),
+//               ),
+//             ),
+//             category: Category(
+//               data: DataCategory(
+//                 id: 0,
+//                 attributesCategory: AttributesCategory(Name: '', Slug: ''),
+//               ),
+//             ),
+//           )
+//         : Attributes.fromJson(json['attributes']);
+//   }
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['data'] = data.toJson();
-    return _data;
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     final _data = <String, dynamic>{};
+//     _data['id'] = id;
+//     _data['attributes'] = attributes.toJson();
+//     return _data;
+//   }
 
-class DataHeadlineImage {
-  DataHeadlineImage({
-    required this.id,
-    required this.attributes,
-  });
-  late final int id;
-  late final AttributesHeadlineImage attributes;
+//   toList() {}
+// }
 
-  DataHeadlineImage.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    attributes = json['attributes'] == null
-        ? AttributesHeadlineImage(name: '', url: '', alternativeText: '')
-        : AttributesHeadlineImage.fromJson(json['attributes']);
-  }
+// class Attributes {
+//   Attributes({
+//     required this.Title,
+//     required this.Slug,
+//     required this.createdAt,
+//     required this.publishedAt,
+//     required this.ViewCount,
+//     required this.Content,
+//     required this.HeadlineImage,
+//     required this.category,
+//   });
+//   late final String Title;
+//   late final String Slug;
+//   late final String createdAt;
+//   late final String publishedAt;
+//   late final int ViewCount;
+//   late final String Content;
+//   late final HeadlineImageBerita HeadlineImage;
+//   late final Category category;
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['attributes'] = attributes.toJson();
-    return _data;
-  }
-}
+//   Attributes.fromJson(Map<String, dynamic> json) {
+//     Title = json['Title'] ?? '';
+//     Slug = json['Slug'] ?? '';
+//     createdAt = json['createdAt'] ?? '';
+//     publishedAt = json['publishedAt'] ?? '';
+//     ViewCount = json['ViewCount'] ?? 0;
+//     Content = json['Content'] ?? '';
+//     HeadlineImage = json['HeadlineImage'] == null
+//         ? HeadlineImageBerita(
+//             data: DataHeadlineImage(
+//               id: 0,
+//               attributes: AttributesHeadlineImage(
+//                   name: '', url: '', alternativeText: ''),
+//             ),
+//           )
+//         : HeadlineImageBerita.fromJson(json['HeadlineImage']);
+//     category = json['category'] == null
+//         ? Category(
+//             data: DataCategory(
+//               id: 0,
+//               attributesCategory: AttributesCategory(Name: '', Slug: ''),
+//             ),
+//           )
+//         : Category.fromJson(json['category']);
+//   }
 
-class AttributesHeadlineImage {
-  AttributesHeadlineImage({
-    required this.name,
-    required this.url,
-    required this.alternativeText,
-  });
-  late final String name;
-  late final String url;
-  late final String alternativeText;
+//   Map<String, dynamic> toJson() {
+//     final _data = <String, dynamic>{};
+//     _data['Title'] = Title;
+//     _data['Slug'] = Slug;
+//     _data['createdAt'] = createdAt;
+//     _data['publishedAt'] = publishedAt;
+//     _data['ViewCount'] = ViewCount;
+//     _data['Content'] = Content;
+//     _data['HeadlineImage'] = HeadlineImage.toJson();
+//     _data['category'] = category.toJson();
+//     return _data;
+//   }
+// }
 
-  AttributesHeadlineImage.fromJson(Map<String, dynamic> json) {
-    name = json['name'] ?? '';
-    url = json['url'] ?? '';
-    alternativeText = json['alternativeText'] ?? '';
-  }
+// class HeadlineImageBerita {
+//   HeadlineImageBerita({
+//     required this.data,
+//   });
+//   late final DataHeadlineImage data;
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['name'] = name;
-    _data['url'] = url;
-    _data['alternativeText'] = alternativeText;
-    return _data;
-  }
-}
+//   HeadlineImageBerita.fromJson(Map<String, dynamic> json) {
+//     data = json['data'] == null
+//         ? DataHeadlineImage(
+//             id: 0,
+//             attributes:
+//                 AttributesHeadlineImage(name: '', url: '', alternativeText: ''),
+//           )
+//         : DataHeadlineImage.fromJson(json['data']);
+//   }
 
-class Category {
-  Category({
-    required this.data,
-  });
-  late final DataCategory data;
+//   Map<String, dynamic> toJson() {
+//     final _data = <String, dynamic>{};
+//     _data['data'] = data.toJson();
+//     return _data;
+//   }
+// }
 
-  Category.fromJson(Map<String, dynamic> json) {
-    data = json['data'] == null
-        ? DataCategory(
-            id: 0,
-            attributesCategory: AttributesCategory(Name: '', Slug: ''),
-          )
-        : DataCategory.fromJson(json['data']);
-  }
+// class DataHeadlineImage {
+//   DataHeadlineImage({
+//     required this.id,
+//     required this.attributes,
+//   });
+//   late final int id;
+//   late final AttributesHeadlineImage attributes;
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['data'] = data.toJson();
-    return _data;
-  }
-}
+//   DataHeadlineImage.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     attributes = json['attributes'] == null
+//         ? AttributesHeadlineImage(name: '', url: '', alternativeText: '')
+//         : AttributesHeadlineImage.fromJson(json['attributes']);
+//   }
 
-class DataCategory {
-  DataCategory({
-    required this.id,
-    required this.attributesCategory,
-  });
-  late final int id;
-  late final AttributesCategory attributesCategory;
+//   Map<String, dynamic> toJson() {
+//     final _data = <String, dynamic>{};
+//     _data['id'] = id;
+//     _data['attributes'] = attributes.toJson();
+//     return _data;
+//   }
+// }
 
-  DataCategory.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    attributesCategory = json['attributes'] == null
-        ? AttributesCategory(Name: '', Slug: '')
-        : AttributesCategory.fromJson(json['attributes']);
-  }
+// class AttributesHeadlineImage {
+//   AttributesHeadlineImage({
+//     required this.name,
+//     required this.url,
+//     required this.alternativeText,
+//   });
+//   late final String name;
+//   late final String url;
+//   late final String alternativeText;
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['attributes'] = attributesCategory.toJson();
-    return _data;
-  }
-}
+//   AttributesHeadlineImage.fromJson(Map<String, dynamic> json) {
+//     name = json['name'] ?? '';
+//     url = json['url'] ?? '';
+//     alternativeText = json['alternativeText'] ?? '';
+//   }
 
-class AttributesCategory {
-  AttributesCategory({
-    required this.Name,
-    required this.Slug,
-  });
-  late final String Name;
-  late final String Slug;
+//   Map<String, dynamic> toJson() {
+//     final _data = <String, dynamic>{};
+//     _data['name'] = name;
+//     _data['url'] = url;
+//     _data['alternativeText'] = alternativeText;
+//     return _data;
+//   }
+// }
 
-  AttributesCategory.fromJson(Map<String, dynamic> json) {
-    Name = json['Name'] ?? '';
-    Slug = json['Slug'] ?? '';
-  }
+// class Category {
+//   Category({
+//     required this.data,
+//   });
+//   late final DataCategory data;
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['Name'] = Name;
-    _data['Slug'] = Slug;
-    return _data;
-  }
-}
+//   Category.fromJson(Map<String, dynamic> json) {
+//     data = json['data'] == null
+//         ? DataCategory(
+//             id: 0,
+//             attributesCategory: AttributesCategory(Name: '', Slug: ''),
+//           )
+//         : DataCategory.fromJson(json['data']);
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     final _data = <String, dynamic>{};
+//     _data['data'] = data.toJson();
+//     return _data;
+//   }
+// }
+
+// class DataCategory {
+//   DataCategory({
+//     required this.id,
+//     required this.attributesCategory,
+//   });
+//   late final int id;
+//   late final AttributesCategory attributesCategory;
+
+//   DataCategory.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     attributesCategory = json['attributes'] == null
+//         ? AttributesCategory(Name: '', Slug: '')
+//         : AttributesCategory.fromJson(json['attributes']);
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     final _data = <String, dynamic>{};
+//     _data['id'] = id;
+//     _data['attributes'] = attributesCategory.toJson();
+//     return _data;
+//   }
+// }
+
+// class AttributesCategory {
+//   AttributesCategory({
+//     required this.Name,
+//     required this.Slug,
+//   });
+//   late final String Name;
+//   late final String Slug;
+
+//   AttributesCategory.fromJson(Map<String, dynamic> json) {
+//     Name = json['Name'] ?? '';
+//     Slug = json['Slug'] ?? '';
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     final _data = <String, dynamic>{};
+//     _data['Name'] = Name;
+//     _data['Slug'] = Slug;
+//     return _data;
+//   }
+// }

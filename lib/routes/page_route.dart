@@ -1,4 +1,5 @@
-import 'package:alinea/controller/signUp/sign_up_controller.dart';
+import 'package:alinea/controller/auth/signUp/sign_up_controller.dart';
+import 'package:alinea/pages/cart/cart_page.dart';
 import 'package:alinea/pages/home/detail_page.dart';
 import 'package:alinea/pages/home/home_page.dart';
 import 'package:alinea/pages/login/login_page.dart';
@@ -22,5 +23,6 @@ class PagesRoute {
     GetPage(name: RouteName.notifikasiPage, page: () => NotifikasiPage()),
     GetPage(name: RouteName.detailPage, page: () => DetailPage()),
     GetPage(name: RouteName.profilePage, page: () => ProfilePage()),
+    GetPage(name: RouteName.cartPage, page: () => CartPage()),
   ];
 }

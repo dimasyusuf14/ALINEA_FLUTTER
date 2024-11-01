@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:alinea/controller/login/login_controller.dart';
-import 'package:alinea/controller/signUp/sign_up_controller.dart';
+import 'package:alinea/controller/auth/login/login_controller.dart';
+import 'package:alinea/controller/auth/signUp/sign_up_controller.dart';
 import 'package:alinea/pages/home/home_page.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/widgets/button/button_primary.dart';

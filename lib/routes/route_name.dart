@@ -12,4 +12,5 @@ abstract class RouteName {
   static const wellcomePage = "/wellcomePage";
   static const notifikasiPage= "/notifikasiPage";
   static const profilePage= "/profilePage";
+  static const cartPage= "/cartPage";
 }

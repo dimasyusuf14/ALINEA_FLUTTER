@@ -1,4 +1,4 @@
-import 'package:alinea/utilities/asset_constant.dart';
+import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';

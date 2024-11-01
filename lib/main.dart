@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
             fontFamily: 'Inter',
             splashColor: Colors.transparent),
         debugShowCheckedModeBanner: false,
-        home: SignUpPage(),
+        home: LoginPage(),
       ),
     );
   }

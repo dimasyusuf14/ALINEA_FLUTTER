@@ -1,6 +1,6 @@
 // profile_page.dart
-import 'package:alinea/controller/auth_controller.dart';
-import 'package:alinea/utilities/asset_constant.dart';
+import 'package:alinea/controller/auth/login/login_controller.dart';
+import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/widgets/button/button_list_profile.dart';
 import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class ProfilePage extends StatelessWidget {
-  final AuthController _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,39 +88,12 @@ class ProfilePage extends StatelessWidget {
                 ),
                 ButtonListProfile(
                   onPressed: () {
-                    _authController.logout();
+                    LoginController().logout();
                   },
                   assetName: AssetConstant.icLogout,
                   title: 'Keluar',
                   color: Colors.red,
                 ),
-
-                // Container(
-                //   height: Get.height * 0.08,
-                //   width: Get.width * 0.9,
-                //   decoration: BoxDecoration(
-                //     color: Colors.red,
-                //     borderRadius: BorderRadius.circular(10),
-                //   ),
-                //   child: Row(
-                //     children: [
-                //       IconButton(
-                //         onPressed: () {
-                //           _authController.logout();
-                //           // overlayEntry.remove();
-                //         },
-                //         icon: Icon(Icons.logout), // Logout icon
-                //       ),
-                //       Text(
-                //         "Keluar",
-                //         style: TextStyle(
-                //           fontSize: 16,
-                //           fontWeight: FontWeight.w500,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),

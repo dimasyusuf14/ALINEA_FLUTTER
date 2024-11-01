@@ -1,4 +1,3 @@
-import 'package:alinea/controller/auth_controller.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +15,6 @@ class Buttonprimary extends StatelessWidget {
   final String title;
   final Color color;
   final double width;
-  final AuthController _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -29,19 +27,13 @@ class Buttonprimary extends StatelessWidget {
           borderRadius: BorderRadius.circular(9),
         ),
         child: Center(
-          child: Obx(
-            () {
-              return _authController.isLoading.value
-                  ? CircularProgressIndicator()
-                  : Text(
-                      title,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-            },
+          child: Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

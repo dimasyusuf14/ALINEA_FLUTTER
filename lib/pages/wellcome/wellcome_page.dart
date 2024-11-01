@@ -1,5 +1,5 @@
-import 'package:alinea/controller/login/login_controller.dart';
-import 'package:alinea/controller/signUp/sign_up_controller.dart';
+import 'package:alinea/controller/auth/login/login_controller.dart';
+import 'package:alinea/controller/auth/signUp/sign_up_controller.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

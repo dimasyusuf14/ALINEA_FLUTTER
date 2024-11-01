@@ -1,8 +1,9 @@
 import 'package:alinea/models/main/item_navbar_model.dart';
+import 'package:alinea/pages/cart/cart_page.dart';
 import 'package:alinea/pages/home/home_page.dart';
 import 'package:alinea/pages/notif/notifikasi.dart';
 import 'package:alinea/pages/profile/profile_page.dart';
-import 'package:alinea/utilities/asset_constant.dart';
+import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -27,7 +28,7 @@ class MainController extends GetxController {
       title: "Notifikasi",
     ),
     ItemNavbarModel(
-      widget: HomePage(),
+      widget: CartPage(),
       icon: AssetConstant.icKeranjang, // Regular Icon
       title: "Keranjang",
     ),

@@ -2,8 +2,8 @@ import 'package:alinea/controller/home/home_controller.dart';
 import 'package:alinea/pages/home/widgets/book_carousel.dart';
 import 'package:alinea/pages/home/widgets/modal_category.dart';
 import 'package:alinea/routes/route_name.dart';
-import 'package:alinea/utilities/asset_constant.dart';
-import 'package:alinea/utilities/utilities.dart';
+import 'package:alinea/services/utilities/asset_constant.dart';
+import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/appbar/appbar_default.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -18,15 +18,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Check if the user is logged in
-    if (box.read('token') == null) {
-      // Redirect to login page if not logged in
-      Future.delayed(Duration.zero, () {
-        Get.offAllNamed(RouteName.login); // Replace with your login page route
-      });
-      return Container(); // Return empty container while redirecting
-    }
-
     return Scaffold(
       backgroundColor: Color(0XFFE0E8F9),
       body: Column(
@@ -124,6 +115,84 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
                       ),
+                      // Obx(
+                      //   () {
+                      //     if (controller.loadingFetchBook.value ==
+                      //         DataLoad.loading) {
+                      //       return Text(
+                      //         "LOADING",
+                      //         style: TextStyle(
+                      //           fontSize: 32.0,
+                      //         ),
+                      //       );
+                      //     } else if (controller.loadingFetchBook.value ==
+                      //         DataLoad.failed) {
+                      //       return Text(
+                      //         "FAILED",
+                      //         style: TextStyle(
+                      //           fontSize: 32.0,
+                      //         ),
+                      //       );
+                      //     } else {
+                      //       return Padding(
+                      //         padding: const EdgeInsets.symmetric(
+                      //           horizontal: 16,
+                      //           vertical: 10,
+                      //         ),
+                      //         child: MasonryGridView.count(
+                      //           physics: const NeverScrollableScrollPhysics(),
+                      //           shrinkWrap: true,
+                      //           itemCount: 12,
+                      //           crossAxisSpacing: 15,
+                      //           mainAxisSpacing: 20,
+                      //           padding: EdgeInsets.zero,
+                      //           crossAxisCount: 3,
+                      //           itemBuilder: (context, index) {
+                      //             return InkWell(
+                      //               onTap: () {
+                      //                 Get.toNamed(
+                      //                   RouteName.detailPage,
+                      //                   arguments:
+                      //                       controller.listBook[index].id,
+                      //                 );
+                      //               },
+                      //               child: Column(
+                      //                 children: [
+                      //                   ClipRRect(
+                      //                     borderRadius:
+                      //                         BorderRadius.circular(9),
+                      //                     child: Image.network(
+                      //                       controller
+                      //                           .listBook[index]
+                      //                           .attributes
+                      //                           .HeadlineImage
+                      //                           .data
+                      //                           .attributes
+                      //                           .url,
+                      //                       width: Get.width,
+                      //                       height: Get.height * 0.2,
+                      //                       fit: BoxFit.cover,
+                      //                     ),
+                      //                   ),
+                      //                   Text(
+                      //                     controller
+                      //                         .listBook[index].attributes.Title,
+                      //                     style: TextStyle(
+                      //                       fontSize: 12.0,
+                      //                     ),
+                      //                     maxLines: 1,
+                      //                     overflow: TextOverflow.ellipsis,
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //             );
+                      //           },
+                      //         ),
+                      //       );
+                      //     }
+                      //   },
+                      // ),
+
                       Obx(
                         () {
                           if (controller.loadingFetchBook.value ==
@@ -151,18 +220,18 @@ class HomePage extends StatelessWidget {
                               child: MasonryGridView.count(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: 12,
+                                itemCount: controller.listBook.length,
                                 crossAxisSpacing: 15,
                                 mainAxisSpacing: 20,
                                 padding: EdgeInsets.zero,
                                 crossAxisCount: 3,
                                 itemBuilder: (context, index) {
+                                  final book = controller.listBook[index];
                                   return InkWell(
                                     onTap: () {
                                       Get.toNamed(
                                         RouteName.detailPage,
-                                        arguments:
-                                            controller.listBook[index].id,
+                                        arguments: book.id,
                                       );
                                     },
                                     child: Column(
@@ -171,21 +240,15 @@ class HomePage extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(9),
                                           child: Image.network(
-                                            controller
-                                                .listBook[index]
-                                                .attributes
-                                                .HeadlineImage
-                                                .data
-                                                .attributes
-                                                .url,
+                                        'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' ,   // book.cover,
+                                        
                                             width: Get.width,
                                             height: Get.height * 0.2,
                                             fit: BoxFit.cover,
                                           ),
                                         ),
                                         Text(
-                                          controller
-                                              .listBook[index].attributes.Title,
+                                          book.title,
                                           style: TextStyle(
                                             fontSize: 12.0,
                                           ),
