@@ -32,10 +32,7 @@ class ItemNavbar extends StatelessWidget {
             ),
             Text(
               model.title.tr,
-              // style: TStyle.medium14.copyWith(
-              //   color: isActive ? BaseColor.primaryColor : BaseColor.mediumGrey,
-              //   fontSize: 12,
-              // ),
+             
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

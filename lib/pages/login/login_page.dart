@@ -145,11 +145,6 @@ class LoginPage extends StatelessWidget {
                             ),
                           ],
                         ),
-
-                        // TextButton(
-                        //   onPressed: () {},
-                        //   child: Text("Lupa Password?"),
-                        // ),
                       ],
                     ),
                     SizedBox(height: 20),
@@ -163,8 +158,6 @@ class LoginPage extends StatelessWidget {
                       },
                       width: 345,
                     ),
-
-                    
 
                     SizedBox(height: 20),
                     // Register Text

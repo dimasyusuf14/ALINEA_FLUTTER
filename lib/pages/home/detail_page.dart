@@ -21,11 +21,10 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, dynamic> book = Get.arguments as Map<String, dynamic>;
 
-    // Safely parse categoryId and find the category
-    final int? categoryId =
-        int.tryParse(book['category_id']); // Use '0' as a fallback for parsing
+    final String categoryIdString =
+        book['category_id'] ?? '0'; // Tetap sebagai String
     final category = categoryController.listCategory.firstWhere(
-      (cat) => cat.id == categoryId,
+      (cat) => cat.id.toString() == categoryIdString,
       orElse: () => Category(
         id: 0,
         name: "Unknown",

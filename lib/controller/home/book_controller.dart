@@ -5,46 +5,58 @@ import 'package:alinea/services/utilities/utilities.dart';
 import 'package:get/get.dart';
 
 class BookController extends GetxController {
-  var loadingFetchBook = DataLoad.done.obs;
+  var loadingFetchBook = DataLoad.loading.obs;
   var listBook = <BooksModel>[].obs;
+  var filteredBooks = <BooksModel>[].obs;
+  var selectedCategoryId = 0.obs; // ID 0 for showing all books by default
 
   @override
   void onInit() {
-    getProductList();
     super.onInit();
+    fetchBookList();
   }
 
-  void getProductList() async {
+  void fetchBookList() async {
     loadingFetchBook.value = DataLoad.loading;
-
     try {
-      var data = await APIServices.api(
+      var response = await APIServices.api(
         endPoint: APIEndpoint.books,
         type: APIMethod.get,
         withToken: true,
       );
 
-      if (data['data'] != null) {
-        var dataList = data['data'] as List;
+      if (response['data'] != null) {
+        var dataList = response['data'] as List;
 
-        // Map the JSON to BooksModel instances
-        List<BooksModel> list =
+        List<BooksModel> books =
             dataList.map((e) => BooksModel.fromJson(e)).toList();
 
-        // Sort the list based on created_at in descending order
-        list.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        books.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
-        // Assign the sorted list to the observable
-        listBook.value = list;
-
+        listBook.value = books;
+        filterBooksByCategory(); // Pastikan filter berdasarkan kategori
         loadingFetchBook.value = DataLoad.done;
       } else {
         loadingFetchBook.value = DataLoad.failed;
       }
     } catch (e) {
       loadingFetchBook.value = DataLoad.failed;
+      print("Error fetching books: $e");
+    }
+  }
+
+  void filterBooksByCategory([int? categoryId]) {
+    selectedCategoryId.value = categoryId ?? selectedCategoryId.value;
+
+    if (selectedCategoryId.value == 0) {
+      // Show all books if no category is selected
+      filteredBooks.value = listBook;
+    } else {
+      // Filter books by selected category ID
+      filteredBooks.value = listBook
+          .where(
+              (book) => book.categoryId == selectedCategoryId.value.toString())
+          .toList();
     }
   }
 }
-
-
