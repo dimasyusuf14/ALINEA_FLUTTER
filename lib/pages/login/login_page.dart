@@ -1,5 +1,6 @@
 import 'package:alinea/controller/auth/login/login_controller.dart';
 import 'package:alinea/routes/route_name.dart';
+import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -154,29 +155,17 @@ class LoginPage extends StatelessWidget {
                     SizedBox(height: 20),
                     // Login Button
 
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Get.toNamed(RouteName.mainPage);
-                          controller.login();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(9),
-                          ),
-                        ),
-                        child: Text(
-                          "Masuk",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
+                    Buttonprimary(
+                      title: 'Masuk',
+                      color: Colors.blue,
+                      onPressed: () {
+                        controller.login();
+                      },
+                      width: 345,
                     ),
+
+                    
+
                     SizedBox(height: 20),
                     // Register Text
                     Column(

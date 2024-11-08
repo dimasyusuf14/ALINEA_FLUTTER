@@ -7,6 +7,7 @@ String kBaseUrl = "https://alinea-api.my.id/api";
 class APIEndpoint {
   static String login = "/login";
   static String books = "/books";
-  static const detailTelik = "/detailTelik";
+  static String categories = "/categories";
+  
   // static String telik = "/featured-posts";
 }

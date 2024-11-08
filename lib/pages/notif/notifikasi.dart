@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:alinea/controller/notif/notifikasi_controller.dart';
-import 'package:alinea/controller/home/home_controller.dart';
+import 'package:alinea/controller/home/book_controller.dart';
 import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/tabbar/tabbar_card.dart';

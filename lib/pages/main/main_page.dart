@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:alinea/controller/home/home_controller.dart';
+import 'package:alinea/controller/home/book_controller.dart';
 import 'package:alinea/controller/main/main_controller.dart';
 import 'package:alinea/models/main/widgets/item_navbar.dart';
 import 'package:alinea/routes/route_name.dart';

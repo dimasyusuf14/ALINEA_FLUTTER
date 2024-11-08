@@ -11,6 +11,7 @@ class BooksModel {
   final String categoryId;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final String coverUrl; // New field
 
   BooksModel({
     required this.id,
@@ -25,6 +26,7 @@ class BooksModel {
     required this.categoryId,
     required this.createdAt,
     required this.updatedAt,
+    required this.coverUrl, // New field in constructor
   });
 
   // Deserialization from JSON
@@ -36,11 +38,12 @@ class BooksModel {
         isbn = json['isbn'] ?? '',
         stock = json['stock'] ?? '',
         description = json['description'] ?? '',
-        publishedDate = DateTime.parse(json['publishedDate'] ?? '1970-01-01'),
+        publishedDate = DateTime.parse(json['published_date'] ?? '1970-01-01'),
         status = json['status'] ?? '',
-        categoryId = json['categoryId'] ?? '',
-        createdAt = DateTime.parse(json['createdAt'] ?? '1970-01-01'),
-        updatedAt = DateTime.parse(json['updatedAt'] ?? '1970-01-01');
+        categoryId = json['category_id'] ?? '',
+        createdAt = DateTime.parse(json['created_at'] ?? '1970-01-01'),
+        updatedAt = DateTime.parse(json['updated_at'] ?? '1970-01-01'),
+        coverUrl = json['cover_url'] ?? ''; // New field in deserialization
 
   // Serialization to JSON
   Map<String, dynamic> toJson() => {
@@ -51,13 +54,42 @@ class BooksModel {
         'isbn': isbn,
         'stock': stock,
         'description': description,
-        'publishedDate': publishedDate.toIso8601String(),
+        'published_date': publishedDate.toIso8601String(),
         'status': status,
-        'categoryId': categoryId,
-        'createdAt': createdAt.toIso8601String(),
-        'updatedAt': updatedAt.toIso8601String(),
+        'category_id': categoryId,
+        'created_at': createdAt.toIso8601String(),
+        'updated_at': updatedAt.toIso8601String(),
+        'cover_url': coverUrl, // New field in serialization
       };
 }
+
+class Category {
+  final int id;
+  final String name;
+  final String description;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  Category({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      id: json['id'] ?? '',
+      name: json['name'],
+      description: json['description'],
+      createdAt: DateTime.parse(json['created_at']),
+      updatedAt: DateTime.parse(json['updated_at']),
+    );
+  }
+}
+
+
 
 // class HomeModel {
 //   HomeModel({

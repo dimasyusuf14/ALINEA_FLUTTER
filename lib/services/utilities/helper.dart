@@ -72,7 +72,6 @@
 //   }
 // }
 
-
 part of 'utilities.dart';
 
 // import 'package:flutter/services.dart';
@@ -93,29 +92,9 @@ class Helper {
             child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              // width: 100,
-              decoration: BoxDecoration(
-                  color: Colors.red, borderRadius: BorderRadius.circular(12)),
-              child: Padding(
+            Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SpinKitHourGlass(
-                      color: Colors.black,
-                      size: 32,
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      title,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                child: CircularProgressIndicator()),
           ],
         )),
         useSafeArea: false,

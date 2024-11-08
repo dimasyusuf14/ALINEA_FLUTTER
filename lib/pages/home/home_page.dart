@@ -1,4 +1,4 @@
-import 'package:alinea/controller/home/home_controller.dart';
+import 'package:alinea/controller/home/book_controller.dart';
 import 'package:alinea/pages/home/widgets/book_carousel.dart';
 import 'package:alinea/pages/home/widgets/modal_category.dart';
 import 'package:alinea/routes/route_name.dart';
@@ -13,7 +13,7 @@ import 'package:get_storage/get_storage.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  HomeController controller = Get.put(HomeController());
+  BookController controller = Get.put(BookController());
   final box = GetStorage(); // Initialize GetStorage
 
   @override
@@ -115,94 +115,11 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // Obx(
-                      //   () {
-                      //     if (controller.loadingFetchBook.value ==
-                      //         DataLoad.loading) {
-                      //       return Text(
-                      //         "LOADING",
-                      //         style: TextStyle(
-                      //           fontSize: 32.0,
-                      //         ),
-                      //       );
-                      //     } else if (controller.loadingFetchBook.value ==
-                      //         DataLoad.failed) {
-                      //       return Text(
-                      //         "FAILED",
-                      //         style: TextStyle(
-                      //           fontSize: 32.0,
-                      //         ),
-                      //       );
-                      //     } else {
-                      //       return Padding(
-                      //         padding: const EdgeInsets.symmetric(
-                      //           horizontal: 16,
-                      //           vertical: 10,
-                      //         ),
-                      //         child: MasonryGridView.count(
-                      //           physics: const NeverScrollableScrollPhysics(),
-                      //           shrinkWrap: true,
-                      //           itemCount: 12,
-                      //           crossAxisSpacing: 15,
-                      //           mainAxisSpacing: 20,
-                      //           padding: EdgeInsets.zero,
-                      //           crossAxisCount: 3,
-                      //           itemBuilder: (context, index) {
-                      //             return InkWell(
-                      //               onTap: () {
-                      //                 Get.toNamed(
-                      //                   RouteName.detailPage,
-                      //                   arguments:
-                      //                       controller.listBook[index].id,
-                      //                 );
-                      //               },
-                      //               child: Column(
-                      //                 children: [
-                      //                   ClipRRect(
-                      //                     borderRadius:
-                      //                         BorderRadius.circular(9),
-                      //                     child: Image.network(
-                      //                       controller
-                      //                           .listBook[index]
-                      //                           .attributes
-                      //                           .HeadlineImage
-                      //                           .data
-                      //                           .attributes
-                      //                           .url,
-                      //                       width: Get.width,
-                      //                       height: Get.height * 0.2,
-                      //                       fit: BoxFit.cover,
-                      //                     ),
-                      //                   ),
-                      //                   Text(
-                      //                     controller
-                      //                         .listBook[index].attributes.Title,
-                      //                     style: TextStyle(
-                      //                       fontSize: 12.0,
-                      //                     ),
-                      //                     maxLines: 1,
-                      //                     overflow: TextOverflow.ellipsis,
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             );
-                      //           },
-                      //         ),
-                      //       );
-                      //     }
-                      //   },
-                      // ),
-
                       Obx(
                         () {
                           if (controller.loadingFetchBook.value ==
                               DataLoad.loading) {
-                            return Text(
-                              "LOADING",
-                              style: TextStyle(
-                                fontSize: 32.0,
-                              ),
-                            );
+                            return CircularProgressIndicator();
                           } else if (controller.loadingFetchBook.value ==
                               DataLoad.failed) {
                             return Text(
@@ -231,7 +148,14 @@ class HomePage extends StatelessWidget {
                                     onTap: () {
                                       Get.toNamed(
                                         RouteName.detailPage,
-                                        arguments: book.id,
+                                        arguments: {
+                                          'title': book.title,
+                                          'author': book.author,
+                                          'description': book.description,
+                                          'coverUrl': book.coverUrl,
+                                          'category_id': book.categoryId,
+                                          'published_date': book.publishedDate,
+                                        },
                                       );
                                     },
                                     child: Column(
@@ -240,8 +164,7 @@ class HomePage extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(9),
                                           child: Image.network(
-                                        'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' ,   // book.cover,
-                                        
+                                            book.coverUrl, // book.cover,
                                             width: Get.width,
                                             height: Get.height * 0.2,
                                             fit: BoxFit.cover,
@@ -250,8 +173,8 @@ class HomePage extends StatelessWidget {
                                         Text(
                                           book.title,
                                           style: TextStyle(
-                                            fontSize: 12.0,
-                                          ),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w700),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ),

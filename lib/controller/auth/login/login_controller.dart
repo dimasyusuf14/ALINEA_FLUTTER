@@ -60,8 +60,8 @@ import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
-  var passController = TextEditingController().obs;
-  var usernameController = TextEditingController().obs;
+  var passController = TextEditingController(text: "password").obs;
+  var usernameController = TextEditingController(text: "user@example.com").obs;
   var checkC = false.obs;
   var isHidden = false.obs;
 
