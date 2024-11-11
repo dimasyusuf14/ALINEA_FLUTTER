@@ -1,13 +1,18 @@
+// ignore_for_file: prefer_const_declarations
+
+import 'package:alinea/controller/cart/cart_controller.dart';
 import 'package:alinea/controller/home/book_controller.dart';
 import 'package:alinea/controller/home/categories_controller.dart'; // Ensure this is imported
 import 'package:alinea/models/home/home_model.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/asset_constant.dart';
+import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/button/button_icon.dart';
 import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 
 class DetailPage extends StatelessWidget {
@@ -16,13 +21,14 @@ class DetailPage extends StatelessWidget {
   final BookController bookController = Get.put(BookController());
   final CategoriesController categoryController =
       Get.put(CategoriesController());
+  final CartController cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> book = Get.arguments as Map<String, dynamic>;
 
     final String categoryIdString =
-        book['category_id'] ?? '0'; // Tetap sebagai String
+        book['category_id']?.toString() ?? '0'; // Tetap sebagai String
     final category = categoryController.listCategory.firstWhere(
       (cat) => cat.id.toString() == categoryIdString,
       orElse: () => Category(
@@ -57,7 +63,7 @@ class DetailPage extends StatelessWidget {
                   height: 291,
                   width: 200,
                   decoration: BoxDecoration(
-                    color: Colors.amber,
+                    color: kColorPrimary,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: ClipRRect(
@@ -113,7 +119,6 @@ class DetailPage extends StatelessWidget {
                                 ),
                                 Container(
                                   height: 30,
-                                  // width: 60,
                                   decoration: BoxDecoration(
                                     color: Color(0XFFC9CCF4),
                                     borderRadius: BorderRadius.circular(5),
@@ -159,6 +164,13 @@ class DetailPage extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            Text(
+                              'Stock: ${book['stock'] ?? 'Not Available'}',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black54,
+                              ),
+                            ),
                             const SizedBox(height: 30),
                             const Text(
                               "Sinopsis",
@@ -167,10 +179,8 @@ class DetailPage extends StatelessWidget {
                                 fontSize: 24,
                               ),
                             ),
-                            // const SizedBox(height: 10),
                             HtmlWidget(
-                              book['description'] ??
-                                  'Description not available.',
+                              '<div style="text-align: justify;">${book['description'] ?? 'Description not available.'}</div>',
                               textStyle: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -192,15 +202,25 @@ class DetailPage extends StatelessWidget {
                               Get.toNamed(RouteName.mainPage);
                             },
                             title: 'Pinjam Sekarang',
-                            color: Colors.blue,
+                            color: kColorPrimary,
                             width: 285,
                           ),
                           ButtonIcon(
                             onTap: () {
-                              Get.toNamed(RouteName.login);
+                              final box = GetStorage();
+                              final int userId = box.read("userId") ??
+                                  1; // Get `userId` from storage
+                              final int bookId = book['id'] ??
+                                  2; // Assuming book ID is present in the map
+                              if (userId != 0 && bookId != 0) {
+                                cartController.addToCart(userId, bookId);
+                              } else {
+                                Get.snackbar(
+                                    'Error', 'Invalid user or book data');
+                              }
                             },
                             icon: AssetConstant.icAddChart,
-                            bgcolor: Colors.blue,
+                            bgcolor: kColorPrimary,
                             iccolor: Colors.white,
                           ),
                         ],

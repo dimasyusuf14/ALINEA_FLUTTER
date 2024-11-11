@@ -13,4 +13,8 @@ abstract class RouteName {
   static const notifikasiPage= "/notifikasiPage";
   static const profilePage= "/profilePage";
   static const cartPage= "/cartPage";
+  static const detailPeminjamanPage="/detailPeminjamanPage";
+  static const riwayatPeminjamanPage="/riwayatPeminjamanPage";
+  static const dendaPage="/dendaPage";
+  static const editProfilePage="/editProfilePage";
 }

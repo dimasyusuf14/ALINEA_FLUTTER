@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0XFFE0E8F9),
+      backgroundColor: Color(0XFFF1F4FD),
       body: Column(
         children: [
           Stack(
@@ -49,6 +49,10 @@ class HomePage extends StatelessWidget {
                             child: SizedBox(
                               height: 50,
                               child: TextFormField(
+                                onChanged: (query) {
+                                  controller.searchQuery.value = query;
+                                  controller.filterBooks();
+                                },
                                 autocorrect: false,
                                 controller: TextEditingController(),
                                 keyboardType: TextInputType.text,
@@ -194,6 +198,7 @@ class HomePage extends StatelessWidget {
                                               'category_id': book.categoryId,
                                               'published_date':
                                                   book.publishedDate,
+                                              'stock': book.stock,
                                             },
                                           );
                                         },

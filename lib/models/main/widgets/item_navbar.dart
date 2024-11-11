@@ -28,11 +28,13 @@ class ItemNavbar extends StatelessWidget {
             SvgPicture.asset(
               model.icon,
               width: 25,
-              color: isActive ? Colors.blue : Colors.black,
+              color: isActive ? Color(0XFF295EFF) : Colors.indigo[900],
             ),
             Text(
               model.title.tr,
-             
+              style: TextStyle(
+                color: isActive ? Color(0XFF295EFF): Colors.indigo[900],
+              ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

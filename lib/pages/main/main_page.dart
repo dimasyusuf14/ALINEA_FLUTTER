@@ -14,20 +14,19 @@ class MainPage extends StatelessWidget {
   final MainController mainController = Get.put(MainController());
   final box = GetStorage(); // Initialize GetStorage
 
-  
-
   @override
   Widget build(BuildContext context) {
     // Check if the user is logged in
     if (box.read('token') == null) {
       // Redirect to login page if not logged in
       Future.delayed(Duration.zero, () {
-        Get.offAllNamed(RouteName.mainPage); // Replace with your login page route
+        Get.offAllNamed(
+            RouteName.mainPage); // Replace with your login page route
       });
       return Container(); // Return empty container while redirecting
     }
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0XFFE0E8F9),
       body: Column(
         children: [
           Expanded(
@@ -48,10 +47,6 @@ class MainPage extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.only(bottom: Platform.isIOS ? 20 : 0),
-            decoration: const BoxDecoration(
-                border: Border(
-              top: BorderSide(color: Colors.grey, width: 1),
-            )),
             child: Obx(
               () => Row(
                 children: mainController.items

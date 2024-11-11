@@ -5,7 +5,10 @@ import 'package:alinea/pages/home/home_page.dart';
 import 'package:alinea/pages/login/login_page.dart';
 import 'package:alinea/pages/main/main_page.dart';
 import 'package:alinea/pages/notif/notifikasi.dart';
+import 'package:alinea/pages/profile/widget/denda_page.dart';
+import 'package:alinea/pages/profile/widget/detail_peminjaman_page.dart';
 import 'package:alinea/pages/profile/profile_page.dart';
+import 'package:alinea/pages/profile/widget/riwayat_peminjaman_page.dart';
 import 'package:alinea/pages/sign_up/sign_up.dart';
 import 'package:alinea/pages/wellcome/wellcome_page.dart';
 import 'package:alinea/routes/route_name.dart';
@@ -24,5 +27,8 @@ class PagesRoute {
     GetPage(name: RouteName.detailPage, page: () => DetailPage()),
     GetPage(name: RouteName.profilePage, page: () => ProfilePage()),
     GetPage(name: RouteName.cartPage, page: () => CartPage()),
+    GetPage(name: RouteName.detailPeminjamanPage, page: () => DetailPeminjamanPage()),
+    GetPage(name: RouteName.riwayatPeminjamanPage, page: () => RiwayatPeminjamanPage()),
+    GetPage(name: RouteName.dendaPage, page: () => DendaPage()),
   ];
 }

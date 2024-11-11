@@ -4,14 +4,14 @@ class BooksModel {
   final String title;
   final String author;
   final String isbn;
-  final String stock;
+  final int stock;
   final String description;
   final DateTime publishedDate;
   final String status;
-  final String categoryId;
+  final String categoryId; // Ensure this is String
   final DateTime createdAt;
   final DateTime updatedAt;
-  final String coverUrl; // New field
+  final String coverUrl;
 
   BooksModel({
     required this.id,
@@ -26,40 +26,39 @@ class BooksModel {
     required this.categoryId,
     required this.createdAt,
     required this.updatedAt,
-    required this.coverUrl, // New field in constructor
+    required this.coverUrl,
   });
 
-  // Deserialization from JSON
   BooksModel.fromJson(Map<String, dynamic> json)
       : id = json['id'] ?? 0,
         cover = json['cover'] ?? '',
         title = json['title'] ?? '',
         author = json['author'] ?? '',
         isbn = json['isbn'] ?? '',
-        stock = json['stock'] ?? '',
+        stock = int.parse(json['stock'] ?? '0'),
         description = json['description'] ?? '',
         publishedDate = DateTime.parse(json['published_date'] ?? '1970-01-01'),
         status = json['status'] ?? '',
-        categoryId = json['category_id'] ?? '',
+        categoryId =
+            json['category_id']?.toString() ?? '', // Ensure it’s a String
         createdAt = DateTime.parse(json['created_at'] ?? '1970-01-01'),
         updatedAt = DateTime.parse(json['updated_at'] ?? '1970-01-01'),
-        coverUrl = json['cover_url'] ?? ''; // New field in deserialization
+        coverUrl = json['cover_url'] ?? '';
 
-  // Serialization to JSON
   Map<String, dynamic> toJson() => {
         'id': id,
         'cover': cover,
         'title': title,
         'author': author,
         'isbn': isbn,
-        'stock': stock,
+        'stock': stock.toString(), // Convert to String if needed in JSON
         'description': description,
         'published_date': publishedDate.toIso8601String(),
         'status': status,
         'category_id': categoryId,
         'created_at': createdAt.toIso8601String(),
         'updated_at': updatedAt.toIso8601String(),
-        'cover_url': coverUrl, // New field in serialization
+        'cover_url': coverUrl,
       };
 }
 

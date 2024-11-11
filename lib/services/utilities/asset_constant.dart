@@ -17,6 +17,8 @@ class AssetConstant {
   static const String icLogout = "assets/icons/ic_logout.svg";
   static const String icBack = "assets/icons/ic_back.svg";
   static const String icAll = "assets/icons/ic_all_category.svg";
+  static const String icDelete = "assets/icons/ic_delete.svg";
+  static const String icEdit = "assets/icons/ic_edit.svg";
 
   //IMAGE
   static const String bgLogin = "assets/images/bg.png";
@@ -25,6 +27,7 @@ class AssetConstant {
   static const String logoAlinea = "assets/images/logo_alinea.png";
   static const String coverHarryPoter = "assets/images/cover_harryPtr.png";
   static const String profilePict = "assets/images/profile_pict.jpg";
+  static const String nullprofilePict = "assets/images/null_profile.jpg";
 
   static getCategoryIcon(int id) {}
 }

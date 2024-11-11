@@ -7,11 +7,15 @@ class ButtonListProfile extends StatelessWidget {
   const ButtonListProfile({
     super.key,
     required this.assetName,
-    required this.title, required this.onPressed, required this.color,
+    required this.title,
+    required this.onPressed,
+    required this.color,
+    required this.titleColor,
   });
   final VoidCallback onPressed;
   final String assetName;
   final String title;
+  final Color titleColor;
   final Color color;
   @override
   Widget build(BuildContext context) {
@@ -41,6 +45,7 @@ class ButtonListProfile extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
+                  color: titleColor,
                 ),
               ),
             ],

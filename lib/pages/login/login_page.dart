@@ -1,5 +1,6 @@
 import 'package:alinea/controller/auth/login/login_controller.dart';
 import 'package:alinea/routes/route_name.dart';
+import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -77,7 +78,7 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
 
                     //text input nim atau email
@@ -152,7 +153,7 @@ class LoginPage extends StatelessWidget {
 
                     Buttonprimary(
                       title: 'Masuk',
-                      color: Colors.blue,
+                      color: kColorPrimary,
                       onPressed: () {
                         controller.login();
                       },

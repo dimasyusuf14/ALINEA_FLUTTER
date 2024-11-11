@@ -8,7 +8,8 @@ class BookController extends GetxController {
   var loadingFetchBook = DataLoad.loading.obs;
   var listBook = <BooksModel>[].obs;
   var filteredBooks = <BooksModel>[].obs;
-  var selectedCategoryId = 0.obs; // ID 0 for showing all books by default
+  var selectedCategoryId = 0.obs;
+  var searchQuery = ''.obs;
 
   @override
   void onInit() {
@@ -58,5 +59,20 @@ class BookController extends GetxController {
               (book) => book.categoryId == selectedCategoryId.value.toString())
           .toList();
     }
+  }
+
+  void filterBooks() {
+    String query =
+        searchQuery.value.toLowerCase(); // Make the search case-insensitive
+    filteredBooks.value = listBook.where((book) {
+      bool matchesCategory = selectedCategoryId.value == 0 ||
+          book.categoryId == selectedCategoryId.value.toString();
+      bool matchesQuery = book.title.toLowerCase().contains(query) ||
+          book.author.toLowerCase().contains(query) ||
+          book.isbn
+              .toLowerCase()
+              .contains(query); // You can add more fields to search by
+      return matchesCategory && matchesQuery;
+    }).toList();
   }
 }
