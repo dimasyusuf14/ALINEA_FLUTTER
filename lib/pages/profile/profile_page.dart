@@ -14,154 +14,157 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize ProfileController
     final ProfileController profileController = Get.put(ProfileController());
 
     return Scaffold(
-      body: Obx(() {
-        if (profileController.loadingProfile.value == DataLoad.loading) {
-          return Center(child: CircularProgressIndicator());
-        } else if (profileController.loadingProfile.value == DataLoad.failed) {
-          return Center(child: Text("Failed to load profile data."));
-        }
-
-        // Retrieve user profile data from the controller
-        final user = profileController.userProfile.value;
-
-        return Column(
-          children: [
-            Container(
-              height: Get.height * 0.40,
-              width: Get.width,
-              decoration: BoxDecoration(
-                color: Color(0XFF5878D9),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: 60,
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Get.toNamed(RouteName.editProfilePage);
-                  },
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundImage: user.image != null
-                            ? NetworkImage(
-                                user.image) // Display user image from profile
-                            : AssetImage(AssetConstant.nullprofilePict)
-                                as ImageProvider,
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        "${user.firstName} ${user.lastName}",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        user.nim,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        user.email,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+      body: Column(
+        children: [
+          Container(
+            height: Get.height * 0.40,
+            width: Get.width,
+            decoration: BoxDecoration(
+              color: Color(0XFF5878D9),
+              borderRadius: BorderRadius.circular(10),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: 60,
+              ),
+              child: Obx(() {
+                // Check loading status for the profile data
+                if (profileController.loadingProfile.value ==
+                    DataLoad.loading) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (profileController.loadingProfile.value ==
+                    DataLoad.failed) {
+                  return Center(child: Text("Failed to load profile data."));
+                }
+
+                // Retrieve user profile data from the controller
+                final user = profileController.userProfile.value;
+
+                return Column(
                   children: [
-                    ButtonListProfile(
-                      onPressed: () {
-                        showModalForm(context, profileController);
-                      },
-                      assetName: AssetConstant.icEdit,
-                      title: 'Edit Informasi Saya',
-                      color: Color(0xFFE0E8F9),
-                      titleColor: Colors.black,
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundImage: user.image != null
+                          ? NetworkImage(user.image)
+                          : AssetImage(AssetConstant.nullprofilePict)
+                              as ImageProvider,
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "${user.firstName} ${user.lastName}",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                     SizedBox(height: 10),
-                    ButtonListProfile(
-                      onPressed: () {
-                        Get.toNamed(RouteName.detailPeminjamanPage);
-                      },
-                      assetName: AssetConstant.icBookmark,
-                      title: 'Detail Peminjaman',
-                      color: Color(0xFFE0E8F9),
-                      titleColor: Colors.black,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "NIM: ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          user.nim,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 10),
-                    ButtonListProfile(
-                      onPressed: () {
-                        Get.toNamed(RouteName.riwayatPeminjamanPage);
-                      },
-                      assetName: AssetConstant.icRiwayat,
-                      title: 'Riwayat Peminjaman',
-                      color: Color(0xFFE0E8F9),
-                      titleColor: Colors.black,
-                    ),
-                    SizedBox(height: 10),
-                    ButtonListProfile(
-                      onPressed: () {
-                        Get.toNamed(RouteName.dendaPage);
-                      },
-                      assetName: AssetConstant.icDenda,
-                      title: 'Denda',
-                      color: Color(0xFFE0E8F9),
-                      titleColor: Colors.black,
-                    ),
-                    SizedBox(height: 10),
-                    ButtonListProfile(
-                      onPressed: () {
-                        // Show the confirmation dialog before logging out
-                        showDeleteConfirmationDialog(
-                          context,
-                          () {
-                            // If confirmed, log out
-                            LoginController().logout();
-                          },
-                          () {
-                            // If canceled, just dismiss the dialog
-                            Navigator.of(context)
-                                .pop(); // This will dismiss the dialog
-                          },
-                        );
-                      },
-                      assetName: AssetConstant.icLogout,
-                      title: 'Keluar',
-                      color: Colors.red,
-                      titleColor: Colors.white,
+                    SizedBox(height: 5),
+                    Text(
+                      user.email,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
-                ),
+                );
+              }),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ButtonListProfile(
+                    onPressed: () {
+                      showModalForm(context, profileController);
+                    },
+                    assetName: AssetConstant.icEdit,
+                    title: 'Edit Informasi Saya',
+                    color: Color(0xFFE0E8F9),
+                    titleColor: Colors.black,
+                  ),
+                  SizedBox(height: 10),
+                  ButtonListProfile(
+                    onPressed: () {
+                      Get.toNamed(RouteName.detailPeminjamanPage);
+                    },
+                    assetName: AssetConstant.icBookmark,
+                    title: 'Detail Peminjaman',
+                    color: Color(0xFFE0E8F9),
+                    titleColor: Colors.black,
+                  ),
+                  SizedBox(height: 10),
+                  ButtonListProfile(
+                    onPressed: () {
+                      Get.toNamed(RouteName.riwayatPeminjamanPage);
+                    },
+                    assetName: AssetConstant.icRiwayat,
+                    title: 'Riwayat Peminjaman',
+                    color: Color(0xFFE0E8F9),
+                    titleColor: Colors.black,
+                  ),
+                  SizedBox(height: 10),
+                  ButtonListProfile(
+                    onPressed: () {
+                      Get.toNamed(RouteName.dendaPage);
+                    },
+                    assetName: AssetConstant.icDenda,
+                    title: 'Denda',
+                    color: Color(0xFFE0E8F9),
+                    titleColor: Colors.black,
+                  ),
+                  SizedBox(height: 10),
+                  ButtonListProfile(
+                    onPressed: () {
+                      showDeleteConfirmationDialog(
+                        context,
+                        () {
+                          LoginController().logout();
+                        },
+                        () {
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    },
+                    assetName: AssetConstant.icLogout,
+                    title: 'Keluar',
+                    color: Colors.red,
+                    titleColor: Colors.white,
+                  ),
+                ],
               ),
             ),
-          ],
-        );
-      }),
+          ),
+        ],
+      ),
     );
   }
 }

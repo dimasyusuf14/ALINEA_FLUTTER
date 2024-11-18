@@ -5,7 +5,6 @@ import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
@@ -30,28 +29,38 @@ class LoginController extends GetxController {
 
       if (data['status'] == true) {
         Get.back();
+
+        // Ambil dan simpan token, role, dan userId ke GetStorage
         var token = data['data']['access_token'];
+        var role = data['data']['role'];
+        var id = data['data']['id']; // Ambil userId dari respons
+
         final box = GetStorage();
         await box.write("token", token);
+        await box.write("role", role);
+        await box.write("id", id); // Simpan userId ke GetStorage
+
         Get.offAllNamed(RouteName.mainPage);
       } else {
         Get.back();
-        Helper.setSnackbar('eror');
+        Helper.setSnackbar(
+            'Login gagal, periksa kembali username dan password.');
       }
     } catch (e) {
       Get.back();
-      Helper.setSnackbar(e.toString());
+      Helper.setSnackbar('Terjadi kesalahan saat login. Silakan coba lagi.');
       logPrint("ERR : ${e.toString()}");
     }
   }
 
   void logout() async {
     final box = GetStorage();
-    await box.remove("token"); // Remove the stored token
-    Get.toNamed(RouteName.login); // Navigate to the login page
+    await box.remove("token"); // Hapus token yang disimpan
+    await box.remove("id"); // Hapus userId yang disimpan
+    Get.toNamed(RouteName.login); // Navigasi ke halaman login
   }
 
-  void signUp() {}
-
-
+  void signUp() {
+    // Implementasikan logika untuk registrasi di sini
+  }
 }

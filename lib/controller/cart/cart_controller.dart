@@ -1,74 +1,59 @@
-// ignore_for_file: avoid_print
-
 import 'package:alinea/models/cart/cart_model.dart';
-import 'package:alinea/models/home/home_model.dart';
 import 'package:alinea/services/api_services.dart';
 import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+enum DataLoad { loading, done, failed }
 
 class CartController extends GetxController {
   var loadingAddToCart = false.obs;
   var cartItems = <CartModel>[].obs;
   var checkC = false.obs;
+  var loadingFetchCart = DataLoad.done.obs;
+  var fetchedCartItems = <CartModel>[].obs;
+  final storage = GetStorage();
 
   @override
   void onInit() {
     super.onInit();
-    fetchCartItems(); // Optional: fetch initial cart items if required
+    fetchCartItems();
   }
 
-  // Method to add a book to the cart
-  Future<void> addToCart(int userId, int bookId) async {
-    loadingAddToCart.value = true;
-    try {
-      var response = await APIServices.api(
-        endPoint: APIEndpoint.addcart,
-        type: APIMethod.post,
-        withToken: true,
-      );
-
-      if (response != null && response['id'] != null) {
-        CartModel cartItem = CartModel.fromJson(response);
-        cartItems.add(cartItem); // Update cart item list with the new item
-        Get.snackbar(
-          'Success',
-          'Book added to cart successfully!',
-          snackPosition: SnackPosition.TOP,
-        );
-      } else {
-        Get.snackbar(
-          'Error',
-          'Failed to add book to cart.',
-          snackPosition: SnackPosition.TOP,
-        );
-      }
-    } catch (e) {
-      print("Error adding to cart: $e");
-      Get.snackbar(
-        'Error',
-        'An error occurred while adding the book to the cart.',
-        snackPosition: SnackPosition.TOP,
-      );
-    } finally {
-      loadingAddToCart.value = false;
-    }
-  }
-
-  // Optional: Method to fetch current cart items from the API
+  // Fetch current cart items from the API based on userId
   void fetchCartItems() async {
+    int? id = storage.read('id'); // Read userId from storage
+    print("id: $id");
+    if (id == null) {
+      loadingFetchCart.value = DataLoad.failed;
+      return;
+    }
+
+    loadingFetchCart.value = DataLoad.loading;
     try {
       var response = await APIServices.api(
-        endPoint: APIEndpoint.cart,
+        endPoint: APIEndpoint.carts,
         type: APIMethod.get,
         withToken: true,
       );
 
-      if (response['data'] != null) {
+      if (response != null && response['data'] != null) {
         var dataList = response['data'] as List;
-        cartItems.value = dataList.map((e) => CartModel.fromJson(e)).toList();
+        List<CartModel> fetchedCartItems =
+            dataList.map((e) => CartModel.fromJson(e)).toList();
+
+        fetchedCartItems.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        cartItems.value = fetchedCartItems;
+        loadingFetchCart.value = DataLoad.done;
+      } else {
+        loadingFetchCart.value = DataLoad.failed;
       }
     } catch (e) {
-      print("Error fetching cart items: $e");
+      loadingFetchCart.value = DataLoad.failed;
     }
+  }
+
+  void deleteCartItem(int itemId) {
+    cartItems.removeWhere((item) => item.id == itemId);
   }
 }

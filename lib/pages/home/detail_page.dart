@@ -207,17 +207,17 @@ class DetailPage extends StatelessWidget {
                           ),
                           ButtonIcon(
                             onTap: () {
-                              final box = GetStorage();
-                              final int userId = box.read("userId") ??
-                                  1; // Get `userId` from storage
-                              final int bookId = book['id'] ??
-                                  2; // Assuming book ID is present in the map
-                              if (userId != 0 && bookId != 0) {
-                                cartController.addToCart(userId, bookId);
-                              } else {
-                                Get.snackbar(
-                                    'Error', 'Invalid user or book data');
-                              }
+                              // final box = GetStorage();
+                              // final int userId = box.read("userId") ??
+                              //     1; // Get `userId` from storage
+                              // final int bookId = book['id'] ??
+                              //     2; // Assuming book ID is present in the map
+                              // if (userId != 0 && bookId != 0) {
+                              //   cartController.addToCart(userId, bookId);
+                              // } else {
+                              //   Get.snackbar(
+                              //       'Error', 'Invalid user or book data');
+                              // }
                             },
                             icon: AssetConstant.icAddChart,
                             bgcolor: kColorPrimary,

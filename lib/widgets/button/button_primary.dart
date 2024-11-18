@@ -19,6 +19,8 @@ class Buttonprimary extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
+      splashColor: Colors.white24, // Warna efek tap
+      highlightColor: Colors.white10,
       child: Container(
         width: width,
         padding: EdgeInsets.symmetric(vertical: 10),
