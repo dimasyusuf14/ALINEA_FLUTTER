@@ -79,11 +79,11 @@ class Category {
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
-      id: json['id'] ?? '',
-      name: json['name'],
-      description: json['description'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
+      createdAt: DateTime.parse(json['created_at'] ?? '1970-01-01'),
+      updatedAt: DateTime.parse(json['updated_at'] ?? '1970-01-01'),
     );
   }
 }
