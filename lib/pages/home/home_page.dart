@@ -187,6 +187,7 @@ class HomePage extends StatelessWidget {
                                     itemBuilder: (context, index) {
                                       final book = booksToDisplay[index];
                                       return InkWell(
+                                        borderRadius: BorderRadius.circular(9),
                                         onTap: () {
                                           Get.toNamed(
                                             RouteName.detailPage,
