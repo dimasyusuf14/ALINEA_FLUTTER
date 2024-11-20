@@ -40,6 +40,8 @@ class LoginController extends GetxController {
         await box.write("role", role);
         await box.write("id", id); // Simpan userId ke GetStorage
 
+        
+
         Get.offAllNamed(RouteName.mainPage);
       } else {
         Get.back();

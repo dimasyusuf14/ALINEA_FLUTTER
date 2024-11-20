@@ -19,36 +19,42 @@ class ButtonListProfile extends StatelessWidget {
   final Color color;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      child: Container(
-        height: Get.height * 0.08,
-        width: Get.width * 0.9,
-        decoration: BoxDecoration(
-          color: color,
+    return Container(
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
           borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                assetName,
-                width: 30,
-                height: 30,
+          onTap: onPressed,
+          child: SizedBox(
+            height: Get.height * 0.08,
+            width: Get.width * 0.9,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    assetName,
+                    width: 30,
+                    height: 30,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: titleColor,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: titleColor,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

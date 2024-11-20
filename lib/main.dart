@@ -2,6 +2,7 @@
 import 'package:alinea/pages/login/login_page.dart';
 import 'package:alinea/pages/main/main_page.dart';
 import 'package:alinea/pages/sign_up/sign_up.dart';
+import 'package:alinea/pages/splash/splash_screen.dart';
 import 'package:alinea/pages/wellcome/wellcome_page.dart';
 import 'package:alinea/routes/page_route.dart';
 import 'package:flutter/material.dart';
@@ -24,14 +25,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    //   statusBarColor: Colors.transparent,
-    //   statusBarIconBrightness: Brightness.dark,
-    // ));
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    //   DeviceOrientation.portraitDown,
-    // ]);
+    
     return RefreshConfiguration(
       footerBuilder: () => const ClassicFooter(
         loadingIcon: SizedBox(
@@ -54,7 +48,7 @@ class _MyAppState extends State<MyApp> {
             fontFamily: 'Inter',
             splashColor: Colors.transparent),
         debugShowCheckedModeBanner: false,
-        home: LoginPage(),
+        home: SplashScreen(),
       ),
     );
   }

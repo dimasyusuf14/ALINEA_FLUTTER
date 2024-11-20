@@ -5,13 +5,13 @@ import 'package:get/get.dart';
 
 class ButtonCategory extends StatelessWidget {
   const ButtonCategory({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.icon,
     required this.bgcolor,
     required this.iccolor,
     required this.title,
-  }) : super(key: key);
+  });
   final VoidCallback onTap;
   final String icon;
   final String title;
@@ -22,34 +22,44 @@ class ButtonCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: bgcolor,
-                borderRadius: BorderRadius.circular(9),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: SvgPicture.asset(
-                  icon,
-                  width: 25,
-                  color: iccolor,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(9),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(9),
+            onTap: onTap,
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: bgcolor,
+                    borderRadius: BorderRadius.circular(9),
+                  ),
+                  width: 50,
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: SvgPicture.asset(
+                      icon,
+                      width: 25,
+                      color: iccolor,
+                    ),
+                  ),
                 ),
-              ),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
