@@ -7,7 +7,9 @@ class ButtonIcon extends StatelessWidget {
   const ButtonIcon({
     Key? key,
     required this.onTap,
-    required this.icon, required this.bgcolor, required this.iccolor,
+    required this.icon,
+    required this.bgcolor,
+    required this.iccolor,
   }) : super(key: key);
   final VoidCallback onTap;
   final String icon;
@@ -16,23 +18,24 @@ class ButtonIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            color: bgcolor,
-            borderRadius: BorderRadius.circular(9),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: SvgPicture.asset(
-              icon,
-              width: 25,
-              color: iccolor,
+    return Container(
+      decoration: BoxDecoration(
+        color: bgcolor,
+        borderRadius: BorderRadius.circular(9),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.all(4),
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: SvgPicture.asset(
+                icon,
+                width: 30,
+                color: iccolor,
+              ),
             ),
           ),
         ),

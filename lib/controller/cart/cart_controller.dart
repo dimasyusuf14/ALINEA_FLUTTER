@@ -11,6 +11,7 @@ import 'package:get_storage/get_storage.dart';
 class CartController extends GetxController {
   var isLoading = false.obs;
   var carts = <CartModel>[].obs;
+  var isChecked= false.obs;
 
   Future<void> fetchCarts() async {
     isLoading(true);

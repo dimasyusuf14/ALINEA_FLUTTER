@@ -19,6 +19,7 @@ class AssetConstant {
   static const String icAll = "assets/icons/ic_all_category.svg";
   static const String icDelete = "assets/icons/ic_delete.svg";
   static const String icEdit = "assets/icons/ic_edit.svg";
+  static const String icCheckout = "assets/icons/ic_checkout.svg";
 
   //IMAGE
   static const String bgLogin = "assets/images/bg.png";

@@ -1,5 +1,6 @@
 import 'package:alinea/models/home/home_model.dart';
 import 'package:alinea/models/login/user_model.dart';
+import 'package:get/get.dart';
 
 class CartModel {
   final int id;
@@ -10,7 +11,7 @@ class CartModel {
   final BooksModel book;
   final Category? category; // Allow null
   final UserModel? user; // Allow null
-  bool isChecked;
+  final RxBool isChecked;
 
   CartModel({
     required this.id,
@@ -21,8 +22,8 @@ class CartModel {
     required this.book,
     this.category,
     this.user,
-    this.isChecked = false,
-  });
+    bool isChecked = false,
+  }) : isChecked = RxBool(isChecked);
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
     return CartModel(
