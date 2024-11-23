@@ -40,13 +40,13 @@ class CartController extends GetxController {
             .whereType<CartModel>()
             .toList();
 
-        // Hapus duplikat berdasarkan bookId
-        final uniqueCarts = fetchedCarts.where((newCart) {
-          return carts.indexWhere((cart) => cart.bookId == newCart.bookId) ==
-              -1;
-        }).toList();
+        // Hapus data lama dan tambahkan yang baru
+        carts.clear();
+        carts.addAll(fetchedCarts);
 
-        carts.addAll(uniqueCarts);
+        // Urutkan keranjang berdasarkan waktu penambahan terbaru
+        carts.sort((a, b) => b.createdAt
+            .compareTo(a.createdAt)); // createdAt adalah waktu penambahan
       } else {
         logPrint("Failed to load carts");
       }
@@ -68,15 +68,12 @@ class CartController extends GetxController {
 
       if (response != null && response['status'] == true) {
         final newCart = CartModel.fromJson(response['data']);
-        carts.refresh();
-        fetchCarts();
-
-        // Tambahkan ke daftar lokal
         final existingIndex =
             carts.indexWhere((cart) => cart.bookId == newCart.bookId);
 
         if (existingIndex == -1) {
-          carts.add(newCart);
+          // Tambahkan item ke awal daftar
+          carts.insert(0, newCart);
 
           // Beri notifikasi keberhasilan
           Get.snackbar(
@@ -90,8 +87,8 @@ class CartController extends GetxController {
       } else {
         // Gagal menambahkan buku ke keranjang
         Get.snackbar(
-          "Gagal",
-          "Gagal menambahkan buku ke keranjang.",
+          "Halo!",
+          "Buku yang kamu pilih sudah ada di keranjang.",
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.redAccent,
           colorText: Colors.white,

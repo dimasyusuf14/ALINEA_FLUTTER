@@ -5,7 +5,7 @@ class APIEndpoint {
   static String login = "/login";
   static String books = "/books";
   static String categories = "/categories";
-  static String addcart = "/addcart/{bookId}";
+  static String addcart = "/carts/addCart/{bookId}";
   static String carts = "/carts/mycart";
   static String me = "/me";
   static String deleteCart = "/carts/{cartId}";

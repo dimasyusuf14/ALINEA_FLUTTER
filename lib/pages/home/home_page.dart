@@ -194,6 +194,7 @@ class HomePage extends StatelessWidget {
                                           Get.toNamed(
                                             RouteName.detailPage,
                                             arguments: {
+                                              'id': book.id,
                                               'title': book.title,
                                               'author': book.author,
                                               'description': book.description,

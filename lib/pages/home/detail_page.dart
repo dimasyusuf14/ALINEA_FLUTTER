@@ -27,7 +27,7 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> book = Get.arguments as Map<String, dynamic>;
-
+    final int? bookId = book['id'];
     final String categoryIdString = book['category_id']?.toString() ?? '0';
 
     final category = categoryController.listCategory.firstWhere(
@@ -208,7 +208,17 @@ class DetailPage extends StatelessWidget {
                           ),
                           ButtonIcon(
                             onTap: () {
-                              // cartController.addToCart(cartItem.book.id);
+                              if (bookId != null) {
+                                cartController.addToCart(bookId);
+                              } else {
+                                Get.snackbar(
+                                  "Error",
+                                  "ID buku tidak valid.",
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: Colors.redAccent,
+                                  colorText: Colors.white,
+                                );
+                              }
                             },
                             icon: AssetConstant.icAddChart,
                             bgcolor: kColorPrimary,
