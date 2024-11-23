@@ -3,6 +3,7 @@
 import 'package:alinea/controller/cart/cart_controller.dart';
 import 'package:alinea/controller/home/book_controller.dart';
 import 'package:alinea/controller/home/categories_controller.dart'; // Ensure this is imported
+import 'package:alinea/models/cart/cart_model.dart';
 import 'package:alinea/models/home/home_model.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/asset_constant.dart';
@@ -27,8 +28,8 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, dynamic> book = Get.arguments as Map<String, dynamic>;
 
-    final String categoryIdString =
-        book['category_id']?.toString() ?? '0'; // Tetap sebagai String
+    final String categoryIdString = book['category_id']?.toString() ?? '0';
+
     final category = categoryController.listCategory.firstWhere(
       (cat) => cat.id.toString() == categoryIdString,
       orElse: () => Category(
@@ -207,17 +208,7 @@ class DetailPage extends StatelessWidget {
                           ),
                           ButtonIcon(
                             onTap: () {
-                              // final box = GetStorage();
-                              // final int userId = box.read("userId") ??
-                              //     1; // Get `userId` from storage
-                              // final int bookId = book['id'] ??
-                              //     2; // Assuming book ID is present in the map
-                              // if (userId != 0 && bookId != 0) {
-                              //   cartController.addToCart(userId, bookId);
-                              // } else {
-                              //   Get.snackbar(
-                              //       'Error', 'Invalid user or book data');
-                              // }
+                              // cartController.addToCart(cartItem.book.id);
                             },
                             icon: AssetConstant.icAddChart,
                             bgcolor: kColorPrimary,

@@ -55,64 +55,59 @@ class NotifikasiPage extends StatelessWidget {
             ),
             Obx(
               () => controller.selectedIndex.value == 0
-                  ? Padding(
-                      padding: const EdgeInsets.all(16),
+                  ? Container(
+                      height: Get.height * 0.21,
+                      width: Get.width * 0.9,
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: Get.height * 0.2,
-                            width: Get.width * 0.9,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  height: 130,
-                                  width: 90,
-                                  child: Image.asset(
-                                      AssetConstant.coverHarryPoter),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                SizedBox(
-                                  width: Get.width * 0.63,
-                                  height: 130,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "New Release: Anak Kecil Yang Kehilangan Pundaknya",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        maxLines: 3,
-                                        overflow: TextOverflow.ellipsis,
+                          Row(
+                            children: [
+                              Image.asset(
+                                AssetConstant.coverHarryPoter,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                width: Get.width * 0.6,
+                                height: 130,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "New Release: Anak Kecil Yang Kehilangan Pundaknya",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      Text(
-                                        "Buku Novel “Anak Kecil yang Kehilangan Pundaknya”  kini tersedia di Alinea. Temukan cerita yang menarik.",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                        maxLines: 4,
-                                        overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      "Buku Novel “Anak Kecil yang Kehilangan Pundaknya”  kini tersedia di Alinea. Temukan cerita yang menarik.",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
                                       ),
-                                      Text(
-                                        "10-27-2024",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.grey[700],
-                                        ),
+                                      maxLines: 4,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      "10-27-2024",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey[700],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -134,7 +129,7 @@ class NotifikasiPage extends StatelessWidget {
                                     color: Color(0XFFC9D6F4),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(15  ),
+                                    padding: const EdgeInsets.all(15),
                                     child: SvgPicture.asset(
                                       AssetConstant.icDenda,
                                       fit: BoxFit.fill,

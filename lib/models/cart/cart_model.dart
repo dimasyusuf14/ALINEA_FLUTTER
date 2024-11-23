@@ -26,12 +26,17 @@ class CartModel {
   }) : isChecked = RxBool(isChecked);
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
+    // Cek dan parsing tanggal dengan lebih aman
+    DateTime parseDate(String? date) {
+      return DateTime.tryParse(date ?? '') ?? DateTime(1970, 1, 1);
+    }
+
     return CartModel(
       id: json['id'] ?? 0,
       userId: json['user_id'] != null ? int.tryParse(json['user_id'].toString()) : null,
       bookId: json['book_id'] != null ? int.tryParse(json['book_id'].toString()) : null,
-      createdAt: DateTime.parse(json['created_at'] ?? '1970-01-01'),
-      updatedAt: DateTime.parse(json['updated_at'] ?? '1970-01-01'),
+      createdAt: parseDate(json['created_at']),
+      updatedAt: parseDate(json['updated_at']),
       book: BooksModel.fromJson(json['book'] ?? {}),
       category: json['book']?['category'] != null
           ? Category.fromJson(json['book']['category'])

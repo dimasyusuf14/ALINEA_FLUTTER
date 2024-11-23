@@ -131,6 +131,7 @@ class HomePage extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500,
+                                        color: kColorSecondary,
                                       ),
                                     );
                                   } else {
@@ -148,6 +149,7 @@ class HomePage extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500,
+                                        color: kColorSecondary,
                                       ),
                                     );
                                   }

@@ -31,21 +31,29 @@ class _CartPageState extends State<CartPage> {
       appBar: AppBar(
         title: const Text('Keranjang Saya'),
       ),
-      body: Obx(() {
-        if (cartController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (cartController.carts.isEmpty) {
-          return const Center(child: Text('Keranjang kosong.'));
-        } else {
-          return ListView.builder(
-            itemCount: cartController.carts.length,
-            itemBuilder: (context, index) {
-              final CartModel cartItem = cartController.carts[index];
-              return CartItemTile(cartItem: cartItem);
-            },
-          );
-        }
-      }),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await cartController
+              .fetchCarts(); // Memanggil kembali data dari server
+        },
+        child: Obx(() {
+          if (cartController.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (cartController.carts.isEmpty) {
+            return const Center(child: Text('Keranjang kosong.'));
+          } else {
+            return Obx(
+              () => ListView.builder(
+                itemCount: cartController.carts.length,
+                itemBuilder: (context, index) {
+                  final cartItem = cartController.carts[index];
+                  return CartItemTile(cartItem: cartItem);
+                },
+              ),
+            );
+          }
+        }),
+      ),
       floatingActionButton: FloatingButton(
         assetName: AssetConstant.icCheckout,
         title: "Check Out",
@@ -59,8 +67,8 @@ class _CartPageState extends State<CartPage> {
 
 class CartItemTile extends StatelessWidget {
   final CartModel cartItem;
-
-  const CartItemTile({super.key, required this.cartItem});
+  final CartController cartController = Get.find<CartController>();
+  CartItemTile({super.key, required this.cartItem});
 
   @override
   Widget build(BuildContext context) {
@@ -84,71 +92,121 @@ class CartItemTile extends StatelessWidget {
               activeColor: Colors.blue,
             ),
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              cartItem.book.coverUrl,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.broken_image, size: 50);
-              },
+          InkWell(
+            onTap: () {
+              Get.toNamed(
+                RouteName.detailPage,
+                arguments: {
+                  'title': cartItem.book.title,
+                  'author': cartItem.book.author,
+                  'description': cartItem.book.description,
+                  'coverUrl': cartItem.book.coverUrl,
+                  'category_id': cartItem.book.categoryId,
+                  'published_date': cartItem.book.publishedDate,
+                  'stock': cartItem.book.stock,
+                },
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                cartItem.book.coverUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.broken_image, size: 50);
+                },
+              ),
             ),
           ),
           const SizedBox(width: 10),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  cartItem.book.title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Expanded(
+            child: InkWell(
+              onTap: () {
+              Get.toNamed(
+                RouteName.detailPage,
+                arguments: {
+                  'title': cartItem.book.title,
+                  'author': cartItem.book.author,
+                  'description': cartItem.book.description,
+                  'coverUrl': cartItem.book.coverUrl,
+                  'category_id': cartItem.book.categoryId,
+                  'published_date': cartItem.book.publishedDate,
+                  'stock': cartItem.book.stock,
+                },
+              );
+            },
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: Get.width * 0.19,
-                      margin: EdgeInsets.only(right: 100),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFC9CCF4),
-                        borderRadius: BorderRadius.circular(5),
+                    Text(
+                      cartItem.book.title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        cartItem.category?.name ?? 'Kategori tidak tersedia',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: kColorPrimary,
-                        ),
-                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(
-                      height: 40,
-                      child: ButtonIcon(
-                          onTap: () {},
-                          icon: AssetConstant.icDelete,
-                          bgcolor: Colors.transparent,
-                          iccolor: Colors.red),
+                    Text(
+                      cartItem.book.author,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: Get.width * 0.25,
+                          height: 30,
+                          margin: EdgeInsets.only(right: 75),
+                          decoration: BoxDecoration(
+                            color: Color(0xFFC9CCF4),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Center(
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              cartItem.category?.name ??
+                                  'Kategori tidak tersedia',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: kColorPrimary,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                          child: ButtonIcon(
+                            onTap: () {
+                              cartController.deleteCart(cartItem.id);
+                            },
+                            icon: AssetConstant.icDelete,
+                            bgcolor: Colors.transparent,
+                            iccolor: Colors.red,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      "Stock: ${cartItem.book.stock}",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey[600],
+                      ),
                     ),
                   ],
                 ),
-                Text(
-                  "Stock: ${cartItem.book.stock}",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[600],
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ],

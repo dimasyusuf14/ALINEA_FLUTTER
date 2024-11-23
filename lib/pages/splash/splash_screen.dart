@@ -32,19 +32,36 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              "assets/images/bg.png",
-              fit: BoxFit.cover,
-              width: Get.width,
+      backgroundColor: Color(0xFF7899E2),
+      body: Container(
+        margin: EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Image.asset(AssetConstant.logo),
             ),
-          ),
-          Center(
-            child: Image.asset(AssetConstant.logo),
-          ),
-        ],
+            SizedBox(
+              height: 50,
+            ),
+            Text(
+              "Alinea",
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Container(
+              height: 3,
+              width: 100,
+              decoration: BoxDecoration(
+                color: kColorPrimary,
+                borderRadius: BorderRadius.circular(9),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

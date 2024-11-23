@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
         getPages: PagesRoute.pages,
         theme: ThemeData(
             useMaterial3: true,
-            fontFamily: 'Inter',
+            fontFamily: 'Poppins',
             splashColor: Colors.transparent),
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
