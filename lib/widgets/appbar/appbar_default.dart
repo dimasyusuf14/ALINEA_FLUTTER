@@ -14,41 +14,43 @@ class AppBarDefault extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: Get.width,
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).viewPadding.top + 16, bottom: 22),
-        decoration: const BoxDecoration(
-          color: Color(0XFFC9D6F4),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              // InkWell(
-              //   onTap: () {
-              //     // Navigator.pop(context);
-              //   },
-              //   child: SizedBox(
-              //     height: 28,
-              //     width: 25,
-              //     child: SvgPicture.asset(
-              //       AssetConstant.icBack,
-              //       fit: BoxFit.fill,
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   width: 15,
-              // ),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                ),
+      width: Get.width,
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).viewPadding.top + 16, bottom: 18),
+      decoration: const BoxDecoration(
+        color: kColorPrimary,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            // InkWell(
+            //   onTap: () {
+            //     // Navigator.pop(context);
+            //   },
+            //   child: SizedBox(
+            //     height: 28,
+            //     width: 25,
+            //     child: SvgPicture.asset(
+            //       AssetConstant.icBack,
+            //       fit: BoxFit.fill,
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(
+            //   width: 15,
+            // ),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

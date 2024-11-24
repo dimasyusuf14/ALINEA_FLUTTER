@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:alinea/controller/home/book_controller.dart';
 import 'package:alinea/controller/home/categories_controller.dart';
 
+import 'package:shimmer/shimmer.dart'; // Import shimmer
+
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
@@ -26,84 +28,84 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0XFFF1F4FD),
-      body: Column(
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                color: Color(0XFF445DCC),
-                height: Get.width * 0.52,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 50,
-                    right: 16,
-                    left: 16,
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 50,
-                              child: TextFormField(
-                                onChanged: (query) {
-                                  controller.searchQuery.value = query;
-                                  controller.filterBooks();
-                                },
-                                autocorrect: false,
-                                controller: TextEditingController(),
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Color(0XFFF1F4FD),
-                                  hintText: "Cari Buku...",
-                                  disabledBorder: InputBorder.none,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
+      body: RefreshIndicator(
+        onRefresh: _refreshData,
+        child: Column(
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  color: Color(0XFF445DCC),
+                  height: Get.width * 0.52,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 50,
+                      right: 16,
+                      left: 16,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: SizedBox(
+                                height: 50,
+                                child: TextFormField(
+                                  onChanged: (query) {
+                                    controller.searchQuery.value = query;
+                                    controller.filterBooks();
+                                  },
+                                  autocorrect: false,
+                                  controller: TextEditingController(),
+                                  keyboardType: TextInputType.text,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Color(0XFFF1F4FD),
+                                    hintText: "Cari Buku...",
+                                    disabledBorder: InputBorder.none,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
+                            SizedBox(
+                              width: 10,
                             ),
-                            height: 50,
-                            width: 50,
-                            child: IconButton(
-                              onPressed: () {
-                                showCustomModal(context, controller);
-                              },
-                              icon: Icon(Icons.menu),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              height: 50,
+                              width: 50,
+                              child: IconButton(
+                                onPressed: () {
+                                  showCustomModal(context, controller);
+                                },
+                                icon: Icon(Icons.menu),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                    ],
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                top: Get.height * 0.15,
-                left: Get.width * 0,
-                right: Get.width * 0,
-                child: CarouselBook(),
-              ),
-            ],
-          ),
-          SizedBox(height: 80),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: _refreshData,
+                Positioned(
+                  top: Get.height * 0.15,
+                  left: Get.width * 0,
+                  right: Get.width * 0,
+                  child: CarouselBook(),
+                ),
+              ],
+            ),
+            SizedBox(height: 80),
+            Expanded(
               child: Column(
                 children: [
                   Expanded(
@@ -125,7 +127,6 @@ class HomePage extends StatelessWidget {
                                 Obx(() {
                                   if (controller.selectedCategoryId.value ==
                                       0) {
-                                    // Jika kategori All (id = 0) dipilih, tampilkan 'All'
                                     return Text(
                                       " • All",
                                       style: TextStyle(
@@ -135,14 +136,12 @@ class HomePage extends StatelessWidget {
                                       ),
                                     );
                                   } else {
-                                    // Jika kategori lain dipilih, tampilkan nama kategori yang dipilih
                                     final selectedCategory = categoryController
                                         .listCategory
                                         .firstWhere(
                                       (category) =>
                                           category.id ==
                                           controller.selectedCategoryId.value,
-                                      // fallback
                                     );
                                     return Text(
                                       " • ${selectedCategory.name}",
@@ -161,12 +160,64 @@ class HomePage extends StatelessWidget {
                             () {
                               if (controller.loadingFetchBook.value ==
                                   DataLoad.loading) {
-                                return CircularProgressIndicator();
+                                // Tampilan shimmer saat loading
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 10),
+                                  child: MasonryGridView.count(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount:
+                                        6, // Menampilkan 6 item shimmer sebagai placeholder
+                                    crossAxisSpacing: 15,
+                                    mainAxisSpacing: 20,
+                                    crossAxisCount: 3,
+                                    itemBuilder: (context, index) {
+                                      return Shimmer.fromColors(
+                                        baseColor: Colors.grey.shade300,
+                                        highlightColor: Colors.grey.shade100,
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              width: Get.width,
+                                              height: Get.height * 0.2,
+                                              color: Colors.grey.shade300,
+                                            ),
+                                            SizedBox(height: 10),
+                                            Container(
+                                              width: Get.width * 0.6,
+                                              height: 20,
+                                              color: Colors.grey.shade300,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
                               } else if (controller.loadingFetchBook.value ==
                                   DataLoad.failed) {
-                                return Text(
-                                  "FAILED",
-                                  style: TextStyle(fontSize: 32.0),
+                                return Container(
+                                  padding: EdgeInsets.symmetric(vertical: 100),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: const [
+                                      Text(
+                                        "Failed to load data",
+                                        style: TextStyle(fontSize: 20.0),
+                                      ),
+                                      Text(
+                                        "Check your connection",
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 );
                               } else {
                                 final booksToDisplay =
@@ -238,12 +289,12 @@ class HomePage extends StatelessWidget {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
