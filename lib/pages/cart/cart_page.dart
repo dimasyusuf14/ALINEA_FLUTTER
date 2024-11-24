@@ -8,7 +8,7 @@ import 'package:alinea/widgets/appbar/appbar_default.dart';
 import 'package:alinea/widgets/button/button_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:alinea/models/cart/cart_model.dart';
+import 'package:alinea/model/cart/cart_model.dart';
 import 'package:shimmer/shimmer.dart'; // Import shimmer package
 
 class CartPage extends StatefulWidget {
@@ -143,14 +143,24 @@ class CartItemTileShimmer extends StatelessWidget {
               const SizedBox(height: 10),
               Container(
                 width: 150,
-                height: 15,
+                height: 18,
                 color: Colors.grey.shade300,
               ),
               const SizedBox(height: 10),
-              Container(
-                width: 100,
-                height: 15,
-                color: Colors.grey.shade300,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 80,
+                    height: 20,
+                    color: Colors.grey.shade300,
+                  ),
+                  Container(
+                    width: 20,
+                    height: 20,
+                    color: Colors.grey.shade300,
+                  ),
+                ],
               ),
               const SizedBox(height: 10),
               // Shimmer untuk kategori

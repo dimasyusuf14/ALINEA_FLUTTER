@@ -1,5 +1,5 @@
 import 'package:alinea/controller/cart/cart_controller.dart';
-import 'package:alinea/models/cart/cart_model.dart';
+import 'package:alinea/model/cart/cart_model.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';

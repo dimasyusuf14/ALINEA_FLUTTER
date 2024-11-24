@@ -1,4 +1,4 @@
-import 'package:alinea/models/main/item_navbar_model.dart';
+import 'package:alinea/model/main/item_navbar_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';

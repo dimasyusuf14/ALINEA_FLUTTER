@@ -1,5 +1,5 @@
 import 'package:alinea/controller/home/categories_controller.dart';
-import 'package:alinea/models/home/home_model.dart';
+import 'package:alinea/model/home/home_model.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';

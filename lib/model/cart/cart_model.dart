@@ -1,5 +1,5 @@
-import 'package:alinea/models/home/home_model.dart';
-import 'package:alinea/models/login/user_model.dart';
+import 'package:alinea/model/home/home_model.dart';
+import 'package:alinea/model/login/user_model.dart';
 import 'package:get/get.dart';
 
 class CartModel {

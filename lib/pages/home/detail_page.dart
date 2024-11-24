@@ -3,8 +3,7 @@
 import 'package:alinea/controller/cart/cart_controller.dart';
 import 'package:alinea/controller/home/book_controller.dart';
 import 'package:alinea/controller/home/categories_controller.dart'; // Ensure this is imported
-import 'package:alinea/models/cart/cart_model.dart';
-import 'package:alinea/models/home/home_model.dart';
+import 'package:alinea/model/home/home_model.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
@@ -212,8 +211,8 @@ class DetailPage extends StatelessWidget {
                                 cartController.addToCart(bookId);
                               } else {
                                 Get.snackbar(
-                                  "Error",
-                                  "ID buku tidak valid.",
+                                  "Halo!",
+                                  "Buku yang kamu pilih sudah ada di keranjang.",
                                   snackPosition: SnackPosition.TOP,
                                   backgroundColor: Colors.redAccent,
                                   colorText: Colors.white,

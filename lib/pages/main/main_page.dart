@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:alinea/controller/home/book_controller.dart';
 import 'package:alinea/controller/main/main_controller.dart';
-import 'package:alinea/models/main/widgets/item_navbar.dart';
+import 'package:alinea/model/main/widgets/item_navbar.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +47,13 @@ class MainPage extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.only(bottom: Platform.isIOS ? 20 : 0),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: kColorPrimary,
+                ),
+              ),
+            ),
             child: Obx(
               () => Row(
                 children: mainController.items

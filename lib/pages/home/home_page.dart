@@ -1,4 +1,4 @@
-import 'package:alinea/models/home/home_model.dart';
+import 'package:alinea/model/home/home_model.dart';
 import 'package:alinea/pages/home/widgets/book_carousel.dart';
 import 'package:alinea/pages/home/widgets/modal_category.dart';
 import 'package:alinea/routes/route_name.dart';

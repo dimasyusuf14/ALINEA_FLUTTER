@@ -1,4 +1,4 @@
-import 'package:alinea/models/main/item_navbar_model.dart';
+import 'package:alinea/model/main/item_navbar_model.dart';
 import 'package:alinea/pages/cart/cart_page.dart';
 import 'package:alinea/pages/home/home_page.dart';
 import 'package:alinea/pages/notif/notifikasi.dart';

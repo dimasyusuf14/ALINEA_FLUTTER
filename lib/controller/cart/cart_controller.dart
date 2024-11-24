@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:alinea/models/cart/cart_model.dart';
+import 'package:alinea/model/cart/cart_model.dart';
 import 'package:alinea/services/api_services.dart';
 import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';

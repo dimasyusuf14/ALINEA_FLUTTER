@@ -1,4 +1,4 @@
-import 'package:alinea/models/home/home_model.dart';
+import 'package:alinea/model/home/home_model.dart';
 import 'package:alinea/services/api_services.dart';
 import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
