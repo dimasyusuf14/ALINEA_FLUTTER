@@ -24,22 +24,23 @@ class AppBarDefault extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
-            // InkWell(
-            //   onTap: () {
-            //     // Navigator.pop(context);
-            //   },
-            //   child: SizedBox(
-            //     height: 28,
-            //     width: 25,
-            //     child: SvgPicture.asset(
-            //       AssetConstant.icBack,
-            //       fit: BoxFit.fill,
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(
-            //   width: 15,
-            // ),
+            InkWell(
+              onTap: () {
+                // Navigator.pop(context);
+              },
+              child: SizedBox(
+                height: 20,
+                width: 20,
+                child: SvgPicture.asset(
+                  AssetConstant.icKeranjang,
+                  fit: BoxFit.fill,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
             Text(
               title,
               style: TextStyle(

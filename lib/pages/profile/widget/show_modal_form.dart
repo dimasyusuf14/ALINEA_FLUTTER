@@ -73,7 +73,7 @@ void showModalForm(BuildContext context, ProfileController controller) {
                         color: Colors.blue,
                         width: Get.width,
                         onPressed: () {
-                          Get.toNamed(RouteName.profilePage);
+                          Get.toNamed(RouteName.mainPage);
                         },
                       ),
                     ),

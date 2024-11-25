@@ -169,6 +169,7 @@ class CartItemTileShimmer extends StatelessWidget {
                 height: 20,
                 color: Colors.grey.shade300,
               ),
+            
             ],
           ),
         ),

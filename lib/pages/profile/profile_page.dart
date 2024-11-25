@@ -43,14 +43,14 @@ class ProfilePage extends StatelessWidget {
                           // Shimmer for profile image
                           CircleAvatar(
                             radius: 60,
-                            backgroundColor: Colors.grey.shade100,
+                            backgroundColor: Colors.white,
                           ),
                           SizedBox(height: 20),
                           // Shimmer for name
                           Container(
                             width: 280,
                             height: 24,
-                            color: Colors.grey.shade100,
+                            color: Colors.white,
                           ),
                           SizedBox(height: 10),
                           // Shimmer for NIM
@@ -60,13 +60,13 @@ class ProfilePage extends StatelessWidget {
                               Container(
                                 width: 50,
                                 height: 20,
-                                color: Colors.grey.shade100,
+                                color: Colors.white,
                               ),
                               SizedBox(width: 10),
                               Container(
                                 width: 100,
                                 height: 20,
-                                color: Colors.grey.shade100,
+                                color: Colors.white,
                               ),
                             ],
                           ),
@@ -144,67 +144,70 @@ class ProfilePage extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ButtonListProfile(
-                    onPressed: () {
-                      showModalForm(context, profileController);
-                    },
-                    assetName: AssetConstant.icEdit,
-                    title: 'Edit Informasi Saya',
-                    color: Color(0xFFE0E8F9),
-                    titleColor: Colors.black,
-                  ),
-                  SizedBox(height: 10),
-                  ButtonListProfile(
-                    onPressed: () {
-                      Get.toNamed(RouteName.detailPeminjamanPage);
-                    },
-                    assetName: AssetConstant.icBookmark,
-                    title: 'Detail Peminjaman',
-                    color: Color(0xFFE0E8F9),
-                    titleColor: Colors.black,
-                  ),
-                  SizedBox(height: 10),
-                  ButtonListProfile(
-                    onPressed: () {
-                      Get.toNamed(RouteName.riwayatPeminjamanPage);
-                    },
-                    assetName: AssetConstant.icRiwayat,
-                    title: 'Riwayat Peminjaman',
-                    color: Color(0xFFE0E8F9),
-                    titleColor: Colors.black,
-                  ),
-                  SizedBox(height: 10),
-                  ButtonListProfile(
-                    onPressed: () {
-                      Get.toNamed(RouteName.dendaPage);
-                    },
-                    assetName: AssetConstant.icDenda,
-                    title: 'Denda',
-                    color: Color(0xFFE0E8F9),
-                    titleColor: Colors.black,
-                  ),
-                  SizedBox(height: 10),
-                  ButtonListProfile(
-                    onPressed: () {
-                      showDeleteConfirmationDialog(
-                        context,
-                        () {
-                          LoginController().logout();
-                        },
-                        () {
-                          Navigator.of(context).pop();
-                        },
-                      );
-                    },
-                    assetName: AssetConstant.icLogout,
-                    title: 'Keluar',
-                    color: Colors.red,
-                    titleColor: Colors.white,
-                  ),
-                ],
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ButtonListProfile(
+                      onPressed: () {
+                        showModalForm(context, profileController);
+                      },
+                      assetName: AssetConstant.icEdit,
+                      title: 'Edit Informasi Saya',
+                      color: Color(0xFFE0E8F9),
+                      titleColor: Colors.black,
+                    ),
+                    SizedBox(height: 10),
+                    ButtonListProfile(
+                      onPressed: () {
+                        Get.toNamed(RouteName.detailPeminjamanPage);
+                      },
+                      assetName: AssetConstant.icBookmark,
+                      title: 'Detail Peminjaman',
+                      color: Color(0xFFE0E8F9),
+                      titleColor: Colors.black,
+                    ),
+                    SizedBox(height: 10),
+                    ButtonListProfile(
+                      onPressed: () {
+                        Get.toNamed(RouteName.riwayatPeminjamanPage);
+                      },
+                      assetName: AssetConstant.icRiwayat,
+                      title: 'Riwayat Peminjaman',
+                      color: Color(0xFFE0E8F9),
+                      titleColor: Colors.black,
+                    ),
+                    SizedBox(height: 10),
+                    ButtonListProfile(
+                      onPressed: () {
+                        Get.toNamed(RouteName.dendaPage);
+                      },
+                      assetName: AssetConstant.icDenda,
+                      title: 'Denda',
+                      color: Color(0xFFE0E8F9),
+                      titleColor: Colors.black,
+                    ),
+                    SizedBox(height: 10),
+                    ButtonListProfile(
+                      onPressed: () {
+                        showDeleteConfirmationDialog(
+                          context,
+                          () {
+                            LoginController().logout();
+                          },
+                          () {
+                            Navigator.of(context).pop();
+                          },
+                        );
+                      },
+                      assetName: AssetConstant.icLogout,
+                      title: 'Keluar',
+                      color: Colors.red,
+                      titleColor: Colors.white,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

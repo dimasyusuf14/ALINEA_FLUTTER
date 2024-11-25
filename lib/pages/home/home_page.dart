@@ -173,6 +173,7 @@ class HomePage extends StatelessWidget {
                                     crossAxisSpacing: 15,
                                     mainAxisSpacing: 20,
                                     crossAxisCount: 3,
+                                    padding: EdgeInsets.zero,
                                     itemBuilder: (context, index) {
                                       return Shimmer.fromColors(
                                         baseColor: Colors.grey.shade300,

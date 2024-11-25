@@ -34,6 +34,7 @@ class ItemNavbar extends StatelessWidget {
               model.title.tr,
               style: TextStyle(
                 color: isActive ? Color(0XFF295EFF): Colors.indigo[900],
+                fontSize: 12,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

@@ -199,7 +199,7 @@ class DetailPage extends StatelessWidget {
                         children: [
                           Buttonprimary(
                             onPressed: () {
-                              Get.toNamed(RouteName.mainPage);
+                              Get.toNamed(RouteName.detailPeminjamanPage);
                             },
                             title: 'Pinjam Sekarang',
                             color: kColorPrimary,
