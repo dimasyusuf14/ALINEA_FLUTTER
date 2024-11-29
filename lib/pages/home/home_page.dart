@@ -3,6 +3,7 @@ import 'package:alinea/pages/home/widgets/book_carousel.dart';
 import 'package:alinea/pages/home/widgets/modal_category.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/utilities.dart';
+import 'package:alinea/widgets/shimmer/shimmer_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -175,25 +176,7 @@ class HomePage extends StatelessWidget {
                                     crossAxisCount: 3,
                                     padding: EdgeInsets.zero,
                                     itemBuilder: (context, index) {
-                                      return Shimmer.fromColors(
-                                        baseColor: Colors.grey.shade300,
-                                        highlightColor: Colors.grey.shade100,
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              width: Get.width,
-                                              height: Get.height * 0.2,
-                                              color: Colors.grey.shade300,
-                                            ),
-                                            SizedBox(height: 10),
-                                            Container(
-                                              width: Get.width * 0.6,
-                                              height: 20,
-                                              color: Colors.grey.shade300,
-                                            ),
-                                          ],
-                                        ),
-                                      );
+                                      return ShimmerBooks();
                                     },
                                   ),
                                 );

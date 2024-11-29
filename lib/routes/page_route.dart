@@ -1,5 +1,6 @@
 import 'package:alinea/controller/auth/signUp/sign_up_controller.dart';
 import 'package:alinea/pages/cart/cart_page.dart';
+import 'package:alinea/pages/checkOut/check_out_page.dart';
 import 'package:alinea/pages/home/detail_page.dart';
 import 'package:alinea/pages/home/home_page.dart';
 import 'package:alinea/pages/login/login_page.dart';
@@ -30,5 +31,7 @@ class PagesRoute {
     GetPage(name: RouteName.detailPeminjamanPage, page: () => DetailPeminjamanPage()),
     GetPage(name: RouteName.riwayatPeminjamanPage, page: () => RiwayatPeminjamanPage()),
     GetPage(name: RouteName.dendaPage, page: () => DendaPage()),
+    GetPage(name: RouteName.checkOutPage, page: () => CheckOutPage()),
+
   ];
 }

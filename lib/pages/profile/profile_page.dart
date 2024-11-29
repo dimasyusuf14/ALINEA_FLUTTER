@@ -6,6 +6,7 @@ import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/button/button_list_profile.dart';
 import 'package:alinea/widgets/dialog/confirm_delete_dialog.dart';
+import 'package:alinea/widgets/shimmer/shimmer_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -35,51 +36,7 @@ class ProfilePage extends StatelessWidget {
                 // Check loading status for the profile data
                 if (profileController.loadingProfile.value == DataLoad.loading) {
                   return Center(
-                    child: Shimmer.fromColors(
-                      baseColor: Color(0xFFE0E8F9),
-                      highlightColor: Colors.grey.shade50,
-                      child: Column(
-                        children: [
-                          // Shimmer for profile image
-                          CircleAvatar(
-                            radius: 60,
-                            backgroundColor: Colors.white,
-                          ),
-                          SizedBox(height: 20),
-                          // Shimmer for name
-                          Container(
-                            width: 280,
-                            height: 24,
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: 10),
-                          // Shimmer for NIM
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 20,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 10),
-                              Container(
-                                width: 100,
-                                height: 20,
-                                color: Colors.white,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          // Shimmer for email
-                          Container(
-                            width: 180,
-                            height: 14,
-                            color: Colors.grey.shade200,
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: ShimmerProfile(),
                   );
                 } else if (profileController.loadingProfile.value == DataLoad.failed) {
                   return Center(child: Text("Failed to load profile data."));

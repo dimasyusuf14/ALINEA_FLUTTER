@@ -3,6 +3,7 @@ import 'package:alinea/controller/home/categories_controller.dart';
 import 'package:alinea/model/home/home_model.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/utilities.dart';
+import 'package:alinea/widgets/shimmer/shimmer_loading.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,54 +39,7 @@ class CarouselBook extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(9),
-                            child: Container(
-                              width: 95,
-                              height: Get.height * 0.18,
-                              color: Colors.grey.shade300,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 20,
-                                  color: Colors.grey.shade300,
-                                ),
-                                const SizedBox(height: 10),
-                                Container(
-                                  height: 15,
-                                  color: Colors.grey.shade300,
-                                ),
-                                const SizedBox(height: 10),
-                                Container(
-                                  height: 15,
-                                  width: 100,
-                                  color: Colors.grey.shade300,
-                                ),
-                                const SizedBox(height: 20),
-                                Container(
-                                  height: 30,
-                                  width: 90,
-                                  color: Colors.grey.shade300,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  child: ShimmerCarouselBooks(),
                 ),
               ),
             ),

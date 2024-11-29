@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:alinea/model/cart/cart_model.dart';
 import 'package:alinea/services/api_services.dart';
 import 'package:alinea/services/utilities/api_constant.dart';
@@ -12,6 +11,8 @@ class CartController extends GetxController {
   var isLoading = false.obs;
   var carts = <CartModel>[].obs;
   var isChecked = false.obs;
+  var selectedCarts = <CartModel>[].obs;
+
 
 // Periksa apakah buku sudah ada di keranjang
   bool isBookInCart(int bookId) {

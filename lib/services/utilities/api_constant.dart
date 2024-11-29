@@ -9,6 +9,7 @@ class APIEndpoint {
   static String carts = "/carts/mycart";
   static String me = "/me";
   static String deleteCart = "/carts/{cartId}";
-  static String checkOut = "/borrowings/store";
+  static String checkOut = "/borrowings";
+  static String borrowingsHistory = "/borrowings/history";
 
 }
