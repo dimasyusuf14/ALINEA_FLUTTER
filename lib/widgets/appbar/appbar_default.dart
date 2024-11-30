@@ -5,49 +5,59 @@ import 'package:get/get.dart';
 import '../../services/utilities/utilities.dart';
 
 class AppBarDefault extends StatelessWidget {
-  const AppBarDefault({
-    super.key,
-    required this.title,
-  });
-  final String title;
+  const AppBarDefault(
+      {super.key,
+      this.isWithBack = true,
+      required this.title,
+      this.actions = const [],
+      this.subtitle = "",
+      this.onTapBack = defaultTap});
+  final bool isWithBack;
+  final String title, subtitle;
+  final List<Widget> actions;
+  final VoidCallback onTapBack;
+
+  static defaultTap() {
+    Get.back();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: Get.width,
       padding: EdgeInsets.only(
-          top: MediaQuery.of(context).viewPadding.top + 16, bottom: 18),
-      decoration: const BoxDecoration(
+        top: MediaQuery.of(context).viewPadding.top,
+      ),
+      decoration: BoxDecoration(
         color: kColorPrimary,
+        border: Border.all(
+          color: kColorSecondary,
+          width: 1.0,
+        ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(16),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            InkWell(
-              onTap: () {
-                // Navigator.pop(context);
-              },
-              child: SizedBox(
-                height: 20,
-                width: 20,
-                child: SvgPicture.asset(
-                  AssetConstant.icKeranjang,
-                  fit: BoxFit.fill,
-                  color: Colors.white,
-                ),
-              ),
+            SvgPicture.asset(
+              AssetConstant.icKeranjang,
+              width: 25,
+              color: Colors.white,
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Text(
               title,
               style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
+                fontSize: 18,
                 color: Colors.white,
+                fontWeight: FontWeight.w500,
               ),
+            ),
+            Row(
+              children: actions,
             ),
           ],
         ),

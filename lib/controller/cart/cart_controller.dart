@@ -13,12 +13,62 @@ class CartController extends GetxController {
   var isChecked = false.obs;
   var selectedCarts = <CartModel>[].obs;
 
+  List<CartModel> get selectedItems =>
+      carts.where((cart) => cart.isChecked.value).toList();
 
 // Periksa apakah buku sudah ada di keranjang
   bool isBookInCart(int bookId) {
     return carts.any((cart) => cart.book.id == bookId);
   }
 
+  void toggleCartSelection(CartModel cartItem, bool isSelected) {
+    cartItem.isChecked.value = isSelected;
+
+    if (isSelected) {
+      selectedCarts.add(cartItem);
+    } else {
+      selectedCarts.removeWhere((item) => item.id == cartItem.id);
+    }
+  }
+
+  // Future<void> fetchCarts() async {
+  //   isLoading(true);
+  //   try {
+  //     final response = await APIServices.api(
+  //       endPoint: APIEndpoint.carts,
+  //       type: APIMethod.get,
+  //       withToken: true,
+  //     );
+
+  //     if (response != null) {
+  //       final fetchedCarts = (response['data'] as List)
+  //           .map((e) {
+  //             try {
+  //               return CartModel.fromJson(e);
+  //             } catch (e) {
+  //               logPrint("Error parsing CartModel: $e");
+  //               return null;
+  //             }
+  //           })
+  //           .whereType<CartModel>()
+  //           .toList();
+
+  //       // Hapus data lama dan tambahkan yang baru
+  //       carts.clear();
+  //       carts.addAll(fetchedCarts);
+
+  //       // Urutkan keranjang berdasarkan waktu penambahan terbaru
+  //       carts.sort((a, b) => b.createdAt
+  //           .compareTo(a.createdAt)); // createdAt adalah waktu penambahan
+  //     } else {
+  //       logPrint("Failed to load carts");
+  //     }
+  //   } catch (e) {
+  //     logPrint("Fetch error: $e");
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
   Future<void> fetchCarts() async {
     isLoading(true);
     try {
@@ -41,13 +91,15 @@ class CartController extends GetxController {
             .whereType<CartModel>()
             .toList();
 
-        // Hapus data lama dan tambahkan yang baru
+        // Kosongkan selectedCarts saat refresh
+        selectedCarts.clear();
+
+        // Perbarui daftar carts
         carts.clear();
         carts.addAll(fetchedCarts);
 
-        // Urutkan keranjang berdasarkan waktu penambahan terbaru
-        carts.sort((a, b) => b.createdAt
-            .compareTo(a.createdAt)); // createdAt adalah waktu penambahan
+        // Urutkan berdasarkan waktu penambahan terbaru
+        carts.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       } else {
         logPrint("Failed to load carts");
       }

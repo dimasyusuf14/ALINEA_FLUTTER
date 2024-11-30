@@ -75,40 +75,43 @@ class _CartPageState extends State<CartPage> {
           ],
         ),
       ),
-      floatingActionButton: Obx(() {
-        final checkedItemsCount = cartController.carts
-            .where((cartItem) => cartItem.isChecked.value)
-            .length;
+      floatingActionButton: Obx(
+        () {
+          final checkedItemsCount = cartController.selectedCarts.length;
 
-        return FloatingButton(
-          assetName: AssetConstant.icCheckout,
-          title: "Check Out : ",
-          jumlahData: '$checkedItemsCount',
-          onPressed: () {
-            if (checkedItemsCount > 0) {
-              Get.toNamed(
-                RouteName.checkOutPage,
-                arguments: cartController.selectedCarts
+          return FloatingButton(
+            assetName: AssetConstant.icCheckout,
+            title: "Check Out : ",
+            jumlahData: '$checkedItemsCount',
+            onPressed: () {
+              if (checkedItemsCount > 0) {
+                final selectedBooks = cartController.selectedCarts
                     .map((item) => {
+                          'id': item.id,
                           'title': item.book.title,
                           'coverUrl': item.book.coverUrl,
                         })
-                    .toList(),
-              );
-            } else {
-              Get.snackbar(
-                "Perhatian",
-                "Pilih setidaknya 1 item untuk checkout!",
-                snackPosition: SnackPosition.TOP,
-                backgroundColor: Colors.red,
-                colorText: Colors.white,
-              );
-            }
-          },
-          color: kColorPrimary,
-          titleColor: Colors.white,
-        );
-      }),
+                    .toList();
+
+                Get.toNamed(
+                  RouteName.checkOutPage,
+                  arguments: selectedBooks,
+                );
+              } else {
+                Get.snackbar(
+                  "Perhatian",
+                  "Pilih setidaknya 1 item untuk checkout!",
+                  snackPosition: SnackPosition.TOP,
+                  backgroundColor: Colors.red,
+                  colorText: Colors.white,
+                );
+              }
+            },
+            color: kColorPrimary,
+            titleColor: Colors.white,
+          );
+        },
+      ),
     );
   }
 }

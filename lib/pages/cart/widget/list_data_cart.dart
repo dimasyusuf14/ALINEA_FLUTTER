@@ -29,9 +29,7 @@ class CartItemTile extends StatelessWidget {
             () => Checkbox(
               value: cartItem.isChecked.value,
               onChanged: (value) {
-                final checkedItemsCount = cartController.carts
-                    .where((cartItem) => cartItem.isChecked.value)
-                    .length;
+                final checkedItemsCount = cartController.selectedCarts.length;
 
                 if (value == true && checkedItemsCount >= 3) {
                   Get.snackbar(
@@ -42,7 +40,7 @@ class CartItemTile extends StatelessWidget {
                     colorText: Colors.white,
                   );
                 } else {
-                  cartItem.isChecked.value = value ?? false;
+                  cartController.toggleCartSelection(cartItem, value ?? false);
                 }
               },
               activeColor: kColorPrimary,

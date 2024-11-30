@@ -27,21 +27,42 @@ class RiwayatPeminjamanPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.amber,
                     ),
-                    child: Row(
+                    child: Column(
                       children: [
-                        Text(
-                          "202411281341	",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: kColorPrimary,
-                            fontSize: 16,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "202411281341	",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: kColorPrimary,
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                           
+                            Container(
+                              decoration: BoxDecoration(
+                                color: kColorSecondary,
+                                borderRadius: BorderRadius.circular(9),
+                              ),
+                              padding: EdgeInsets.all(8),
+                              child: Text(
+                                "Clear",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: kColorBg),
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
+                         Text(
                           "2024-12-11",
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -60,21 +81,6 @@ class RiwayatPeminjamanPage extends StatelessWidget {
                         ),
                         SizedBox(
                           width: 10,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: kColorSecondary,
-                            borderRadius: BorderRadius.circular(9),
-                          ),
-                          padding: EdgeInsets.all(8),
-                          child: Text(
-                            "Clear",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: kColorBg),
-                          ),
                         ),
                       ],
                     ),

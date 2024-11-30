@@ -42,6 +42,7 @@ class CartModel {
           ? Category.fromJson(json['book']['category'])
           : null,
       user: json['user'] != null ? UserModel.fromJson(json['user']) : null,
+       isChecked: json['is_checked'] ?? false,
     );
   }
 }
