@@ -6,11 +6,17 @@ import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class BorrowingsController extends GetxController {
   var isLoading = false.obs;
-  var borrowings = <BorrowingHistory>[].obs;
+  var borrowingsHistory = <BorrowingHistory>[].obs;
 
+  // Variables for date input
+  var borrowDate = Rxn<DateTime>();
+  var returnDate = Rxn<DateTime>();
+
+  /// Fetch borrowing history
   Future<void> fetchBorrowingsHistory() async {
     isLoading(true);
     try {
@@ -33,12 +39,12 @@ class BorrowingsController extends GetxController {
             .whereType<BorrowingHistory>()
             .toList();
 
-        // Hapus data lama dan tambahkan data terbaru
-        borrowings.clear();
-        borrowings.addAll(fetchedBorrowings);
+        // Clear old data and add new data
+        borrowingsHistory.clear();
+        borrowingsHistory.addAll(fetchedBorrowings);
 
-        // Urutkan berdasarkan tanggal peminjaman terbaru
-        borrowings.sort((a, b) => b.borrowDate.compareTo(a.borrowDate));
+        // Sort by most recent borrow date
+        borrowingsHistory.sort((a, b) => b.borrowDate.compareTo(a.borrowDate));
       } else {
         logPrint("Failed to load borrowings history");
       }
@@ -47,5 +53,84 @@ class BorrowingsController extends GetxController {
     } finally {
       isLoading(false);
     }
+  }
+
+  void selectBorrowDate(BuildContext context) async {
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+
+    if (selectedDate != null) {
+      borrowDate.value = selectedDate;
+      // Auto-set return date to +7 days
+      returnDate.value = selectedDate.add(const Duration(days: 7));
+    }
+  }
+
+  String formatDateMMDDYYYY(DateTime? date) {
+    if (date == null) return "-";
+    return DateFormat('MM/dd/yyyy').format(date);
+  }
+
+  /// Format date for display
+  String formatDate(DateTime? date) {
+    if (date == null) return "-";
+    return DateFormat('dd MMMM yyyy').format(date);
+  }
+
+  /// Check if both dates are valid
+  bool areDatesValid() {
+    return borrowDate.value != null && returnDate.value != null;
+  }
+
+  /// Checkout API logic
+  Future<bool> checkout(List<int> bookId) async {
+    isLoading(true);
+
+    var requestBodyMap = {
+      "book_id": bookId,
+      "borrow_date": formatDateMMDDYYYY(borrowDate.value),
+      "return_date": formatDateMMDDYYYY(returnDate.value),
+    };
+
+    try {
+      final response = await APIServices.api(
+        endPoint: APIEndpoint.checkOut,
+        type: APIMethod.post,
+        withToken: true,
+        requestBodyMap: requestBodyMap,
+      );
+
+      if (response != null && response['status'] == true) {
+        logPrint("Checkout successful: ${response['message']}");
+        fetchBorrowingsHistory(); // Refresh data after checkout
+        return true; // Berhasil
+      } else {
+        logPrint("Checkout failed: ${response?['message'] ?? 'Unknown error'}");
+        return false; // Gagal
+      }
+    } catch (e) {
+      logPrint("Checkout error: $e");
+      return false; // Gagal
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  /// Prepare checkout data
+  Map<String, dynamic> prepareCheckoutData(int bookId) {
+    if (!areDatesValid()) {
+      logPrint("Invalid dates for checkout");
+      return {};
+    }
+
+    return {
+      'book_id': bookId,
+      'borrow_date': DateFormat('yyyy-MM-dd').format(borrowDate.value!),
+      'return_date': DateFormat('yyyy-MM-dd').format(returnDate.value!),
+    };
   }
 }

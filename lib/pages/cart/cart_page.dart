@@ -87,9 +87,10 @@ class _CartPageState extends State<CartPage> {
               if (checkedItemsCount > 0) {
                 final selectedBooks = cartController.selectedCarts
                     .map((item) => {
-                          'id': item.id,
+                          'id': item.book.id,
                           'title': item.book.title,
                           'coverUrl': item.book.coverUrl,
+                          'author': item.book.author,
                         })
                     .toList();
 

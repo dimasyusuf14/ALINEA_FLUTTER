@@ -1,13 +1,19 @@
 import 'dart:ui';
 
+import 'package:alinea/controller/borrowing/borrowing_controller.dart';
+import 'package:alinea/controller/cart/cart_controller.dart';
+import 'package:alinea/routes/route_name.dart';
+import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/appbar/appbar_default.dart';
 import 'package:alinea/widgets/appbar/appbar_secondary.dart';
+import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CheckOutPage extends StatelessWidget {
-  const CheckOutPage({super.key});
-
+  CheckOutPage({super.key});
+  final BorrowingsController controller = Get.put(BorrowingsController());
+  CartController cartController = Get.find();
   @override
   Widget build(BuildContext context) {
     final selectedBooks = Get.arguments as List<Map<String, dynamic>>?;
@@ -15,7 +21,9 @@ class CheckOutPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          AppBarSecondary(title: "Checkout"),
+          AppBarSecondary(
+            title: "Checkout",
+          ),
           Expanded(
             child: selectedBooks == null || selectedBooks.isEmpty
                 ? Center(child: Text("Tidak ada buku yang dipilih."))
@@ -24,20 +32,224 @@ class CheckOutPage extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     itemBuilder: (context, index) {
                       final book = selectedBooks[index];
-                      return ListTile(
-                        leading: Image.network(
-                          book['coverUrl'],
-                          width: 50,
-                          height: 50,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Icon(Icons.broken_image, size: 50);
-                          },
+                      return Container(
+                        color: const Color(0XFFE0E8F9),
+                        margin: const EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 16,
                         ),
-                        title: Text(book['title']),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 80,
+                              height: 120,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  book['coverUrl'],
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Icon(Icons.broken_image,
+                                        size: 70);
+                                  },
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ), // Spasi antara gambar dan teks
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    book['title'],
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    book['author'],
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text("x1"),
+                                ],
+                              ),
+                            ),
+                            // Spasi antara gambar dan teks
+                          ],
+                        ),
                       );
                     },
                   ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(9),
+                  ),
+                  child: Obx(
+                    () => TextButton(
+                      onPressed: () => controller.selectBorrowDate(context),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Pengambilan:   ",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black),
+                          ),
+                          Text(
+                            controller.formatDate(controller.borrowDate.value),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: kColorPrimary),
+                          ),
+                          const Icon(
+                            Icons.calendar_today,
+                            color: kColorPrimary,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Container(
+                  height: 46,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(9),
+                  ),
+                  child: Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Pengembalian:",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black),
+                          ),
+                          Text(
+                            controller.formatDate(controller.returnDate.value),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: kColorPrimary),
+                          ),
+                          const Icon(
+                            Icons.calendar_today,
+                            color: kColorPrimary,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade600,
+                    ),
+                    children: [
+                      TextSpan(
+                          text: "Tanggal pengembalian otomatis terhitung "),
+                      TextSpan(
+                        text: "7 hari",
+                        style: TextStyle(
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      TextSpan(text: " setelah memilih tanggal pengambilan."),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                Buttonprimary(
+                  title: "Konfirmasi",
+                  color: kColorPrimary,
+                  width: Get.width,
+                  onPressed: () {
+                    final bookIds = selectedBooks
+                            ?.map<int>((book) => book['id'])
+                            .toList() ??
+                        [];
+
+                    if (bookIds.isEmpty) {
+                      Get.snackbar(
+                        "Peringatan",
+                        "Tidak ada buku yang dipilih.",
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    } else {
+                      // Proses checkout
+                      controller.checkout(bookIds).then((status) {
+                        if (status = true) {
+                          // Hapus item yang berhasil di-checkout dari keranjang
+                          cartController.removeCheckedItems();
+
+                          // Navigasi ke halaman detail peminjaman
+                          // Get.toNamed(RouteName.detailPeminjamanPage);
+
+                          Get.defaultDialog(
+                            title: "Checkout Berhasil",
+                            middleText: "Buku Anda berhasil di-checkout.",
+                            confirm: ElevatedButton(
+                              onPressed: () {
+                                // Navigasi ke halaman detail peminjaman
+                                Get.offNamed(RouteName.detailPeminjamanPage);
+                              },
+                              child: Text("Lihat detail peminjaman saya"),
+                            ),
+                          );
+                        } else {
+                          Get.snackbar(
+                            "Gagal",
+                            "Proses checkout gagal. Coba lagi.",
+                            snackPosition: SnackPosition.TOP,
+                            backgroundColor: Colors.red,
+                            colorText: Colors.white,
+                          );
+                        }
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -6,13 +6,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class AppBarSecondary extends StatelessWidget {
-  const AppBarSecondary(
-      {super.key,
-      this.isWithBack = true,
-      required this.title,
-      this.actions = const [],
-      this.subtitle = "",
-      this.onTapBack = defaultTap});
+  const AppBarSecondary({
+    super.key,
+    this.isWithBack = true,
+    required this.title,
+    this.actions = const [],
+    this.subtitle = "",
+    this.onTapBack = defaultTap,
+  });
   final bool isWithBack;
   final String title, subtitle;
   final List<Widget> actions;

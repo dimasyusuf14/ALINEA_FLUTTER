@@ -31,44 +31,6 @@ class CartController extends GetxController {
     }
   }
 
-  // Future<void> fetchCarts() async {
-  //   isLoading(true);
-  //   try {
-  //     final response = await APIServices.api(
-  //       endPoint: APIEndpoint.carts,
-  //       type: APIMethod.get,
-  //       withToken: true,
-  //     );
-
-  //     if (response != null) {
-  //       final fetchedCarts = (response['data'] as List)
-  //           .map((e) {
-  //             try {
-  //               return CartModel.fromJson(e);
-  //             } catch (e) {
-  //               logPrint("Error parsing CartModel: $e");
-  //               return null;
-  //             }
-  //           })
-  //           .whereType<CartModel>()
-  //           .toList();
-
-  //       // Hapus data lama dan tambahkan yang baru
-  //       carts.clear();
-  //       carts.addAll(fetchedCarts);
-
-  //       // Urutkan keranjang berdasarkan waktu penambahan terbaru
-  //       carts.sort((a, b) => b.createdAt
-  //           .compareTo(a.createdAt)); // createdAt adalah waktu penambahan
-  //     } else {
-  //       logPrint("Failed to load carts");
-  //     }
-  //   } catch (e) {
-  //     logPrint("Fetch error: $e");
-  //   } finally {
-  //     isLoading(false);
-  //   }
-  // }
   Future<void> fetchCarts() async {
     isLoading(true);
     try {
@@ -171,6 +133,8 @@ class CartController extends GetxController {
 
       if (response != null && response['status'] == true) {
         carts.removeWhere((cart) => cart.id == cartId);
+        carts.removeWhere((cart) => selectedCarts
+            .any((selectedItem) => selectedItem.id == cart.id));
         logPrint("Cart deleted: $cartId");
         logPrint("Remaining carts: ${carts.length}");
         carts.refresh();
@@ -197,4 +161,44 @@ class CartController extends GetxController {
       );
     }
   }
+
+  void removeCheckedItems() async {
+  // Delete checked items from the server
+  for (var cartItem in selectedCarts) {
+    try {
+      final response = await APIServices.api(
+        endPoint: APIEndpoint.deleteCart.replaceFirst("{cartId}", cartItem.id.toString()),
+        type: APIMethod.delete,
+        withToken: true,
+      );
+
+      if (response != null && response['status'] == true) {
+        // Remove from the local list after successful deletion from the server
+        carts.removeWhere((cartItem) => selectedCarts.any((selectedItem) => selectedItem.id == cartItem.id));
+        selectedCarts.clear(); // Clear selected carts list
+        carts.refresh(); // Refresh the list after removal
+        logPrint("Cart item deleted from server and local list: ${cartItem.id}");
+      } else {
+        // Handle failure
+        Get.snackbar(
+          "Gagal",
+          "Gagal menghapus buku dari keranjang.",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      logPrint("Error while removing cart item: $e");
+      Get.snackbar(
+        "Error",
+        "Terjadi kesalahan saat menghapus buku dari keranjang.",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+}
+
 }

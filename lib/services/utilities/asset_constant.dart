@@ -20,6 +20,8 @@ class AssetConstant {
   static const String icDelete = "assets/icons/ic_delete.svg";
   static const String icEdit = "assets/icons/ic_edit.svg";
   static const String icCheckout = "assets/icons/ic_checkout.svg";
+  static const String icDropDown = "assets/icons/ic_drop_down.svg";
+  static const String icUpArrow = "assets/icons/ic_up_arrow.svg";
 
   //IMAGE
   static const String bgLogin = "assets/images/bg.png";

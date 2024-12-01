@@ -71,7 +71,10 @@ class APIServices {
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
-    } else {
+    } else if (response.statusCode == 201) {
+      return json.decode(response.body);
+    }  
+    else {
       logPrint('ERROR SERVICES ${json.decode(response.body)}');
       return json.decode(response.body);
     }

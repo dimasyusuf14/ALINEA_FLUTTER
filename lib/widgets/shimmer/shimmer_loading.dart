@@ -23,12 +23,21 @@ class ShimmerBooks extends StatelessWidget {
               color: Colors.grey.shade300,
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 5),
           ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Container(
               width: Get.width * 0.6,
-              height: 20,
+              height: 16,
+              color: Colors.grey.shade300,
+            ),
+          ),
+          SizedBox(height: 5),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Container(
+              width: Get.width * 0.6,
+              height: 16,
               color: Colors.grey.shade300,
             ),
           ),
@@ -229,7 +238,7 @@ class CartItemTileShimmer extends StatelessWidget {
                     height: 22,
                     color: Colors.grey.shade300,
                   ),
-                  ],
+                ],
               ),
               const SizedBox(height: 10),
               // Shimmer untuk kategori

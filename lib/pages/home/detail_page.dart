@@ -7,6 +7,7 @@ import 'package:alinea/model/home/home_model.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
+import 'package:alinea/widgets/appbar/appbar_secondary.dart';
 import 'package:alinea/widgets/button/button_icon.dart';
 import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,9 @@ class DetailPage extends StatelessWidget {
                   color: const Color(0XFF445DCC),
                   borderRadius: BorderRadius.circular(10),
                 ),
+              ),
+              AppBarSecondary(
+                title: "Detail Page",
               ),
               Positioned(
                 top: Get.height * 0.13,
@@ -199,7 +203,23 @@ class DetailPage extends StatelessWidget {
                         children: [
                           Buttonprimary(
                             onPressed: () {
-                              Get.toNamed(RouteName.detailPeminjamanPage);
+                              // Assuming selectedCarts is a list of items in the cart.
+                              if (cartController.selectedCarts.isNotEmpty) {
+                                final selectedBooks =
+                                    cartController.selectedCarts
+                                        .map((item) => {
+                                              'id': item.book.id,
+                                              'title': item.book.title,
+                                              'coverUrl': item.book.coverUrl,
+                                              'author': item.book.author,
+                                            })
+                                        .toList();
+
+                                Get.toNamed(
+                                  RouteName.checkOutPage,
+                                  arguments: selectedBooks,
+                                );
+                              }
                             },
                             title: 'Pinjam Sekarang',
                             color: kColorPrimary,
