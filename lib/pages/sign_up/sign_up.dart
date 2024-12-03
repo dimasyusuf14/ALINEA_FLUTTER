@@ -189,6 +189,7 @@ class SignUpPage extends StatelessWidget {
 
                         // daftar Button
                         Buttonprimary(
+                          fontSize: 18,
                           onPressed: () {
                             Get.toNamed(RouteName.login);
                           },

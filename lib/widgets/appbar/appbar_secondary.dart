@@ -12,7 +12,7 @@ class AppBarSecondary extends StatelessWidget {
     required this.title,
     this.actions = const [],
     this.subtitle = "",
-    this.onTapBack = defaultTap,
+    this.onTapBack = defaultTap, 
   });
   final bool isWithBack;
   final String title, subtitle;

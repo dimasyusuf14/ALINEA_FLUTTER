@@ -5,6 +5,7 @@ import 'package:alinea/pages/sign_up/sign_up.dart';
 import 'package:alinea/pages/splash/splash_screen.dart';
 import 'package:alinea/pages/wellcome/wellcome_page.dart';
 import 'package:alinea/routes/page_route.dart';
+import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -32,12 +33,12 @@ class _MyAppState extends State<MyApp> {
             height: 24,
             width: 24,
             child: CircularProgressIndicator(
-              color: Colors.red,
+              color: kColorPrimary,
               strokeWidth: 2,
             )),
       ),
       headerBuilder: () => const WaterDropMaterialHeader(
-        backgroundColor: Colors.red,
+        backgroundColor: kColorPrimary,
         distance: 40,
       ),
       child: GetMaterialApp(

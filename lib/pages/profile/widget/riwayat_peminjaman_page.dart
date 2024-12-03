@@ -5,6 +5,7 @@ import 'package:alinea/widgets/appbar/appbar_secondary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class RiwayatPeminjamanPage extends StatefulWidget {
   const RiwayatPeminjamanPage({super.key});
@@ -14,8 +15,7 @@ class RiwayatPeminjamanPage extends StatefulWidget {
 }
 
 class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
-  bool isExpanded =
-      false; // Menyimpan status apakah data ditampilkan penuh atau tidak
+  int? expandedIndex; // Index dari container yang sedang expanded
 
   final books = [
     {
@@ -37,59 +37,65 @@ class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
       'cover': AssetConstant.coverHarryPoter,
     },
   ];
+  RefreshController refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kColorBg,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AppBarSecondary(
             title: "Riwayat Peminjaman",
-            
           ),
           Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Column(
-                  children: [
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: SmartRefresher(
+              enablePullDown: true,
+              controller: refreshController,
+              onRefresh: () async {
+                refreshController.refreshCompleted();
+              },
+              child: SingleChildScrollView(
+                child: ListView.builder(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 5,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
                       width: Get.width,
                       decoration: BoxDecoration(
-                        color: Color(0XFFE0E8F9),
+                        color: const Color(0XFFE0E8F9),
                         borderRadius: BorderRadius.circular(9),
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // Header dengan ID dan status
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "ALN202411281341",
+                                "ALN20241128134${index + 1}",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: kColorPrimary,
                                   fontSize: 18,
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10,
                               ),
                               Container(
                                 decoration: BoxDecoration(
                                   color: kColorSecondary,
                                   borderRadius: BorderRadius.circular(6),
                                 ),
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 5),
-                                child: Text(
+                                child: const Text(
                                   "Clear",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -100,6 +106,8 @@ class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
                               ),
                             ],
                           ),
+                          const SizedBox(height: 4),
+                          // Tanggal peminjaman
                           Row(
                             children: const [
                               Text(
@@ -124,30 +132,26 @@ class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: kColorPrimary,
-                            height: 5,
+                            height: 10,
                           ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          // AnimatedSize untuk transisi yang smooth
+                          const SizedBox(height: 8),
+
+                          // Konten buku
                           AnimatedSize(
-                            duration:
-                                Duration(milliseconds: 300), // Durasi transisi
-                            curve: Curves.easeInOut, // Kurva animasi
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
                             child: ListView.builder(
-                              shrinkWrap:
-                                  true, // Penting untuk ListView di dalam Column
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: isExpanded
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: expandedIndex == index
                                   ? books.length
-                                  : 1, // Menampilkan satu atau seluruh data
-                              padding: EdgeInsets.zero,
-                              itemBuilder: (context, index) {
-                                final book = books[index];
+                                  : 1, // Perluas hanya container yang aktif
+                              itemBuilder: (context, bookIndex) {
+                                final book = books[bookIndex];
                                 return Container(
-                                  margin: EdgeInsets.only(bottom: 5),
+                                  margin: const EdgeInsets.only(bottom: 5),
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
@@ -170,16 +174,14 @@ class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        width: 12,
-                                      ), // Spasi antara gambar dan teks
+                                      const SizedBox(width: 12),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             book['title']!,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -188,16 +190,14 @@ class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
                                           ),
                                           Text(
                                             book['author']!,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.w500,
                                             ),
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
+                                          const SizedBox(height: 10),
                                           Text(book['quantity']!),
                                         ],
                                       ),
@@ -207,45 +207,47 @@ class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: 8,
-                          ),
+                          const SizedBox(height: 8),
+
+                          // Tombol toggle lihat semua
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                isExpanded =
-                                    !isExpanded; // Toggle antara tampilan satu data atau seluruh data
+                                if (expandedIndex == index) {
+                                  expandedIndex =
+                                      null; // Tutup jika sudah aktif
+                                } else {
+                                  expandedIndex = index; // Aktifkan index baru
+                                }
                               });
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  isExpanded
+                                  expandedIndex == index
                                       ? "Lihat Lebih Sedikit"
                                       : "Lihat Semua",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: kColorPrimary,
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
+                                const SizedBox(width: 10),
                                 SvgPicture.asset(
-                                  isExpanded
+                                  expandedIndex == index
                                       ? AssetConstant.icUpArrow
                                       : AssetConstant.icDropDown,
                                   color: kColorPrimary,
                                   width: 15,
-                                )
+                                ),
                               ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ),

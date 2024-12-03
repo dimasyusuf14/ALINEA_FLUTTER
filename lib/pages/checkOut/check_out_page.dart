@@ -3,11 +3,13 @@ import 'dart:ui';
 import 'package:alinea/controller/borrowing/borrowing_controller.dart';
 import 'package:alinea/controller/cart/cart_controller.dart';
 import 'package:alinea/routes/route_name.dart';
+import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/appbar/appbar_default.dart';
 import 'package:alinea/widgets/appbar/appbar_secondary.dart';
 import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class CheckOutPage extends StatelessWidget {
@@ -202,6 +204,7 @@ class CheckOutPage extends StatelessWidget {
                   title: "Konfirmasi",
                   color: kColorPrimary,
                   width: Get.width,
+                  fontSize: 18,
                   onPressed: () {
                     final bookIds = selectedBooks
                             ?.map<int>((book) => book['id'])
@@ -220,20 +223,54 @@ class CheckOutPage extends StatelessWidget {
                         if (status = true) {
                           // Hapus item yang berhasil di-checkout dari keranjang
                           cartController.removeCheckedItems();
-
-                          // Navigasi ke halaman detail peminjaman
-                          // Get.toNamed(RouteName.detailPeminjamanPage);
-
-                          Get.defaultDialog(
-                            title: "Checkout Berhasil",
-                            middleText: "Buku Anda berhasil di-checkout.",
-                            confirm: ElevatedButton(
-                              onPressed: () {
-                                // Navigasi ke halaman detail peminjaman
-                                Get.offNamed(RouteName.detailPeminjamanPage);
-                              },
-                              child: Text("Lihat detail peminjaman saya"),
-                            ),
+                          // Gunakan custom dialog
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 24,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color(0XFFC9D6F4),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SvgPicture.asset(
+                                        AssetConstant.icCheck,
+                                        width: 50,
+                                        color: kColorPrimary,
+                                      ),
+                                      SizedBox(height: 24),
+                                      Text(
+                                        "Checkout Berhasil",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text("Buku Anda berhasil di-checkout."),
+                                      SizedBox(height: 24),
+                                      Buttonprimary(
+                                        fontSize: 16,
+                                        title: "Lihat detail peminjaman saya",
+                                        color: kColorPrimary,
+                                        width: Get.width,
+                                        onPressed: () {
+                                          Get.offNamed(
+                                              RouteName.detailPeminjamanPage);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           );
                         } else {
                           Get.snackbar(

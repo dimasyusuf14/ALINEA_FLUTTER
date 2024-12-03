@@ -9,6 +9,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:alinea/controller/home/book_controller.dart';
 import 'package:alinea/controller/home/categories_controller.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:shimmer/shimmer.dart'; // Import shimmer
 
@@ -18,104 +19,93 @@ class HomePage extends StatelessWidget {
   final BookController controller = Get.put(BookController());
   final CategoriesController categoryController =
       Get.put(CategoriesController()); // Add CategoriesController
-
-  Future<void> _refreshData() async {
-    controller.selectedCategoryId.value = 0; // Reset kategori ke "semua"
-    controller
-        .fetchBookList(); // Memuat ulang daftar buku tanpa filter kategori
-  }
+  RefreshController refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0XFFF1F4FD),
-      body: RefreshIndicator(
-        onRefresh: _refreshData,
-        child: Column(
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  color: Color(0XFF445DCC),
-                  height: Get.width * 0.52,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 50,
-                      right: 16,
-                      left: 16,
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: SizedBox(
-                                height: 50,
-                                child: TextFormField(
-                                  onChanged: (query) {
-                                    controller.searchQuery.value = query;
-                                    controller.filterBooks();
-                                  },
-                                  autocorrect: false,
-                                  controller: TextEditingController(),
-                                  keyboardType: TextInputType.text,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Color(0XFFF1F4FD),
-                                    hintText: "Cari Buku...",
-                                    disabledBorder: InputBorder.none,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              height: 50,
-                              width: 50,
-                              child: IconButton(
-                                onPressed: () {
-                                  showCustomModal(context, controller);
-                                },
-                                icon: Icon(Icons.menu),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: Get.height * 0.15,
-                  left: Get.width * 0,
-                  right: Get.width * 0,
-                  child: CarouselBook(),
-                ),
-              ],
-            ),
-            SizedBox(height: 80),
-            Expanded(
+      body: Column(
+        children: [
+          Container(
+            color: Color(0XFF445DCC),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 50,
+                right: 16,
+                left: 16,
+              ),
               child: Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 50,
+                          child: TextFormField(
+                            onChanged: (query) {
+                              controller.searchQuery.value = query;
+                              controller.filterBooks();
+                            },
+                            autocorrect: false,
+                            controller: TextEditingController(),
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Color(0XFFF1F4FD),
+                              hintText: "Cari Buku...",
+                              disabledBorder: InputBorder.none,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        height: 50,
+                        width: 50,
+                        child: IconButton(
+                          onPressed: () {
+                            showCustomModal(context, controller);
+                          },
+                          icon: Icon(Icons.menu),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: SmartRefresher(
+              enablePullDown: true,
+              controller: refreshController,
+              onRefresh: () async {
+                refreshController.refreshCompleted();
+                controller.fetchBookList();
+              },
+              child: Column(
+                children: [
+                  CarouselBook(),
+                  SizedBox(height: 16),
                   Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Row(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Row(
                               children: [
                                 Text(
                                   "Rak Buku",
@@ -125,52 +115,48 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                                 SizedBox(width: 5),
-                                Obx(() {
-                                  if (controller.selectedCategoryId.value ==
-                                      0) {
-                                    return Text(
-                                      " • All",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        color: kColorSecondary,
-                                      ),
-                                    );
-                                  } else {
-                                    final selectedCategory = categoryController
-                                        .listCategory
-                                        .firstWhere(
-                                      (category) =>
-                                          category.id ==
-                                          controller.selectedCategoryId.value,
-                                    );
-                                    return Text(
-                                      " • ${selectedCategory.name}",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        color: kColorSecondary,
-                                      ),
-                                    );
-                                  }
-                                }),
+                                Obx(
+                                  () {
+                                    if (controller.selectedCategoryId.value ==
+                                        0) {
+                                      return Text(
+                                        " • All",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                          color: kColorSecondary,
+                                        ),
+                                      );
+                                    } else {
+                                      final selectedCategory =
+                                          categoryController.listCategory
+                                              .firstWhere(
+                                        (category) =>
+                                            category.id ==
+                                            controller.selectedCategoryId.value,
+                                      );
+                                      return Text(
+                                        " • ${selectedCategory.name}",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                          color: kColorSecondary,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
                               ],
                             ),
-                          ),
-                          Obx(
-                            () {
-                              if (controller.loadingFetchBook.value ==
-                                  DataLoad.loading) {
-                                // Tampilan shimmer saat loading
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 10),
-                                  child: MasonryGridView.count(
+                            Obx(
+                              () {
+                                if (controller.loadingFetchBook.value ==
+                                    DataLoad.loading) {
+                                  return MasonryGridView.count(
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
-                                    itemCount:
-                                        6, // Menampilkan 6 item shimmer sebagai placeholder
+                                    itemCount: 20,
                                     crossAxisSpacing: 15,
                                     mainAxisSpacing: 20,
                                     crossAxisCount: 3,
@@ -178,41 +164,39 @@ class HomePage extends StatelessWidget {
                                     itemBuilder: (context, index) {
                                       return ShimmerBooks();
                                     },
-                                  ),
-                                );
-                              } else if (controller.loadingFetchBook.value ==
-                                  DataLoad.failed) {
-                                return Container(
-                                  padding: EdgeInsets.symmetric(vertical: 100),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: const [
-                                      Text(
-                                        "Failed to load data",
-                                        style: TextStyle(fontSize: 20.0),
-                                      ),
-                                      Text(
-                                        "Check your connection",
-                                        style: TextStyle(
-                                          fontSize: 14.0,
-                                          color: Colors.red,
+                                  );
+                                } else if (controller.loadingFetchBook.value ==
+                                    DataLoad.failed) {
+                                  return Container(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 100),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: const [
+                                        Text(
+                                          "Failed to load data",
+                                          style: TextStyle(fontSize: 20.0),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              } else {
-                                final booksToDisplay =
-                                    controller.filteredBooks.isNotEmpty
-                                        ? controller.filteredBooks
-                                        : controller.listBook;
+                                        Text(
+                                          "Check your connection",
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  final booksToDisplay =
+                                      controller.filteredBooks.isNotEmpty
+                                          ? controller.filteredBooks
+                                          : controller.listBook;
 
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 10),
-                                  child: MasonryGridView.count(
+                                  return MasonryGridView.count(
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
@@ -273,20 +257,20 @@ class HomePage extends StatelessWidget {
                                         ),
                                       );
                                     },
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ],
+                                  );
+                                }
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

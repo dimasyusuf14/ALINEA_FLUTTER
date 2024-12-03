@@ -10,70 +10,69 @@ import 'package:alinea/widgets/shimmer/shimmer_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:alinea/model/cart/cart_model.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart'; // Import shimmer package
 
-class CartPage extends StatefulWidget {
-  const CartPage({super.key});
-
-  @override
-  _CartPageState createState() => _CartPageState();
-}
-
-class _CartPageState extends State<CartPage> {
+class CartPage extends StatelessWidget {
+  CartPage({super.key});
   final CartController cartController = Get.put(CartController());
-
-  @override
-  void initState() {
-    super.initState();
-    cartController.fetchCarts();
-  }
+  RefreshController refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () async {
-          await cartController.fetchCarts();
-        },
-        child: Column(
-          children: [
-            AppBarDefault(title: "Keranjang Saya"),
-            Expanded(
-              child: Obx(() {
-                if (cartController.isLoading.value) {
-                  // Menampilkan shimmer effect ketika data masih loading
-                  return ListView.builder(
-                    itemCount: 5, // Jumlah shimmer item yang ingin ditampilkan
-                    padding: EdgeInsets.zero,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 8),
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.grey.shade300,
-                          highlightColor: Colors.grey.shade100,
-                          child:
-                              CartItemTileShimmer(), // Menggunakan shimmer untuk item cart
-                        ),
+      body: Column(
+        children: [
+          AppBarDefault(title: "Keranjang Saya"),
+          Expanded(
+            child: SmartRefresher(
+              enablePullDown: true,
+              controller: refreshController,
+              onRefresh: () async {
+                await cartController.fetchCarts();
+                refreshController.refreshCompleted();
+              },
+              child: SingleChildScrollView(
+                child: Obx(
+                  () {
+                    if (cartController.isLoading.value) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: cartController.carts.length,
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 8),
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: CartItemTileShimmer(),
+                            ),
+                          );
+                        },
                       );
-                    },
-                  );
-                } else if (cartController.carts.isEmpty) {
-                  return const Center(child: Text('Keranjang kosong.'));
-                } else {
-                  return ListView.builder(
-                    padding: EdgeInsets.zero, // Menghapus celah di atas
-                    itemCount: cartController.carts.length,
-                    itemBuilder: (context, index) {
-                      final cartItem = cartController.carts[index];
-                      return CartItemTile(cartItem: cartItem);
-                    },
-                  );
-                }
-              }),
+                    } else if (cartController.carts.isEmpty) {
+                      return const Center(child: Text('Keranjang kosong.'));
+                    } else {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: cartController.carts.length,
+                        itemBuilder: (context, index) {
+                          final cartItem = cartController.carts[index];
+                          return CartItemTile(cartItem: cartItem);
+                        },
+                      );
+                    }
+                  },
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: Obx(
         () {
@@ -116,5 +115,3 @@ class _CartPageState extends State<CartPage> {
     );
   }
 }
-
-// Widget Shimmer untuk item cart

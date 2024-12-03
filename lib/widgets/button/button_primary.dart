@@ -10,11 +10,16 @@ class Buttonprimary extends StatelessWidget {
     required this.color,
     required this.width,
     required this.onPressed,
+    this.fontSize = 18,
   });
   final VoidCallback onPressed;
   final String title;
   final Color color;
   final double width;
+  final double fontSize;
+  
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +42,7 @@ class Buttonprimary extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: fontSize,
                   fontWeight: FontWeight.bold,
                 ),
               ),

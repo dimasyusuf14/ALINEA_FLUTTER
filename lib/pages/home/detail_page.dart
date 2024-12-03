@@ -202,6 +202,7 @@ class DetailPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Buttonprimary(
+                            fontSize: 18,
                             onPressed: () {
                               // Assuming selectedCarts is a list of items in the cart.
                               if (cartController.selectedCarts.isNotEmpty) {

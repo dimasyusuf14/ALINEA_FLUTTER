@@ -69,6 +69,7 @@ void showModalForm(BuildContext context, ProfileController controller) {
                     SizedBox(
                       width: Get.width * 0.35,
                       child: Buttonprimary(
+                        fontSize: 18,
                         title: "Simpan",
                         color: Colors.blue,
                         width: Get.width,
@@ -80,6 +81,7 @@ void showModalForm(BuildContext context, ProfileController controller) {
                     SizedBox(
                       width: Get.width * 0.35,
                       child: Buttonprimary(
+                        fontSize: 18,
                         title: "Batal",
                         color: Colors.red,
                         width: Get.width,

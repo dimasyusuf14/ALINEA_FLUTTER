@@ -155,6 +155,7 @@ class LoginPage extends StatelessWidget {
                         // Login Button
 
                         Buttonprimary(
+                          fontSize: 18,
                           title: 'Masuk',
                           color: kColorPrimary,
                           onPressed: () {

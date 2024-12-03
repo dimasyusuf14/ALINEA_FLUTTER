@@ -2,6 +2,7 @@ import 'package:alinea/model/home/home_model.dart';
 import 'package:alinea/services/api_services.dart';
 import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
+import 'package:alinea/widgets/shimmer/shimmer_loading.dart';
 import 'package:get/get.dart';
 
 class BookController extends GetxController {
@@ -25,7 +26,7 @@ class BookController extends GetxController {
         type: APIMethod.get,
         withToken: true,
       );
-
+ 
       if (response['data'] != null) {
         var dataList = response['data'] as List;
 
