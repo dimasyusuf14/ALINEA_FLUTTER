@@ -1,7 +1,7 @@
 
 import 'package:alinea/pages/login/login_page.dart';
 import 'package:alinea/pages/main/main_page.dart';
-import 'package:alinea/pages/sign_up/sign_up.dart';
+import 'package:alinea/pages/sign_up/sign_up_page.dart';
 import 'package:alinea/pages/splash/splash_screen.dart';
 import 'package:alinea/pages/wellcome/wellcome_page.dart';
 import 'package:alinea/routes/page_route.dart';
@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
         distance: 40,
       ),
       child: GetMaterialApp(
-        title: 'Ebook',
+        title: 'Alinea',
         getPages: PagesRoute.pages,
         theme: ThemeData(
             useMaterial3: true,

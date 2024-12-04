@@ -109,23 +109,70 @@ class CheckOutPage extends StatelessWidget {
                   ),
                   child: Obx(
                     () => TextButton(
-                      onPressed: () => controller.selectBorrowDate(context),
+                      onPressed: () => controller.selectBorrowDuration(context),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Pengambilan:   ",
+                            "Durasi Peminjaman:   ",
                             style: TextStyle(
-                                fontSize: 16,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            controller.returnDate.value == null
+                                ? "Pilih Durasi"
+                                : "${controller.returnDate.value?.difference(controller.borrowDate.value ?? DateTime.now()).inDays ?? 0} Hari",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: controller.returnDate.value == null
+                                  ? Colors.grey
+                                  : kColorPrimary,
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_drop_down_sharp,
+                            color: kColorPrimary,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Container(
+                  height: 46,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(9),
+                  ),
+                  child: Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Pengambilan:",
+                            style: TextStyle(
+                                fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black),
                           ),
                           Text(
                             controller.formatDate(controller.borrowDate.value),
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: kColorPrimary),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: controller.returnDate.value == null
+                                  ? Colors.grey
+                                  : kColorPrimary,
+                            ),
                           ),
                           const Icon(
                             Icons.calendar_today,
@@ -154,16 +201,20 @@ class CheckOutPage extends StatelessWidget {
                           Text(
                             "Pengembalian:",
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
                           ),
                           Text(
                             controller.formatDate(controller.returnDate.value),
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: kColorPrimary),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: controller.returnDate.value == null
+                                  ? Colors.grey
+                                  : kColorPrimary,
+                            ),
                           ),
                           const Icon(
                             Icons.calendar_today,
@@ -172,29 +223,6 @@ class CheckOutPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey.shade600,
-                    ),
-                    children: [
-                      TextSpan(
-                          text: "Tanggal pengembalian otomatis terhitung "),
-                      TextSpan(
-                        text: "7 hari",
-                        style: TextStyle(
-                          color: Colors.grey.shade700,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      TextSpan(text: " setelah memilih tanggal pengambilan."),
-                    ],
                   ),
                 ),
                 SizedBox(

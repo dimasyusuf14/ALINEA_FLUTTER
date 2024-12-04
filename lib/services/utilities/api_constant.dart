@@ -11,5 +11,6 @@ class APIEndpoint {
   static String deleteCart = "/carts/{cartId}";
   static String checkOut = "/borrowings";
   static String borrowingsHistory = "/borrowings/history";
+  static String register = "/register";
 
 }

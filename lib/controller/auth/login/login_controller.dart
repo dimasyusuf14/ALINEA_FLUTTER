@@ -9,7 +9,7 @@ import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
   var passController = TextEditingController(text: "password").obs;
-  var usernameController = TextEditingController(text: "user@example.com").obs;
+  var emailController = TextEditingController(text: "Aym@gmail.com").obs;
   var checkC = false.obs;
   var isHidden = false.obs;
 
@@ -17,7 +17,7 @@ class LoginController extends GetxController {
     Helper.loadingScreen();
 
     var requestBodyMap = {
-      "username": usernameController.value.text,
+      "username": emailController.value.text,
       "password": passController.value.text,
     };
 

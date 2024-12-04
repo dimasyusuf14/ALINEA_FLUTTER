@@ -87,7 +87,7 @@ class LoginPage extends StatelessWidget {
                         //text input nim atau email
                         TextField(
                           autocorrect: false,
-                          controller: controller.usernameController.value,
+                          controller: controller.emailController.value,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             labelText: "NIM dan Email",

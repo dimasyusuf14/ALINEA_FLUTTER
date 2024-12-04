@@ -10,7 +10,7 @@ import 'package:alinea/pages/profile/widget/denda_page.dart';
 import 'package:alinea/pages/profile/widget/detail_peminjaman_page.dart';
 import 'package:alinea/pages/profile/profile_page.dart';
 import 'package:alinea/pages/profile/widget/riwayat_peminjaman_page.dart';
-import 'package:alinea/pages/sign_up/sign_up.dart';
+import 'package:alinea/pages/sign_up/sign_up_page.dart';
 import 'package:alinea/pages/wellcome/wellcome_page.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:flutter/material.dart';

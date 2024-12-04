@@ -55,18 +55,28 @@ class BorrowingsController extends GetxController {
     }
   }
 
-  void selectBorrowDate(BuildContext context) async {
-    final selectedDate = await showDatePicker(
+  void selectBorrowDuration(BuildContext context) async {
+    final options = [7, 14, 21]; // Durasi dalam hari
+    final selectedOption = await showModalBottomSheet<int>(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      builder: (context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: options.map((duration) {
+            return ListTile(
+              title: Text("$duration Hari"),
+              onTap: () {
+                Navigator.pop(context, duration);
+              },
+            );
+          }).toList(),
+        );
+      },
     );
 
-    if (selectedDate != null) {
-      borrowDate.value = selectedDate;
-      // Auto-set return date to +7 days
-      returnDate.value = selectedDate.add(const Duration(days: 7));
+    if (selectedOption != null) {
+      borrowDate.value = DateTime.now(); // Tetapkan tanggal peminjaman hari ini
+      returnDate.value = borrowDate.value!.add(Duration(days: selectedOption));
     }
   }
 
@@ -75,7 +85,6 @@ class BorrowingsController extends GetxController {
     return DateFormat('MM/dd/yyyy').format(date);
   }
 
-  /// Format date for display
   String formatDate(DateTime? date) {
     if (date == null) return "-";
     return DateFormat('dd MMMM yyyy').format(date);
