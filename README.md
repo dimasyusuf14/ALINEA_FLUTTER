@@ -1,16 +1,36 @@
-# project
+# Project Alinea Mobile
 
-A new Flutter project.
+Repositori ini berisi kode sumber untuk aplikasi mobile *Alinea* yang dikembangkan oleh **Kelompok 4** dari kelas **10.5A.01** sebagai bagian dari tugas atau proyek sekolah.
 
-## Getting Started
+## Anggota Kelompok
 
-This project is a starting point for a Flutter application.
+| Nama                  | NIM       |
+|-----------------------|-----------|
+| Fahri Anggara         | 10220009  |
+| Dimas Yusuf Hidayat   | 10220014  |
+| Fakhri Akmal Fadillah | 10220046  |
+| Ilham Ramadan         | 10220048  |
+| Sultan Jordy Priadi   | 10220078  |
 
-A few resources to get you started if this is your first Flutter project:
+## Deskripsi Proyek
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+*Alinea Mobile* adalah aplikasi yang dirancang untuk memudahkan pengguna dalam mengakses informasi dan layanan terkait peminjaman buku. Aplikasi ini dikembangkan dengan tujuan untuk memudahkan user atau pengguna untuk melihat ketersediaan buku yang ingin di pinjam.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Teknologi yang Digunakan
+
+- [Flutter, React Native,Json]
+- [Laravel API untuk backend]
+
+## Fitur Aplikasi
+
+- [Fitur 1, misal: Registrasi dan Login Pengguna]
+- [Fitur 2, misal: Tampilan Profil Pengguna]
+- [Fitur 3, misal: Akses konten berdasarkan kategori]
+- [Fitur 4, misal: Infoice Peminjaman Buku]
+
+## Instalasi dan Penggunaan
+
+1. Clone repositori ini:
+   ```bash
+   git clone https://github.com/username/ProjectAlineaMobile.git
+   cd ProjectAlineaMobile
