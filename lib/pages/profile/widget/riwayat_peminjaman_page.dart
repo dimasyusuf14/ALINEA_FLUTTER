@@ -3,6 +3,9 @@ import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/appbar/appbar_default.dart';
 import 'package:alinea/widgets/appbar/appbar_secondary.dart';
+import 'package:alinea/widgets/button/button_action.dart';
+import 'package:alinea/widgets/button/button_icon.dart';
+import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -100,30 +103,58 @@ class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "ALN ${controller.listHistoryPeminjaman[index].noInvoice.toString()}",
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: kColorPrimary,
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: kColorSecondary,
-                                          borderRadius:
-                                              BorderRadius.circular(6),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 5),
-                                        child: const Text(
-                                          "Clear",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "ALN ${controller.listHistoryPeminjaman[index].noInvoice.toString()}",
+                                            style: const TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                              color: kColorBg),
-                                        ),
+                                              color: kColorPrimary,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 16,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: kColorSecondary,
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 5),
+                                            child: const Text(
+                                              "Clear",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12,
+                                                  color: kColorBg),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 16,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          ButtonAction(
+                                            onTap: () {},
+                                            padding: 0,
+                                            child: SvgPicture.asset(
+                                              AssetConstant.icPdf,
+                                              width: 30,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 8,
+                                          ),
+                                          Text("Download PDF"),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -157,7 +188,7 @@ class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
                                         .listHistoryPeminjaman[index]
                                         .borrowings[bookIndex];
                                     return Container(
-                                      margin: const EdgeInsets.only(bottom: 5),
+                                      margin: const EdgeInsets.only(bottom: 8),
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
