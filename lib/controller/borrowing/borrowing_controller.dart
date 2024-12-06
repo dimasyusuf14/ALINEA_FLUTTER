@@ -56,7 +56,7 @@ class BorrowingsController extends GetxController {
   }
 
   void selectBorrowDuration(BuildContext context) async {
-    final options = [7, 14, 21]; // Durasi dalam hari
+    final options = [7, 14, 21];
     final selectedOption = await showModalBottomSheet<int>(
       context: context,
       builder: (context) {

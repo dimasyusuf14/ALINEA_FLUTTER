@@ -4,18 +4,18 @@ import 'package:alinea/model/login/user_model.dart';
 
 class BorrowingModel {
   final int id;
-  final String? invoiceId; // Allow null
-  final int? userId; // Allow null
-  final int? bookId; // Allow null
+  final String? invoiceId;
+  final int? userId;
+  final int? bookId;
   final DateTime borrowDate;
   final DateTime returnDate;
-  final String? statusId; // Allow null
+  final String? statusId;
   final DateTime createdAt;
   final DateTime updatedAt;
   final BooksModel book;
-  final UserModel? user; // Allow null
-  final Status? status; // Allow null
-  final Invoice? invoice; // Allow null
+  final UserModel? user;
+  final Status? status;
+  final Invoice? invoice;
   final RxBool isChecked;
 
   BorrowingModel({
@@ -62,9 +62,9 @@ class BorrowingModel {
 class Status {
   final int id;
   final String name;
-  final String? color; // Allow null
-  final String? message; // Allow null
-  final String? description; // Allow null
+  final String? color;
+  final String? message;
+  final String? description;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -98,10 +98,10 @@ class Status {
 class Invoice {
   final int id;
   final String noInvoice;
-  final String? qrCode; // Allow null
-  final int? userId; // Allow null
-  final String? totalAmount; // Allow null
-  final String? status; // Allow null
+  final String? qrCode;
+  final int? userId;
+  final String? totalAmount;
+  final String? status;
   final DateTime createdAt;
   final DateTime updatedAt;
 

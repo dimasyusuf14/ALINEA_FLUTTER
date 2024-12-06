@@ -9,6 +9,7 @@ class BookController extends GetxController {
   var loadingFetchBook = DataLoad.loading.obs;
   var listBook = <BooksModel>[].obs;
   var filteredBooks = <BooksModel>[].obs;
+  var categories = <Category>[].obs;
   var selectedCategoryId = 0.obs;
   var searchQuery = ''.obs;
 
@@ -26,7 +27,7 @@ class BookController extends GetxController {
         type: APIMethod.get,
         withToken: true,
       );
- 
+
       if (response['data'] != null) {
         var dataList = response['data'] as List;
 

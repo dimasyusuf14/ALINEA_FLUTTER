@@ -1,4 +1,4 @@
-import 'package:alinea/routes/route_name.dart';
+import 'package:alinea/controller/invoice/riwayat_invoice_controller.dart';
 import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/appbar/appbar_default.dart';
@@ -7,43 +7,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class DetailPeminjamanPage extends StatefulWidget {
   const DetailPeminjamanPage({super.key});
 
   @override
-  _DetailPeminjamanPageState createState() => _DetailPeminjamanPageState();
+  _DetailPeminjamanPage createState() => _DetailPeminjamanPage();
 }
 
-class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
-  final books = [
-    {
-      'title': 'QWERTY UYTREWQ',
-      'author': 'Ujang Surajang',
-      'quantity': 'x1',
-      'cover': AssetConstant.coverHarryPoter,
-    },
-    {
-      'title': 'Lorem Ipsum',
-      'author': 'John Doe',
-      'quantity': 'x2',
-      'cover': AssetConstant.coverHarryPoter,
-    },
-    {
-      'title': 'Flutter for Beginners',
-      'author': 'Jane Doe',
-      'quantity': 'x3',
-      'cover': AssetConstant.coverHarryPoter,
-    },
-  ];
-  RefreshController refreshController = RefreshController();
+class _DetailPeminjamanPage extends State<DetailPeminjamanPage> {
+  int? expandedIndex;
 
+  RefreshController refreshController = RefreshController();
+  RiwayatInvoiceController controller = Get.put(RiwayatInvoiceController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kColorBg,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AppBarSecondary(
             title: "Detail Peminjaman",
@@ -56,162 +38,198 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
                 refreshController.refreshCompleted();
               },
               child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                      color: Color(0XFFE0E8F9),
-                      borderRadius: BorderRadius.circular(9),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "ALN202411281341",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: kColorPrimary,
-                                fontSize: 18,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: kColorSecondary,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 5),
-                              child: Text(
-                                "Clear",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                    color: kColorBg),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: const [
-                            Text(
-                              "01 December 2024",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              " - ",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "08 December 2024",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Divider(
-                          color: kColorPrimary,
-                          height: 5,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        // AnimatedSize untuk transisi yang smooth
-                        AnimatedSize(
-                          duration:
-                              Duration(milliseconds: 300), // Durasi transisi
-                          curve: Curves.easeInOut, // Kurva animasi
-                          child: ListView.builder(
-                            shrinkWrap:
-                                true, // Penting untuk ListView di dalam Column
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: books.length,
-                            // Menampilkan satu atau seluruh data
-                            padding: EdgeInsets.zero,
-                            itemBuilder: (context, index) {
-                              final book = books[index];
-                              return Container(
-                                margin: EdgeInsets.only(bottom: 5),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                child: Obx(
+                  () {
+                    return ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 16),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: controller.listHistoryPeminjaman.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return index == 0
+                            ? Container(
+                                margin: const EdgeInsets.only(bottom: 12),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 16),
+                                width: Get.width,
+                                decoration: BoxDecoration(
+                                  color: const Color(0XFFE0E8F9),
+                                  borderRadius: BorderRadius.circular(9),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(
-                                      width: 60,
-                                      height: 90,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image.asset(
-                                          book['cover']!,
-                                          fit: BoxFit.cover,
-                                          errorBuilder:
-                                              (context, error, stackTrace) {
-                                            return const Icon(
-                                                Icons.broken_image,
-                                                size: 70);
-                                          },
+                                    Row(
+                                      children: [
+                                        Text(
+                                          controller.formatDate(controller
+                                              .listHistoryPeminjaman[index]
+                                              .borrowings[0]
+                                              .borrowDate),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                          ),
                                         ),
-                                      ),
+                                        Text(
+                                          " - ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          controller.formatDate(controller
+                                              .listHistoryPeminjaman[index]
+                                              .borrowings[0]
+                                              .returnDate),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(
-                                      width: 12,
-                                    ), // Spasi antara gambar dan teks
-                                    Column(
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          book['title']!,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "ALN ${controller.listHistoryPeminjaman[index].noInvoice.toString()}",
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: kColorPrimary,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: kColorSecondary,
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 5),
+                                              child: const Text(
+                                                "Clear",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                    color: kColorBg),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          book['author']!,
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
+                                        QrImageView(
+                                          data: controller
+                                              .listHistoryPeminjaman[index]
+                                              .noInvoice
+                                              .toString(),
+                                          version: QrVersions.auto,
+                                          size: 80.0,
                                         ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(book['quantity']!),
                                       ],
+                                    ),
+                                    const Divider(
+                                      color: kColorPrimary,
+                                      height: 10,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      padding: EdgeInsets.zero,
+                                      itemCount: controller
+                                          .listHistoryPeminjaman[index]
+                                          .borrowings
+                                          .length,
+                                      itemBuilder: (context, bookIndex) {
+                                        final book = controller
+                                            .listHistoryPeminjaman[index]
+                                            .borrowings[bookIndex];
+                                        return Container(
+                                          margin:
+                                              const EdgeInsets.only(bottom: 8),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                width: 60,
+                                                height: 90,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  child: Image.network(
+                                                    book.book.coverUrl,
+                                                    fit: BoxFit.cover,
+                                                    errorBuilder: (context,
+                                                        error, stackTrace) {
+                                                      return const Icon(
+                                                          Icons.broken_image,
+                                                          size: 70);
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 12),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 255,
+                                                    child: Text(
+                                                      book.book.title,
+                                                      style: const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    book.book.author,
+                                                    style: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  Text('1x'),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                      ],
-                    ),
-                  ),
+                              )
+                            : SizedBox();
+                      },
+                    );
+                  },
                 ),
               ),
             ),

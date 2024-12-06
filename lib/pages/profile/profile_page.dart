@@ -1,5 +1,7 @@
 import 'package:alinea/controller/auth/login/login_controller.dart';
+import 'package:alinea/controller/invoice/invoice_controller.dart';
 import 'package:alinea/controller/profile/profile_controller.dart';
+import 'package:alinea/model/borrowing/borrowing_model.dart';
 import 'package:alinea/pages/profile/widget/show_modal_form.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/asset_constant.dart';
@@ -17,6 +19,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProfileController profileController = Get.put(ProfileController());
+    final InvoiceController invoiceController = Get.put(InvoiceController());
 
     return Scaffold(
       body: Column(
@@ -34,11 +37,13 @@ class ProfilePage extends StatelessWidget {
               ),
               child: Obx(() {
                 // Check loading status for the profile data
-                if (profileController.loadingProfile.value == DataLoad.loading) {
+                if (profileController.loadingProfile.value ==
+                    DataLoad.loading) {
                   return Center(
                     child: ShimmerProfile(),
                   );
-                } else if (profileController.loadingProfile.value == DataLoad.failed) {
+                } else if (profileController.loadingProfile.value ==
+                    DataLoad.failed) {
                   return Center(child: Text("Failed to load profile data."));
                 }
 
@@ -118,7 +123,13 @@ class ProfilePage extends StatelessWidget {
                     SizedBox(height: 10),
                     ButtonListProfile(
                       onPressed: () {
-                        Get.toNamed(RouteName.detailPeminjamanPage);
+                        Get.toNamed(
+                          RouteName.detailPeminjamanPage,
+                          arguments: [
+                           invoiceController.books,
+                           invoiceController.invoices
+                          ]
+                        );
                       },
                       assetName: AssetConstant.icBookmark,
                       title: 'Detail Peminjaman',

@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:alinea/controller/borrowing/borrowing_controller.dart';
 import 'package:alinea/controller/cart/cart_controller.dart';
+import 'package:alinea/controller/invoice/invoice_controller.dart';
+import 'package:alinea/model/borrowing/borrowing_model.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
@@ -15,6 +17,7 @@ import 'package:get/get.dart';
 class CheckOutPage extends StatelessWidget {
   CheckOutPage({super.key});
   final BorrowingsController controller = Get.put(BorrowingsController());
+  final InvoiceController invoiceController = Get.put(InvoiceController());
   CartController cartController = Get.find();
   @override
   Widget build(BuildContext context) {
@@ -243,15 +246,13 @@ class CheckOutPage extends StatelessWidget {
                       Get.snackbar(
                         "Peringatan",
                         "Tidak ada buku yang dipilih.",
-                        snackPosition: SnackPosition.BOTTOM,
+                        snackPosition: SnackPosition.TOP,
                       );
                     } else {
                       // Proses checkout
                       controller.checkout(bookIds).then((status) {
                         if (status = true) {
-                          // Hapus item yang berhasil di-checkout dari keranjang
                           cartController.removeCheckedItems();
-                          // Gunakan custom dialog
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
