@@ -41,7 +41,7 @@ class SignUpPage extends StatelessWidget {
           Column(
             children: [
               SizedBox(
-                height: 100,
+                height: 80,
               ),
               Expanded(
                 child: Container(

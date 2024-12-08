@@ -80,14 +80,14 @@ class BorrowingsController extends GetxController {
     }
   }
 
-  String formatDateMMDDYYYY(DateTime? date) {
-    if (date == null) return "-";
-    return DateFormat('MM/dd/yyyy').format(date);
-  }
+  // String formatDateMMDDYYYY(DateTime? date) {
+  //   if (date == null) return "-";
+  //   return DateFormat('MM/dd/yyyy').format(date);
+  // }
 
   String formatDate(DateTime? date) {
     if (date == null) return "-";
-    return DateFormat('dd MMMM yyyy').format(date);
+    return DateFormat('dd MMM yyyy').format(date);
   }
 
   /// Check if both dates are valid
@@ -101,8 +101,8 @@ class BorrowingsController extends GetxController {
 
     var requestBodyMap = {
       "book_id": bookId,
-      "borrow_date": formatDateMMDDYYYY(borrowDate.value),
-      "return_date": formatDateMMDDYYYY(returnDate.value),
+      "borrow_date": formatDate(borrowDate.value),
+      "return_date": formatDate(returnDate.value),
     };
 
     try {
@@ -119,7 +119,7 @@ class BorrowingsController extends GetxController {
         return true; // Berhasil
       } else {
         logPrint("Checkout failed: ${response?['message'] ?? 'Unknown error'}");
-        return false; // Gagal
+        return false; // Gagal0
       }
     } catch (e) {
       logPrint("Checkout error: $e");
@@ -138,8 +138,8 @@ class BorrowingsController extends GetxController {
 
     return {
       'book_id': bookId,
-      'borrow_date': DateFormat('yyyy-MM-dd').format(borrowDate.value!),
-      'return_date': DateFormat('yyyy-MM-dd').format(returnDate.value!),
+      'borrow_date': DateFormat('dd/MM/yyyy').format(borrowDate.value!),
+      'return_date': DateFormat('dd/MM/yyyy').format(returnDate.value!),
     };
   }
 }

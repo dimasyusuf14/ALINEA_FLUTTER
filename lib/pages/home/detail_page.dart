@@ -84,6 +84,11 @@ class DetailPage extends StatelessWidget {
           const SizedBox(height: 160),
           Expanded(
             child: Container(
+              padding: const EdgeInsets.only(
+                top: 20,
+                right: 20,
+                left: 20,
+              ),
               decoration: const BoxDecoration(
                 color: Color(0XFFF1F4FD),
                 borderRadius: BorderRadius.only(
@@ -91,155 +96,169 @@ class DetailPage extends StatelessWidget {
                   topRight: Radius.circular(10),
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                  right: 20,
-                  left: 20,
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 280,
-                      width: Get.width,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: Get.width * 0.65,
-                                  child: Text(
-                                    book['title'] ?? 'Title Not Available',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    color: Color(0XFFC9CCF4),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text(
-                                      category.name,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Color(0XFF445DCC),
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  book['author'] ?? 'Author Unknown',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  DateFormat.yMMMd()
-                                      .format(book["published_date"]),
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey.shade600,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              'Stock: ${book['stock'] ?? 'Not Available'}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.black54,
-                              ),
-                            ),
-                            const SizedBox(height: 30),
-                            const Text(
-                              "Sinopsis",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                              ),
-                            ),
-                            HtmlWidget(
-                              '<div style="text-align: justify;">${book['description'] ?? 'Description not available.'}</div>',
-                              textStyle: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: 45,
-                      width: Get.width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 280,
+                    width: Get.width,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Buttonprimary(
-                            fontSize: 18,
-                            onPressed: () {
-                              // final selectedBooks =
-                              //     cartController.selectedCarts;
-
-                              // Get.toNamed(
-                              //   RouteName.checkOutPage,
-                              //   arguments: selectedBooks,
-                              // );
-                              Get.toNamed(RouteName.checkOutPage);
-                            },
-                            title: 'Pinjam Sekarang',
-                            color: kColorPrimary,
-                            width: 285,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  book['title'] ?? 'Title Not Available',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0XFFC9CCF4),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(
+                                    category.name,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0XFF445DCC),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          ButtonIcon(
-                            onTap: () {
-                              if (bookId != null) {
-                                cartController.addToCart(bookId);
-                              } else {
-                                Get.snackbar(
-                                  "Halo!",
-                                  "Buku yang kamu pilih sudah ada di keranjang.",
-                                  snackPosition: SnackPosition.TOP,
-                                  backgroundColor: Colors.redAccent,
-                                  colorText: Colors.white,
-                                );
-                              }
-                            },
-                            icon: AssetConstant.icAddChart,
-                            bgcolor: kColorPrimary,
-                            iccolor: Colors.white,
+                          Row(
+                            children: [
+                              Text(
+                                book['author'] ?? 'Author Unknown',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                DateFormat.yMMMd()
+                                    .format(book["published_date"]),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey.shade600,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                          Text(
+                            'Stock: ${book['stock'] ?? 'Not Available'}',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          const SizedBox(height: 30),
+                          const Text(
+                            "Sinopsis",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          HtmlWidget(
+                            '<div style="text-align: justify;">${book['description'] ?? 'Description not available.'}</div>',
+                            textStyle: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 45,
+                    width: Get.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Buttonprimary(
+                        //   fontSize: 18,
+                        //   onPressed: () {
+                        //     Get.toNamed(
+                        //       RouteName.checkOutPage,
+                        //     );
+                        //   },
+                        //   title: 'Pinjam Sekarang',
+                        //   color: kColorPrimary,
+                        //   width: 285,
+                        // ),
+                        Buttonprimary(
+                          fontSize: 18,
+                          onPressed: () {
+                            // Ensure the book data is passed to CheckOutPage
+                            final selectedBook = {
+                              'id': book['id'],
+                              'title': book['title'],
+                              'coverUrl': book['coverUrl'],
+                              'author': book['author'],
+                              'category_id': book['category_id'],
+                              'published_date': book['published_date'],
+                              'stock': book['stock'],
+                              'description': book['description'],
+                            };
+
+                            Get.toNamed(
+                              RouteName.checkOutPage,
+                              arguments: [
+                                selectedBook
+                              ], // Pass the book data as arguments
+                            );
+                          },
+                          title: 'Pinjam Sekarang',
+                          color: kColorPrimary,
+                          width: 285,
+                        ),
+
+                        ButtonIcon(
+                          onTap: () {
+                            if (bookId != null) {
+                              cartController.addToCart(bookId);
+                            } else {
+                              Get.snackbar(
+                                "Halo!",
+                                "Buku yang kamu pilih sudah ada di keranjang.",
+                                snackPosition: SnackPosition.TOP,
+                                backgroundColor: Colors.redAccent,
+                                colorText: Colors.white,
+                              );
+                            }
+                          },
+                          icon: AssetConstant.icAddChart,
+                          bgcolor: kColorPrimary,
+                          iccolor: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

@@ -37,7 +37,7 @@ class CartController extends GetxController {
   }
 
   Future<void> fetchCarts() async {
-    loadingFetchCart.value = DataLoad.loading; // Mulai loading
+    loadingFetchCart.value = DataLoad.loading; // Start loading
     try {
       final response = await APIServices.api(
         endPoint: APIEndpoint.carts,
@@ -45,36 +45,39 @@ class CartController extends GetxController {
         withToken: true,
       );
 
-      if (response != null) {
+      if (response != null && response['data'] != null) {
+        // Parse the cart data
         final fetchedCarts = (response['data'] as List)
             .map((e) {
               try {
-                return CartModel.fromJson(e);
+                return CartModel.fromJson(e); // Convert JSON to CartModel
               } catch (e) {
                 logPrint("Error parsing CartModel: $e");
-                return null;
+                return null; // In case parsing fails, return null
               }
             })
-            .whereType<CartModel>() // Hanya yang berhasil di-parse
+            .whereType<CartModel>() // Filter out null values
             .toList();
 
-        selectedCarts.clear();
-        carts.clear();
-        carts.addAll(fetchedCarts);
-        carts.sort((a, b) =>
-            b.createdAt.compareTo(a.createdAt)); // Urutkan berdasarkan waktu
+        selectedCarts.clear(); // Clear the selected carts list
+        carts.clear(); // Clear the carts list
+        carts.addAll(fetchedCarts); // Add the newly fetched carts to the list
 
         if (carts.isEmpty) {
-          loadingFetchCart.value = DataLoad.isEmpty; // Status kosong
+          loadingFetchCart.value = DataLoad.isEmpty; // No carts found
         } else {
-          loadingFetchCart.value = DataLoad.done; // Selesai memuat
+          carts.sort((a, b) => b.createdAt
+              .compareTo(a.createdAt)); // Sort carts by creation date
+          loadingFetchCart.value = DataLoad.done; // Finished loading
         }
       } else {
-        loadingFetchCart.value = DataLoad.failed; // Gagal memuat
+        loadingFetchCart.value = DataLoad.failed; // Data is null or missing
+        logPrint("Failed to load data: Response is null or has no 'data'");
       }
     } catch (e) {
-      loadingFetchCart.value = DataLoad.failed; // Pastikan gagal
-      logPrint("Error fetching carts: $e");
+      loadingFetchCart.value =
+          DataLoad.failed; // Ensure loading is set to failed in case of error
+      logPrint("Error fetching carts: $e"); // Log the error
     }
   }
 

@@ -23,6 +23,9 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      cartController.fetchCarts(); // Call the fetchCarts method
+    });
     return Scaffold(
       body: Column(
         children: [
@@ -66,7 +69,6 @@ class CartPage extends StatelessWidget {
                         ),
                         onTapTryAgain: () async {
                           refreshController.refreshCompleted();
-                          cartController.fetchCarts();
                         },
                       );
                     } else if (cartController.loadingFetchCart.value ==

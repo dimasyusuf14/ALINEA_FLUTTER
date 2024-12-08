@@ -24,26 +24,28 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProfileController profileController = Get.put(ProfileController());
-    final InvoiceController invoiceController = Get.put(InvoiceController());
 
     return Scaffold(
       body: Column(
         children: [
           Container(
-            height: Get.height * 0.40,
-            width: Get.width,
+            padding: EdgeInsets.only(
+              top: 200,
+            ),
             decoration: BoxDecoration(
               color: Color(0XFF5878D9),
               borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: 60,
+              image: DecorationImage(
+                image: AssetImage('assets/images/banner_profile.jpeg'),
+                fit: BoxFit.cover,
               ),
-              child: Obx(() {
+            ),
+            child: Obx(
+              () {
                 if (profileController.loadingProfile.value ==
                     DataLoad.loading) {
                   return Center(
+                    // child: ShimmerList(count: 1, heightCard: 70),
                     child: ShimmerProfile(),
                   );
                 } else if (profileController.loadingProfile.value ==
@@ -71,57 +73,60 @@ class ProfilePage extends StatelessWidget {
 
                 final user = profileController.userProfile.value;
 
-                return Column(
-                  children: [
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundImage: user.image != null
-                          ? NetworkImage(user.image)
-                          : AssetImage(AssetConstant.nullprofilePict)
-                              as ImageProvider,
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      "${user.firstName} ${user.lastName}",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                return Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.5),
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8)),
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 35,
+                        backgroundImage: user.image != null
+                            ? NetworkImage(user.image)
+                            : AssetImage(AssetConstant.nullprofilePict)
+                                as ImageProvider,
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "NIM: ",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          user.nim,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      user.email,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
+                      SizedBox(
+                        width: 16,
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${user.firstName} ${user.lastName}",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              user.nim,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              user.email,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 );
-              }),
+              },
             ),
           ),
           Expanded(

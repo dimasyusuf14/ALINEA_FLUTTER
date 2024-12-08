@@ -127,49 +127,60 @@ class ShimmerProfile extends StatelessWidget {
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade50,
-      child: Column(
-        children: [
-          // Shimmer for profile image
-          ClipRRect(
-            borderRadius:
-                BorderRadius.circular(60), // Border radius untuk CircleAvatar
-            child: Container(
-              width: 120,
-              height: 120,
-              color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius:
+                  BorderRadius.circular(60), // Border radius untuk CircleAvatar
+              child: Container(
+                width: 70,
+                height: 70,
+                color: Colors.white,
+              ),
             ),
-          ),
-          SizedBox(height: 20),
-          // Shimmer for name
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5), // Border radius untuk teks
-            child: Container(
-              width: 280,
-              height: 24,
-              color: Colors.white,
+            SizedBox(
+              width: 16,
             ),
-          ),
-          SizedBox(height: 10),
-          // Shimmer for NIM
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Container(
-              width: 150,
-              height: 20,
-              color: Colors.white,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(5), // Border radius untuk teks
+                  child: Container(
+                    width: 200,
+                    height: 20,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(
+                  height: 7,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    width: 150,
+                    height: 18,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(
+                  height: 7,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    width: 180,
+                    height: 14,
+                    color: Colors.grey.shade200,
+                  ),
+                ),
+              ],
             ),
-          ),
-          SizedBox(height: 10),
-          // Shimmer for email
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Container(
-              width: 180,
-              height: 14,
-              color: Colors.grey.shade200,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

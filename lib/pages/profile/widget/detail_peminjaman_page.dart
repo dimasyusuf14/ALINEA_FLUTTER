@@ -201,7 +201,12 @@ class _DetailPeminjamanPage extends State<DetailPeminjamanPage> {
                                                   SizedBox(
                                                     width: 150,
                                                     child: ButtonAction(
-                                                      onTap: () {},
+                                                      onTap: () {
+                                                        logPrint('tes');
+                                                        Get.toNamed(
+                                                          RouteName.pdfPage,
+                                                        );
+                                                      },
                                                       padding: 0,
                                                       child: Row(
                                                         children: [

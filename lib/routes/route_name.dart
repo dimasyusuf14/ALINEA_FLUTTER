@@ -18,5 +18,6 @@ abstract class RouteName {
   static const dendaPage="/dendaPage";
   static const editProfilePage="/editProfilePage";
   static const checkOutPage="/checkOutPage";
+  static const pdfPage="/pdfPage";
 
 }

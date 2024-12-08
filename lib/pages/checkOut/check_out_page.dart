@@ -19,6 +19,8 @@ class CheckOutPage extends StatelessWidget {
   final BorrowingsController controller = Get.put(BorrowingsController());
   final InvoiceController invoiceController = Get.put(InvoiceController());
   CartController cartController = Get.find();
+  final List<dynamic> selectedBooks = Get.arguments as List<dynamic>;
+  // final bookData = selectedBooks.first; // Assuming there's only one book
 
   @override
   Widget build(BuildContext context) {

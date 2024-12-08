@@ -15,8 +15,8 @@ class CartItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Get.height * 0.23,
-      width: Get.width,
+      // height: Get.height * 0.23,
+      // width: Get.width,
       margin: const EdgeInsets.only(top: 8),
       padding: EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
@@ -77,8 +77,9 @@ class CartItemTile extends StatelessWidget {
               child: Image.network(
                 cartItem.book.coverUrl,
                 fit: BoxFit.cover,
+                width: 80,
                 errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.broken_image, size: 50);
+                  return const Icon(Icons.broken_image, size: 80);
                 },
               ),
             ),
@@ -109,8 +110,8 @@ class CartItemTile extends StatelessWidget {
                     Text(
                       cartItem.book.title,
                       style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -118,8 +119,8 @@ class CartItemTile extends StatelessWidget {
                     Text(
                       cartItem.book.author,
                       style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -127,29 +128,31 @@ class CartItemTile extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: Get.width * 0.25,
-                          height: 30,
-                          margin: EdgeInsets.only(right: 75),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFC9CCF4),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Center(
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              cartItem.category?.name ??
-                                  'Kategori tidak tersedia',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: kColorPrimary,
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(right: 75),
+                            padding:
+                                EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: Color(0xFFC9CCF4),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Center(
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                cartItem.category?.name ??
+                                    'Kategori tidak tersedia',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: kColorPrimary,
+                                ),
                               ),
                             ),
                           ),
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 35,
                           child: ButtonIcon(
                             onTap: () {
                               cartController.deleteCart(cartItem.id);
@@ -164,7 +167,7 @@ class CartItemTile extends StatelessWidget {
                     Text(
                       "Stock: ${cartItem.book.stock}",
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: Colors.grey[600],
                       ),

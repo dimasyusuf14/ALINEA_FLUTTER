@@ -19,111 +19,121 @@ class NotifikasiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 50.0,
-            ),
-            Obx(
-              () => Center(
-                child: Container(
-                  width: Get.width * 0.7,
-                  padding: const EdgeInsets.all(1),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Row(
-                    children: controller.listTab
-                        .mapIndexed(
-                          (index, element) => TabbarCard(
-                            title: controller.listTab[index].tr,
-                            isActive: controller.selectedIndex.value == index,
-                            onTap: () {
-                              if (index == controller.selectedIndex.value) {
-                              } else {
-                                controller.selectedIndex.value = index;
-                              }
-                            },
-                            isFirstIndex: index == 0,
-                          ),
-                        )
-                        .toList(),
-                  ),
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 50.0,
+          ),
+          Obx(
+            () => Center(
+              child: Container(
+                width: Get.width * 0.7,
+                padding: const EdgeInsets.all(1),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Row(
+                  children: controller.listTab
+                      .mapIndexed(
+                        (index, element) => TabbarCard(
+                          title: controller.listTab[index].tr,
+                          isActive: controller.selectedIndex.value == index,
+                          onTap: () {
+                            if (index == controller.selectedIndex.value) {
+                            } else {
+                              controller.selectedIndex.value = index;
+                            }
+                          },
+                          isFirstIndex: index == 0,
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
             ),
-            Obx(
-              () => controller.selectedIndex.value == 0
-                  ? Container(
-                      height: Get.height * 0.21,
-                      width: Get.width * 0.9,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                AssetConstant.coverHarryPoter,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              SizedBox(
-                                width: Get.width * 0.6,
-                                height: 130,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Obx(
+                () => controller.selectedIndex.value == 0
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 5),
+                            child: Column(
+                              children: [
+                                Row(
                                   children: [
-                                    Text(
-                                      "New Release: Anak Kecil Yang Kehilangan Pundaknya",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
+                                    Image.asset(
+                                      AssetConstant.coverHarryPoter,
+                                      width: 80,
                                     ),
-                                    Text(
-                                      "Buku Novel “Anak Kecil yang Kehilangan Pundaknya”  kini tersedia di Alinea. Temukan cerita yang menarik.",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
+                                    SizedBox(
+                                      width: 10,
                                     ),
-                                    Text(
-                                      "10-27-2024",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey[700],
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "New Release: Anak Kecil Yang Kehilangan Pundaknya",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            "Buku Novel “Anak Kecil yang Kehilangan Pundaknya”  kini tersedia di Alinea. Temukan cerita yang menarik.",
+                                            style: TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            maxLines: 4,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            "10-27-2024",
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.grey[700],
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: Get.height * 0.2,
-                            width: Get.width * 0.9,
+                              ],
+                            ),
+                          );
+                        },
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 5),
                             child: Row(
                               children: [
                                 Container(
-                                  height: 90,
-                                  width: 90,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Color(0XFFC9D6F4),
@@ -134,15 +144,14 @@ class NotifikasiPage extends StatelessWidget {
                                       AssetConstant.icDenda,
                                       fit: BoxFit.fill,
                                       color: Colors.black,
+                                      width: 40,
                                     ),
                                   ),
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
-                                SizedBox(
-                                  width: Get.width * 0.63,
-                                  height: 130,
+                                Expanded(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -155,8 +164,8 @@ class NotifikasiPage extends StatelessWidget {
                                               text:
                                                   "Denda Keterlambatan Pengembalian Buku denga ID Peminjaman",
                                               style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
@@ -164,8 +173,8 @@ class NotifikasiPage extends StatelessWidget {
                                               text: " BKU109432.",
                                               style: TextStyle(
                                                 color: Color(0XFF3A4BBB),
-                                                fontWeight: FontWeight.w900,
-                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14,
                                               ),
                                             ),
                                           ],
@@ -174,8 +183,8 @@ class NotifikasiPage extends StatelessWidget {
                                       Text(
                                         "10-27-2024",
                                         style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.grey[700],
                                         ),
                                       ),
@@ -184,13 +193,13 @@ class NotifikasiPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
-                    ),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
