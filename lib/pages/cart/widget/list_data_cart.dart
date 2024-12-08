@@ -17,7 +17,7 @@ class CartItemTile extends StatelessWidget {
     return Container(
       height: Get.height * 0.23,
       width: Get.width,
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(top: 8),
       padding: EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         color: const Color(0XFFE0E8F9),
@@ -29,18 +29,29 @@ class CartItemTile extends StatelessWidget {
             () => Checkbox(
               value: cartItem.isChecked.value,
               onChanged: (value) {
-                final checkedItemsCount = cartController.selectedCarts.length;
-
-                if (value == true && checkedItemsCount >= 3) {
+                if (cartItem.book.stock == 0) {
                   Get.snackbar(
-                    "Batas Maksimal",
-                    "Anda sudah mencapai jumlah maksimal peminjaman.",
+                    "Stok Kosong",
+                    "Silahkan Pilih Buku Lain Untuk Dipinjam",
                     snackPosition: SnackPosition.TOP,
                     backgroundColor: Colors.red,
                     colorText: Colors.white,
                   );
                 } else {
-                  cartController.toggleCartSelection(cartItem, value ?? false);
+                  final checkedItemsCount = cartController.selectedCarts.length;
+
+                  if (value == true && checkedItemsCount >= 3) {
+                    Get.snackbar(
+                      "Batas Maksimal",
+                      "Anda sudah mencapai jumlah maksimal peminjaman.",
+                      snackPosition: SnackPosition.TOP,
+                      backgroundColor: Colors.red,
+                      colorText: Colors.white,
+                    );
+                  } else {
+                    cartController.toggleCartSelection(
+                        cartItem, value ?? false);
+                  }
                 }
               },
               activeColor: kColorPrimary,

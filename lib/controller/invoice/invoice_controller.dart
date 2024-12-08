@@ -1,57 +1,83 @@
-import 'package:alinea/model/borrowing/borrowing_model.dart';
-import 'package:alinea/model/home/home_model.dart';
-import 'package:alinea/model/invoice/history_invoice_model.dart';
-import 'package:alinea/model/login/user_model.dart';
-import 'package:alinea/model/invoice/invoice_model.dart'; // Make sure this path matches your actual model path
-import 'package:alinea/routes/route_name.dart';
+import 'dart:io';
+import 'package:alinea/model/invoice/invoice_model.dart';
 import 'package:alinea/services/api_services.dart';
 import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class InvoiceController extends GetxController {
-  var invoices = <HistoryInvoiceModel>[].obs;
-  var borrow = <BorrowingModel>[].obs;
-  var books = <BooksModel>[].obs;
-  var loadingFetchInvoice = DataLoad.loading.obs;
+  var loadingFetchPdf = DataLoad.loading.obs;
+  var downloadProgress = 0.0.obs;
+  var invoice = <InvoiceModel>[].obs;
 
-  // var noInvoice = ''.obs;
-  // var id = 0.obs;
-
-  @override
-  void onInit() {
-    // id.value = Get.arguments[0];
-    // noInvoice.value = Get.arguments[1];
-    fetchInvoices();
-
-    super.onInit();
-  }
-
-  Future<void> fetchInvoices() async {
-    loadingFetchInvoice.value = DataLoad.loading;
+  Future<void> downloadPDF(int id) async {
+    loadingFetchPdf.value = DataLoad.loading;
     try {
-      var response = await APIServices.api(
-          endPoint: APIEndpoint.detailInvoice,
-          type: APIMethod.get,
-          withToken: true,
-          param: "/81");
+      // Panggil API endpoint dengan ID invoice sebagai parameter
+      final response = await APIServices.api(
+        endPoint: "${APIEndpoint.pdfInvoice}/$id", // Endpoint dinamis
+        type: APIMethod.get,
+        withToken: true,
+      );
 
-      if (response['data'] != null) {
-        var dataList = response['data'] as List;
+      if (response != null) {
+        // Periksa izin penyimpanan
+        if (Platform.isAndroid || Platform.isIOS) {
+          var status = await Permission.storage.request();
+          if (!status.isGranted) {
+            Get.snackbar(
+              "Izin Ditolak",
+              "Mohon izinkan akses penyimpanan untuk mengunduh file.",
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.red,
+              colorText: Colors.white,
+            );
+            loadingFetchPdf.value = DataLoad.failed;
+            return;
+          }
+        }
 
-        List<HistoryInvoiceModel> fetchedInvoices =
-            dataList.map((e) => HistoryInvoiceModel.fromJson(e)).toList();
+        // Tentukan lokasi penyimpanan file
+        final directory = await getApplicationDocumentsDirectory();
+        final filePath = "${directory.path}/invoice_$id.pdf";
 
-        invoices.assignAll(fetchedInvoices);
+        // Tulis byte data ke file lokal
+        File file = File(filePath);
+        await file.writeAsBytes(response);
 
-        loadingFetchInvoice.value = DataLoad.done;
-        loadingFetchInvoice.value = DataLoad.failed;
+        loadingFetchPdf.value = DataLoad.done;
+
+        // Notifikasi berhasil
+        Get.snackbar(
+          "Unduh Berhasil",
+          "File PDF berhasil diunduh ke $filePath.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      } else {
+        loadingFetchPdf.value = DataLoad.failed;
+        Get.snackbar(
+          "Gagal",
+          "File PDF tidak ditemukan.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
       }
     } catch (e) {
-      loadingFetchInvoice.value = DataLoad.failed;
-      logPrint("Error fetching invoices: $e");
+      loadingFetchPdf.value = DataLoad.failed;
+      Get.snackbar(
+        "Gagal",
+        "Terjadi kesalahan saat mengunduh file: $e",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      print("Error downloading PDF: $e");
     }
   }
 }

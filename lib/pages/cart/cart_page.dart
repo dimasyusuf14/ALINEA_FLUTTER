@@ -6,8 +6,11 @@ import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/appbar/appbar_default.dart';
 import 'package:alinea/widgets/button/button_icon.dart';
+import 'package:alinea/widgets/shimmer/shimmer_list.dart';
 import 'package:alinea/widgets/shimmer/shimmer_loading.dart';
+import 'package:alinea/widgets/try_again_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:alinea/model/cart/cart_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -35,7 +38,8 @@ class CartPage extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Obx(
                   () {
-                    if (cartController.isLoading.value) {
+                    if (cartController.loadingFetchCart.value ==
+                        DataLoad.loading) {
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -53,8 +57,40 @@ class CartPage extends StatelessWidget {
                           );
                         },
                       );
-                    } else if (cartController.carts.isEmpty) {
-                      return const Center(child: Text('Keranjang kosong.'));
+                    } else if (cartController.loadingFetchCart.value ==
+                        DataLoad.failed) {
+                      return TryAgainWidget(
+                        child: ShimmerList(
+                          count: 5,
+                          heightCard: 120,
+                        ),
+                        onTapTryAgain: () async {
+                          refreshController.refreshCompleted();
+                          cartController.fetchCarts();
+                        },
+                      );
+                    } else if (cartController.loadingFetchCart.value ==
+                        DataLoad.isEmpty) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 300),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              AssetConstant.icKeranjang,
+                              color: Colors.grey.shade400,
+                            ),
+                            Text(
+                              "Belum ada buku di keranjang",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     } else {
                       return ListView.builder(
                         shrinkWrap: true,
@@ -77,7 +113,6 @@ class CartPage extends StatelessWidget {
       floatingActionButton: Obx(
         () {
           final checkedItemsCount = cartController.selectedCarts.length;
-
           return FloatingButton(
             assetName: AssetConstant.icCheckout,
             title: "Check Out : ",

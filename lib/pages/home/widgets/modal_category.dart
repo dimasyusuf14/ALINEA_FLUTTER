@@ -22,7 +22,7 @@ void showCustomModal(BuildContext context, BookController controller) {
             Positioned(
               top: Get.height * 0.15,
               left: Get.width * 0.7,
-              right: Get.width * 0.06,
+              right: Get.width * 0.04,
               child: Material(
                 color: Colors.transparent,
                 child: Container(

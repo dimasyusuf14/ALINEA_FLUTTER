@@ -12,6 +12,7 @@ class CartController extends GetxController {
   var carts = <CartModel>[].obs;
   var isChecked = false.obs;
   var selectedCarts = <CartModel>[].obs;
+  var loadingFetchCart = DataLoad.loading.obs;
 
   @override
   void onInit() {
@@ -21,6 +22,7 @@ class CartController extends GetxController {
 
   List<CartModel> get selectedItems =>
       carts.where((cart) => cart.isChecked.value).toList();
+
   bool isBookInCart(int bookId) {
     return carts.any((cart) => cart.book.id == bookId);
   }
@@ -35,7 +37,7 @@ class CartController extends GetxController {
   }
 
   Future<void> fetchCarts() async {
-    isLoading(true);
+    loadingFetchCart.value = DataLoad.loading; // Mulai loading
     try {
       final response = await APIServices.api(
         endPoint: APIEndpoint.carts,
@@ -53,20 +55,26 @@ class CartController extends GetxController {
                 return null;
               }
             })
-            .whereType<CartModel>()
+            .whereType<CartModel>() // Hanya yang berhasil di-parse
             .toList();
 
         selectedCarts.clear();
         carts.clear();
         carts.addAll(fetchedCarts);
-        carts.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        carts.sort((a, b) =>
+            b.createdAt.compareTo(a.createdAt)); // Urutkan berdasarkan waktu
+
+        if (carts.isEmpty) {
+          loadingFetchCart.value = DataLoad.isEmpty; // Status kosong
+        } else {
+          loadingFetchCart.value = DataLoad.done; // Selesai memuat
+        }
       } else {
-        logPrint("Failed to load carts");
+        loadingFetchCart.value = DataLoad.failed; // Gagal memuat
       }
     } catch (e) {
-      logPrint("Fetch error: $e");
-    } finally {
-      isLoading(false);
+      loadingFetchCart.value = DataLoad.failed; // Pastikan gagal
+      logPrint("Error fetching carts: $e");
     }
   }
 
@@ -128,10 +136,15 @@ class CartController extends GetxController {
         carts.removeWhere((cart) => cart.id == cartId);
         carts.removeWhere((cart) =>
             selectedCarts.any((selectedItem) => selectedItem.id == cart.id));
-        logPrint("Cart deleted: $cartId");
-        logPrint("Remaining carts: ${carts.length}");
+
+        if (carts.isEmpty) {
+          loadingFetchCart.value = DataLoad.isEmpty; // Status kosong
+        } else {
+          loadingFetchCart.value = DataLoad.done;
+        }
+
         carts.refresh();
-        fetchCarts();
+        logPrint("Cart deleted: $cartId");
       } else {
         Get.snackbar(
           "Gagal",
@@ -168,6 +181,11 @@ class CartController extends GetxController {
               .any((selectedItem) => selectedItem.id == cartItem.id));
           selectedCarts.clear();
           carts.refresh();
+
+          if (carts.isEmpty) {
+            loadingFetchCart.value = DataLoad.isEmpty; // Status kosong
+          }
+
           logPrint(
               "Cart item deleted from server and local list: ${cartItem.id}");
         } else {

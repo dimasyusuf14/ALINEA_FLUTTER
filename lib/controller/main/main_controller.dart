@@ -19,22 +19,22 @@ class MainController extends GetxController {
   List<ItemNavbarModel> items = [
     ItemNavbarModel(
       widget: HomePage(),
-      icon: AssetConstant.icBeranda, // SVG icon
+      icon: AssetConstant.icBeranda,
       title: "Beranda",
     ),
     ItemNavbarModel(
       widget: NotifikasiPage(),
-      icon: AssetConstant.icNotif, // Regular Icon
+      icon: AssetConstant.icNotif,
       title: "Notifikasi",
     ),
     ItemNavbarModel(
       widget: CartPage(),
-      icon: AssetConstant.icKeranjang, // Regular Icon
+      icon: AssetConstant.icKeranjang,
       title: "Keranjang",
     ),
     ItemNavbarModel(
       widget: ProfilePage(),
-      icon: AssetConstant.icProfile, // Regular Icon
+      icon: AssetConstant.icProfile,
       title: "Profile",
     ),
   ];

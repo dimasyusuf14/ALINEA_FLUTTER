@@ -14,7 +14,7 @@ class ButtonAction extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(100),
+        borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: EdgeInsets.all(padding),
           child: child,

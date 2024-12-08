@@ -204,23 +204,14 @@ class DetailPage extends StatelessWidget {
                           Buttonprimary(
                             fontSize: 18,
                             onPressed: () {
-                              // Assuming selectedCarts is a list of items in the cart.
-                              if (cartController.selectedCarts.isNotEmpty) {
-                                final selectedBooks =
-                                    cartController.selectedCarts
-                                        .map((item) => {
-                                              'id': item.book.id,
-                                              'title': item.book.title,
-                                              'coverUrl': item.book.coverUrl,
-                                              'author': item.book.author,
-                                            })
-                                        .toList();
+                              // final selectedBooks =
+                              //     cartController.selectedCarts;
 
-                                Get.toNamed(
-                                  RouteName.checkOutPage,
-                                  arguments: selectedBooks,
-                                );
-                              }
+                              // Get.toNamed(
+                              //   RouteName.checkOutPage,
+                              //   arguments: selectedBooks,
+                              // );
+                              Get.toNamed(RouteName.checkOutPage);
                             },
                             title: 'Pinjam Sekarang',
                             color: kColorPrimary,

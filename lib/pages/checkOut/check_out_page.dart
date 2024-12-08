@@ -19,6 +19,7 @@ class CheckOutPage extends StatelessWidget {
   final BorrowingsController controller = Get.put(BorrowingsController());
   final InvoiceController invoiceController = Get.put(InvoiceController());
   CartController cartController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     final selectedBooks = Get.arguments as List<Map<String, dynamic>>?;
@@ -64,7 +65,7 @@ class CheckOutPage extends StatelessWidget {
                             ),
                             const SizedBox(
                               width: 12,
-                            ), // Spasi antara gambar dan teks
+                            ),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,7 +250,6 @@ class CheckOutPage extends StatelessWidget {
                         snackPosition: SnackPosition.TOP,
                       );
                     } else {
-                      // Proses checkout
                       controller.checkout(bookIds).then((status) {
                         if (status = true) {
                           cartController.removeCheckedItems();
@@ -292,7 +292,8 @@ class CheckOutPage extends StatelessWidget {
                                         width: Get.width,
                                         onPressed: () {
                                           Get.offNamed(
-                                              RouteName.detailPeminjamanPage);
+                                            RouteName.detailPeminjamanPage,
+                                          );
                                         },
                                       ),
                                     ],

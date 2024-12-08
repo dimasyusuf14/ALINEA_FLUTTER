@@ -41,17 +41,12 @@ class SignUpPage extends StatelessWidget {
           Column(
             children: [
               SizedBox(
-                height: 40,
-              ),
-              Image.asset(
-                AssetConstant.logo,
-                width: 180,
-                height: 180,
+                height: 100,
               ),
               Expanded(
                 child: Container(
                   padding:
-                      EdgeInsets.only(left: 30, right: 30, top: 40, bottom: 30),
+                      EdgeInsets.only(left: 30, right: 30, top: 30, bottom: 30),
                   decoration: BoxDecoration(
                     color: Color(0XFFF1F4FD),
                     borderRadius: BorderRadius.only(
@@ -63,11 +58,26 @@ class SignUpPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "DAFTAR",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 70),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                AssetConstant.logo,
+                                width: 50,
+                                height: 50,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "DAFTAR",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(

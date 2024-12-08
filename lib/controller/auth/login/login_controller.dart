@@ -9,7 +9,7 @@ import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
   var passController = TextEditingController(text: "password").obs;
-  var emailController = TextEditingController(text: "Aym@gmail.com").obs;
+  var emailController = TextEditingController(text: "user@example.com").obs;
   var checkC = false.obs;
   var isHidden = false.obs;
 
@@ -39,8 +39,6 @@ class LoginController extends GetxController {
         await box.write("token", token);
         await box.write("role", role);
         await box.write("id", id); // Simpan userId ke GetStorage
-
-        
 
         Get.offAllNamed(RouteName.mainPage);
       } else {

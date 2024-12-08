@@ -23,6 +23,9 @@ class ShimmerList extends StatelessWidget {
       itemCount: count,
       itemBuilder: (context, index) {
         return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(9),
+          ),
           margin: margin ??
               EdgeInsets.only(
                 top: index == 0 ? 16 : 0,

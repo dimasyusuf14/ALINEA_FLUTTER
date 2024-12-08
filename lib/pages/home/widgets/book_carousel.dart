@@ -3,16 +3,21 @@ import 'package:alinea/controller/home/categories_controller.dart';
 import 'package:alinea/model/home/home_model.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/utilities.dart';
+import 'package:alinea/widgets/shimmer/shimmer_grid.dart';
 import 'package:alinea/widgets/shimmer/shimmer_loading.dart';
+import 'package:alinea/widgets/try_again_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CarouselBook extends StatelessWidget {
   final BookController bookController = Get.find<BookController>();
-  final CategoriesController categoryController = Get.put(CategoriesController());
+  final CategoriesController categoryController =
+      Get.put(CategoriesController());
+  RefreshController refreshController = RefreshController();
 
   CarouselBook({super.key});
 
@@ -44,12 +49,13 @@ class CarouselBook extends StatelessWidget {
               ),
             ),
           );
-        } else if (bookController.listBook.isEmpty) {
-          return const Center(
-            child: Text(
-              "No books available",
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-            ),
+        } else if (bookController.loadingFetchBook.value == DataLoad.failed) {
+          return TryAgainWidget(
+            child: ShimmerGrid(count: 6, heightCard: 38),
+            onTapTryAgain: () async {
+              refreshController.refreshCompleted();
+              bookController.fetchBookList();
+            },
           );
         } else {
           return CarouselSlider(

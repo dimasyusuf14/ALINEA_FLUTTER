@@ -8,13 +8,18 @@ import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/button/button_list_profile.dart';
 import 'package:alinea/widgets/dialog/confirm_delete_dialog.dart';
+import 'package:alinea/widgets/shimmer/shimmer_list.dart';
 import 'package:alinea/widgets/shimmer/shimmer_loading.dart';
+import 'package:alinea/widgets/try_again_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  ProfilePage({super.key});
+
+  RefreshController refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +41,6 @@ class ProfilePage extends StatelessWidget {
                 top: 60,
               ),
               child: Obx(() {
-                // Check loading status for the profile data
                 if (profileController.loadingProfile.value ==
                     DataLoad.loading) {
                   return Center(
@@ -44,10 +48,27 @@ class ProfilePage extends StatelessWidget {
                   );
                 } else if (profileController.loadingProfile.value ==
                     DataLoad.failed) {
-                  return Center(child: Text("Failed to load profile data."));
+                  return Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 24,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(9),
+                      child: TryAgainWidget(
+                        child: ShimmerList(
+                          count: 5,
+                          heightCard: 80,
+                        ),
+                        onTapTryAgain: () async {
+                          refreshController.refreshCompleted();
+                          profileController.fetchUserProfile();
+                        },
+                      ),
+                    ),
+                  );
                 }
 
-                // Retrieve user profile data from the controller
                 final user = profileController.userProfile.value;
 
                 return Column(
@@ -104,77 +125,79 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
+            child: SmartRefresher(
+              enablePullDown: true,
+              controller: refreshController,
+              onRefresh: () async {
+                profileController.fetchUserProfile();
+                refreshController.refreshCompleted();
+              },
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ButtonListProfile(
-                      onPressed: () {
-                        showModalForm(context, profileController);
-                      },
-                      assetName: AssetConstant.icEdit,
-                      title: 'Edit Informasi Saya',
-                      color: Color(0xFFE0E8F9),
-                      titleColor: Colors.black,
-                    ),
-                    SizedBox(height: 10),
-                    ButtonListProfile(
-                      onPressed: () {
-                        Get.toNamed(
-                          RouteName.detailPeminjamanPage,
-                          arguments: [
-                           invoiceController.books,
-                           invoiceController.invoices
-                          ]
-                        );
-                      },
-                      assetName: AssetConstant.icBookmark,
-                      title: 'Detail Peminjaman',
-                      color: Color(0xFFE0E8F9),
-                      titleColor: Colors.black,
-                    ),
-                    SizedBox(height: 10),
-                    ButtonListProfile(
-                      onPressed: () {
-                        Get.toNamed(RouteName.riwayatPeminjamanPage);
-                      },
-                      assetName: AssetConstant.icRiwayat,
-                      title: 'Riwayat Peminjaman',
-                      color: Color(0xFFE0E8F9),
-                      titleColor: Colors.black,
-                    ),
-                    SizedBox(height: 10),
-                    ButtonListProfile(
-                      onPressed: () {
-                        Get.toNamed(RouteName.dendaPage);
-                      },
-                      assetName: AssetConstant.icDenda,
-                      title: 'Denda',
-                      color: Color(0xFFE0E8F9),
-                      titleColor: Colors.black,
-                    ),
-                    SizedBox(height: 10),
-                    ButtonListProfile(
-                      onPressed: () {
-                        showDeleteConfirmationDialog(
-                          context,
-                          () {
-                            LoginController().logout();
-                          },
-                          () {
-                            Navigator.of(context).pop();
-                          },
-                        );
-                      },
-                      assetName: AssetConstant.icLogout,
-                      title: 'Keluar',
-                      color: Colors.red,
-                      titleColor: Colors.white,
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ButtonListProfile(
+                        onPressed: () {
+                          showModalForm(context, profileController);
+                        },
+                        assetName: AssetConstant.icEdit,
+                        title: 'Edit Informasi Saya',
+                        color: Color(0xFFE0E8F9),
+                        titleColor: Colors.black,
+                      ),
+                      SizedBox(height: 10),
+                      ButtonListProfile(
+                        onPressed: () {
+                          Get.toNamed(RouteName.detailPeminjamanPage);
+                        },
+                        assetName: AssetConstant.icBookmark,
+                        title: 'Detail Peminjaman',
+                        color: Color(0xFFE0E8F9),
+                        titleColor: Colors.black,
+                      ),
+                      SizedBox(height: 10),
+                      ButtonListProfile(
+                        onPressed: () {
+                          Get.toNamed(RouteName.riwayatPeminjamanPage);
+                        },
+                        assetName: AssetConstant.icRiwayat,
+                        title: 'Riwayat Peminjaman',
+                        color: Color(0xFFE0E8F9),
+                        titleColor: Colors.black,
+                      ),
+                      SizedBox(height: 10),
+                      ButtonListProfile(
+                        onPressed: () {
+                          Get.toNamed(RouteName.dendaPage);
+                        },
+                        assetName: AssetConstant.icDenda,
+                        title: 'Denda',
+                        color: Color(0xFFE0E8F9),
+                        titleColor: Colors.black,
+                      ),
+                      SizedBox(height: 10),
+                      ButtonListProfile(
+                        onPressed: () {
+                          showDeleteConfirmationDialog(
+                            context,
+                            () {
+                              LoginController().logout();
+                            },
+                            () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        },
+                        assetName: AssetConstant.icLogout,
+                        title: 'Keluar',
+                        color: Colors.red,
+                        titleColor: Colors.white,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

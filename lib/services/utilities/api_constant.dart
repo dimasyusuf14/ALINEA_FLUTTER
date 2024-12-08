@@ -14,4 +14,5 @@ class APIEndpoint {
   static String register = "/register";
   static String invoice = "/invoices/myinvoice";
   static String detailInvoice = "/invoices";
+  static String pdfInvoice = "/invoices/download";
 }

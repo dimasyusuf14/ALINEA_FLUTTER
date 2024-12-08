@@ -48,7 +48,7 @@ class RiwayatInvoiceController extends GetxController {
   String formatDate(String dateString) {
     try {
       final DateTime date = DateTime.parse(dateString);
-      return DateFormat('dd MMMM yyyy').format(date);
+      return DateFormat('dd MMM yyyy').format(date);
     } catch (e) {
       return dateString;
     }

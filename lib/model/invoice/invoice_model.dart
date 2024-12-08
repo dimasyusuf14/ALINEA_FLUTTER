@@ -4,8 +4,8 @@ import 'package:alinea/model/login/user_model.dart';
 class InvoiceModel {
   final String id;
   final String userId;
-  final String noInvoice;  // Added field for no_invoice
-  final String qrCode;     // Added field for qr_code
+  final String noInvoice;
+  final String qrCode;
   final String totalAmount;
   final String status;
   final DateTime createdAt;

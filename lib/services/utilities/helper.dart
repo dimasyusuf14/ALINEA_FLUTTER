@@ -76,7 +76,7 @@ part of 'utilities.dart';
 
 // import 'package:flutter/services.dart';
 
-enum DataLoad { loading, done, failed }
+enum DataLoad { loading, done, failed, isEmpty }
 
 class Helper {
   static copyData({required String data}) async {
