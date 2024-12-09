@@ -1,6 +1,4 @@
 import 'package:alinea/controller/profile/profile_controller.dart';
-import 'package:alinea/routes/route_name.dart';
-import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,9 +9,9 @@ void showModalForm(BuildContext context, ProfileController controller) {
     builder: (BuildContext context) {
       return Dialog(
         child: Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Color(0XFFC9D6F4),
+            color: const Color(0XFFC9D6F4),
             borderRadius: BorderRadius.circular(10),
           ),
           child: SingleChildScrollView(
@@ -41,28 +39,67 @@ void showModalForm(BuildContext context, ProfileController controller) {
                     },
                   ),
                 ),
-                SizedBox(height: 16.0),
-                TextField(
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  autocorrect: false,
+                  controller: controller.firstNameController,
+                  keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: 'Nama Awal',
-                    border: OutlineInputBorder(),
+                    labelText: "Nama Awal",
+                    labelStyle: const TextStyle(fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   ),
                 ),
-                SizedBox(height: 16.0),
-                TextField(
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  autocorrect: false,
+                  controller: controller.lastNameController,
+                  keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: 'Nama Akhir',
-                    border: OutlineInputBorder(),
+                    labelText: "Nama Akhir",
+                    labelStyle: const TextStyle(fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   ),
                 ),
-                SizedBox(height: 16.0),
-                TextField(
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  autocorrect: false,
+                  controller: controller.passwordController,
+                  obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'NIM',
-                    border: OutlineInputBorder(),
+                    labelText: "Password",
+                    labelStyle: const TextStyle(fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   ),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  autocorrect: false,
+                  controller: controller.confirmPasswordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: "Confirm Password",
+                    labelStyle: const TextStyle(fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -74,7 +111,8 @@ void showModalForm(BuildContext context, ProfileController controller) {
                         color: Colors.blue,
                         width: Get.width,
                         onPressed: () {
-                          Get.toNamed(RouteName.mainPage);
+                          controller.updateProfile();
+                          Get.back(); // Close modal after update
                         },
                       ),
                     ),
@@ -86,7 +124,7 @@ void showModalForm(BuildContext context, ProfileController controller) {
                         color: Colors.red,
                         width: Get.width,
                         onPressed: () {
-                          Get.back(); // Untuk menutup modal
+                          Get.back(); // Close modal
                         },
                       ),
                     ),

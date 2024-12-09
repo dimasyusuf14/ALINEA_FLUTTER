@@ -45,7 +45,6 @@ class ProfilePage extends StatelessWidget {
                 if (profileController.loadingProfile.value ==
                     DataLoad.loading) {
                   return Center(
-                    // child: ShimmerList(count: 1, heightCard: 70),
                     child: ShimmerProfile(),
                   );
                 } else if (profileController.loadingProfile.value ==
@@ -86,8 +85,8 @@ class ProfilePage extends StatelessWidget {
                       CircleAvatar(
                         radius: 35,
                         backgroundImage: user.image != null
-                            ? NetworkImage(user.image)
-                            : AssetImage(AssetConstant.nullprofilePict)
+                            ? NetworkImage(user.imageUrl)
+                            : AssetImage('assets/images/null_profile.jpg')
                                 as ImageProvider,
                       ),
                       SizedBox(

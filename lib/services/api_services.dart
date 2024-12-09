@@ -1,27 +1,26 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:path/path.dart';
 import 'utilities/utilities.dart';
 
-enum APIMethod { post, get, delete, put }
+enum APIMethod { post, get, delete, put, multipart }
 
 class APIServices {
   static var client = http.Client();
 
   static Future api({
     var requestBodyMap = const {},
+    File? file,
     required String endPoint,
     bool withToken = true,
     String param = "",
     required var type,
   }) async {
-    Map<String, String> headers = {};
-
-    headers = {
-      "Content-Type": "application/json",
+    Map<String, String> headers = {
       "Accept": "application/json",
     };
 
@@ -37,10 +36,11 @@ class APIServices {
     logPrint("REQUEST BODY : ${jsonEncode(requestBodyMap)}");
 
     var response;
+
     if (type == APIMethod.post) {
       response = await client.post(
         Uri.parse("$kBaseUrl$endPoint$param"),
-        headers: headers,
+        headers: headers..addAll({"Content-Type": "application/json"}),
         body: requestBodyMap.toString().isNotEmpty
             ? jsonEncode(requestBodyMap)
             : null,
@@ -53,7 +53,7 @@ class APIServices {
     } else if (type == APIMethod.put) {
       response = await client.put(
         Uri.parse("$kBaseUrl$endPoint$param"),
-        headers: headers,
+        headers: headers..addAll({"Content-Type": "application/json"}),
         body: requestBodyMap.toString().isNotEmpty
             ? jsonEncode(requestBodyMap)
             : null,
@@ -63,20 +63,44 @@ class APIServices {
         Uri.parse("$kBaseUrl$endPoint$param"),
         headers: headers,
       );
+    } else if (type == APIMethod.multipart) {
+      // Handle multipart request for file upload
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse("$kBaseUrl$endPoint$param"),
+      );
+
+      // Add headers
+      request.headers.addAll(headers);
+
+      // Add fields
+      request.fields.addAll(
+        requestBodyMap.map((key, value) => MapEntry(key, value.toString())),
+      );
+
+      // Add file if provided
+      if (file != null) {
+        var fileStream = await http.MultipartFile.fromPath(
+          'image',
+          file.path,
+        );
+        request.files.add(fileStream);
+      }
+
+      var streamedResponse = await request.send();
+      response = await http.Response.fromStream(streamedResponse);
     }
 
     logPrint("URL PARSE : ${Uri.parse("$kBaseUrl$endPoint$param")}");
-
     logPrint("$endPoint RESPONSE BODY : ${response.body}");
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return json.decode(response.body);
-    } else if (response.statusCode == 201) {
-      return json.decode(response.body);
-    }  
-    else {
-      logPrint('ERROR SERVICES ${json.decode(response.body)}');
-      return json.decode(response.body);
+    } else {
+      logPrint('ERROR SERVICES ${response.body}');
+      return {'success': false, 'message': response.reasonPhrase};
     }
   }
+
+  
 }

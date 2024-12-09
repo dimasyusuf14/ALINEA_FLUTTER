@@ -126,7 +126,7 @@ class SignUpPage extends StatelessWidget {
                         SizedBox(
                           height: 20,
                         ),
-                        TextField(
+                        TextFormField(
                           autocorrect: false,
                           controller: controller.lastNameController.value,
                           keyboardType: TextInputType.emailAddress,

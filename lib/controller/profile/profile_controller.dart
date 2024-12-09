@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:alinea/model/profile/profile_model.dart';
@@ -5,20 +6,21 @@ import 'package:alinea/services/api_services.dart';
 import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart'
-    as html_widget;
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart' as picker;
+import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
 
 class ProfileController extends GetxController {
   Rx<File?> selectedImage = Rx<File?>(null);
   var isLoading = false.obs;
-  var nameController = TextEditingController().obs;
-  var nimController = TextEditingController().obs;
-  var imageController = TextEditingController().obs;
-  var firstNameController = TextEditingController().obs;
-  var lastNameController = TextEditingController().obs;
-  var emailController = TextEditingController().obs;
+  var firstNameController = TextEditingController();
+  var lastNameController = TextEditingController();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var confirmPasswordController = TextEditingController();
+  var imageProfileController = ''.obs;
 
   var loadingProfile = DataLoad.loading.obs;
   var userProfile = UserModel(
@@ -34,6 +36,7 @@ class ProfileController extends GetxController {
     noInvoice: null,
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
+    imageUrl: '',
   ).obs;
 
   @override
@@ -51,8 +54,12 @@ class ProfileController extends GetxController {
         withToken: true,
       );
 
-      if (response['data'] != null) {
+      if (response != null && response['data'] != null) {
         userProfile.value = UserModel.fromJson(response['data']);
+        imageProfileController.value = userProfile.value.imageUrl;
+        firstNameController.text = userProfile.value.firstName;
+        lastNameController.text = userProfile.value.lastName;
+        emailController.text = userProfile.value.email;
         loadingProfile.value = DataLoad.done;
       } else {
         loadingProfile.value = DataLoad.failed;
@@ -63,34 +70,74 @@ class ProfileController extends GetxController {
     }
   }
 
+  void updateProfile() async {
+    if (!_validateUpdateForm()) return;
+
+    isLoading.value = true;
+    try {
+      var requestBody = {
+        'image_url': imageProfileController.value,
+        'first_name': firstNameController.text,
+        'last_name': lastNameController.text,
+        if (passwordController.text.isNotEmpty)
+          'password': passwordController.text,
+        if (passwordController.text.isNotEmpty)
+          'password_confirmation': confirmPasswordController.text,
+      };
+
+      var response;
+      if (selectedImage.value != null) {
+        response = await APIServices.api(
+          endPoint: APIEndpoint.updateProfile,
+          type: APIMethod.post,
+          withToken: true,
+          requestBodyMap: requestBody,
+          file: selectedImage.value,
+        );
+      } else {
+        response = await APIServices.api(
+          endPoint: APIEndpoint.updateProfile,
+          type: APIMethod.post,
+          withToken: true,
+          requestBodyMap: requestBody,
+        );
+      }
+
+      if (response != null && response['success'] == true) {
+        Get.snackbar('Success', 'Profile updated successfully!');
+        fetchUserProfile();
+      } else if (response?['message'] != null) {
+        Get.snackbar('Error', response['message']);
+      } else {
+        Get.snackbar('Error', 'Failed to update profile. Please try again.');
+      }
+    } catch (e) {
+      print("Error updating profile: $e");
+      Get.snackbar('Error', 'An error occurred while updating profile.');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> pickImage() async {
-    var pickerInstance = picker.ImagePicker();
+    var pickerInstance = ImagePicker();
     var pickedFile =
-        await pickerInstance.pickImage(source: picker.ImageSource.gallery);
+        await pickerInstance.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       selectedImage.value = File(pickedFile.path);
     }
   }
 
-  void resetForm() {
-    nameController.value.clear(); // Reset judul
-    nimController.value.clear(); // Reset artikel
-    selectedImage.value = null; // Reset gambar
-  }
-
-  bool _validateForm() {
-    if (selectedImage.value == null || // Validasi agar gambar tidak null
-        nameController.value.text.isEmpty ||
-        nimController.value.text.isEmpty) {
-      Get.snackbar('Error', 'Semua field harus diisi');
+  bool _validateUpdateForm() {
+    if (firstNameController.text.isEmpty || lastNameController.text.isEmpty) {
+      Get.snackbar('Error', 'First name and last name cannot be empty.');
+      return false;
+    }
+    if (passwordController.text.isNotEmpty &&
+        passwordController.text != confirmPasswordController.text) {
+      Get.snackbar('Error', 'Passwords do not match.');
       return false;
     }
     return true;
-  }
-
-  void clearForm() {
-    selectedImage.value = null;
-    nameController.value.clear(); // Reset judul
-    nimController.value.clear();
   }
 }

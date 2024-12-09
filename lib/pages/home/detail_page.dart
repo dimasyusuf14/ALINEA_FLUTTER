@@ -199,17 +199,7 @@ class DetailPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Buttonprimary(
-                        //   fontSize: 18,
-                        //   onPressed: () {
-                        //     Get.toNamed(
-                        //       RouteName.checkOutPage,
-                        //     );
-                        //   },
-                        //   title: 'Pinjam Sekarang',
-                        //   color: kColorPrimary,
-                        //   width: 285,
-                        // ),
+                      
                         Buttonprimary(
                           fontSize: 18,
                           onPressed: () {
@@ -243,7 +233,7 @@ class DetailPage extends StatelessWidget {
                               cartController.addToCart(bookId);
                             } else {
                               Get.snackbar(
-                                "Halo!",
+                                "Cek Keranjang",
                                 "Buku yang kamu pilih sudah ada di keranjang.",
                                 snackPosition: SnackPosition.TOP,
                                 backgroundColor: Colors.redAccent,

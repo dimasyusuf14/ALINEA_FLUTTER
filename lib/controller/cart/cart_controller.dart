@@ -107,7 +107,7 @@ class CartController extends GetxController {
         }
       } else {
         Get.snackbar(
-          "Halo!",
+          "Cek Keranjang!",
           "Buku yang kamu pilih sudah ada di keranjang.",
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.redAccent,

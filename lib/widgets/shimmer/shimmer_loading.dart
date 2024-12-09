@@ -124,11 +124,16 @@ class ShimmerProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade50,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.5),
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
+      ),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade50,
         child: Row(
           children: [
             ClipRRect(
@@ -191,80 +196,82 @@ class CartItemTileShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const SizedBox(width: 10),
-        Container(
-          width: 20,
-          height: 20,
-          color: Colors.grey.shade300,
-        ),
-        const SizedBox(width: 10),
-        // Shimmer untuk gambar thumbnail
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            width: 110,
-            height: 160,
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          const SizedBox(width: 10),
+          Container(
+            width: 20,
+            height: 20,
             color: Colors.grey.shade300,
           ),
-        ),
-        const SizedBox(width: 10),
-        // Shimmer untuk teks title dan author
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Container(
-                  width: double.infinity,
-                  height: 20,
-                  color: Colors.grey.shade300,
-                ),
-              ),
-              const SizedBox(height: 10),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Container(
-                  width: 150,
-                  height: 18,
-                  color: Colors.grey.shade300,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Container(
-                      width: 80,
-                      height: 30,
-                      color: Colors.grey.shade300,
-                    ),
-                  ),
-                  Container(
-                    width: 22,
-                    height: 22,
+          const SizedBox(width: 10),
+          // Shimmer untuk gambar thumbnail
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Container(
+              width: 80,
+              height: 120,
+              color: Colors.grey.shade300,
+            ),
+          ),
+          const SizedBox(width: 10),
+          // Shimmer untuk teks title dan author
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    width: double.infinity,
+                    height: 18,
                     color: Colors.grey.shade300,
                   ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              // Shimmer untuk kategori
-              ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Container(
-                  width: 80,
-                  height: 20,
-                  color: Colors.grey.shade300,
                 ),
-              ),
-            ],
+                const SizedBox(height: 5),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    width: 150,
+                    height: 18,
+                    color: Colors.grey.shade300,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Container(
+                        width: 80,
+                        height: 25,
+                        color: Colors.grey.shade300,
+                      ),
+                    ),
+                    Container(
+                      width: 22,
+                      height: 22,
+                      color: Colors.grey.shade300,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    width: 80,
+                    height: 16,
+                    color: Colors.grey.shade300,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

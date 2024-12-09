@@ -25,6 +25,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      controller.fetchBookList();
+    });
     return Scaffold(
       backgroundColor: Color(0XFFF1F4FD),
       body: Column(
