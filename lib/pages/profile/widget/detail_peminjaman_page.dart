@@ -140,13 +140,17 @@ class _DetailPeminjamanPage extends State<DetailPeminjamanPage> {
                                                       SizedBox(
                                                         width: 8,
                                                       ),
-                                                      Text(
-                                                        "ALN ${controller.listHistoryPeminjaman[index].noInvoice.toString()}",
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: kColorPrimary,
-                                                          fontSize: 18,
+                                                      Expanded(
+                                                        child: Text(
+                                                          "ALN ${controller.listHistoryPeminjaman[index].noInvoice.toString()}",
+                                                          style:
+                                                              const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                kColorPrimary,
+                                                            fontSize: 16,
+                                                          ),
                                                         ),
                                                       ),
                                                     ],

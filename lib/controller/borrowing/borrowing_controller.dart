@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alinea/model/borrowing/borrowing_history.dart';
+import 'package:alinea/model/home/home_model.dart';
 import 'package:alinea/services/api_services.dart';
 import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
@@ -11,8 +12,10 @@ import 'package:intl/intl.dart';
 class BorrowingsController extends GetxController {
   var isLoading = false.obs;
   var borrowingsHistory = <BorrowingHistory>[].obs;
+  var books = <BooksModel>[].obs;
 
   // Variables for date input
+  var bookId = 0.obs;
   var borrowDate = Rxn<DateTime>();
   var returnDate = Rxn<DateTime>();
 
@@ -80,14 +83,14 @@ class BorrowingsController extends GetxController {
     }
   }
 
-  // String formatDateMMDDYYYY(DateTime? date) {
+  // String formatDate(DateTime? date) {
   //   if (date == null) return "-";
-  //   return DateFormat('MM/dd/yyyy').format(date);
+  //   return DateFormat('dd/mmm/yyyy').format(date);
   // }
 
   String formatDate(DateTime? date) {
     if (date == null) return "-";
-    return DateFormat('dd MMM yyyy').format(date);
+    return DateFormat('dd/MM/yyyy').format(date);
   }
 
   /// Check if both dates are valid
@@ -95,7 +98,6 @@ class BorrowingsController extends GetxController {
     return borrowDate.value != null && returnDate.value != null;
   }
 
-  /// Checkout API logic
   Future<bool> checkout(List<int> bookId) async {
     isLoading(true);
 

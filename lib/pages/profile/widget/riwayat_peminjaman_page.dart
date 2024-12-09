@@ -130,12 +130,15 @@ class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
                                                 SizedBox(
                                                   width: 8,
                                                 ),
-                                                Text(
-                                                  "ALN ${controller.listHistoryPeminjaman[index].noInvoice.toString()}",
-                                                  style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: kColorPrimary,
-                                                    fontSize: 18,
+                                                Expanded(
+                                                  child: Text(
+                                                    "ALN ${controller.listHistoryPeminjaman[index].noInvoice.toString()}",
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: kColorPrimary,
+                                                      fontSize: 16,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -186,7 +189,11 @@ class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
                                               width: 150,
                                               child: ButtonAction(
                                                 onTap: () {
-                                                  pdfController.downloadPDF(108);
+                                                  pdfController.downloadPDF(
+                                                      controller
+                                                          .listHistoryPeminjaman[
+                                                              index]
+                                                          .id);
                                                 },
                                                 padding: 0,
                                                 child: Row(

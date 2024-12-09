@@ -83,7 +83,7 @@ class ProfilePage extends StatelessWidget {
                   child: Row(
                     children: [
                       CircleAvatar(
-                        radius: 35,
+                        radius: 35, 
                         backgroundImage: user.image != null
                             ? NetworkImage(user.imageUrl)
                             : AssetImage('assets/images/null_profile.jpg')
