@@ -35,6 +35,9 @@ class AssetConstant {
   static const String coverHarryPoter = "assets/images/cover_harryPtr.png";
   static const String profilePict = "assets/images/profile_pict.jpg";
   static const String nullprofilePict = "assets/images/null_profile.jpg";
+  static const String underConstructionImg = "assets/images/under_construction.jpeg";
+  static const String underConstructionWhite = "assets/images/under_construction_white.jpeg";
+  static const String underConstructionWide = "assets/images/under_construction_wide.jpeg";
 
-  static getCategoryIcon(int id) {}
+  
 }
