@@ -199,11 +199,21 @@ class DetailPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                      
                         Buttonprimary(
                           fontSize: 18,
                           onPressed: () {
-                            // Ensure the book data is passed to CheckOutPage
+                            if ((book['stock'] ?? 0) <= 0) {
+                              // Jika stok kosong, tampilkan Snackbar
+                              Get.snackbar(
+                                "Stok Habis",
+                                "Maaf, buku ini saat ini tidak tersedia untuk dipinjam.",
+                                snackPosition: SnackPosition.TOP,
+                                backgroundColor: Colors.redAccent,
+                                colorText: Colors.white,
+                              );
+                              return;
+                            }
+
                             final selectedBook = {
                               'id': book['id'],
                               'title': book['title'],
@@ -219,14 +229,13 @@ class DetailPage extends StatelessWidget {
                               RouteName.checkOutPage,
                               arguments: [
                                 selectedBook
-                              ], // Pass the book data as arguments
+                              ], // Oper data buku sebagai argumen
                             );
                           },
                           title: 'Pinjam Sekarang',
                           color: kColorPrimary,
                           width: 285,
                         ),
-
                         ButtonIcon(
                           onTap: () {
                             if (bookId != null) {

@@ -242,89 +242,189 @@ class CheckOutPage extends StatelessWidget {
                 SizedBox(
                   height: 24,
                 ),
-                Buttonprimary(
-                  title: "Konfirmasi",
-                  color: kColorPrimary,
-                  width: Get.width,
-                  fontSize: 18,
-                  onPressed: () {
-                    final bookIds = selectedBooks
-                            ?.map<int>((book) => book['id'])
-                            .toList() ??
-                        [];
+                // Buttonprimary(
+                //   title: "Konfirmasi",
+                //   color: kColorPrimary,
+                //   width: Get.width,
+                //   fontSize: 18,
+                //   onPressed: () {
+                //     final bookIds = selectedBooks
+                //             ?.map<int>((book) => book['id'])
+                //             .toList() ??
+                //         [];
 
-                    if (bookIds.isEmpty) {
-                      Get.snackbar(
-                        "Peringatan",
-                        "Tidak ada buku yang dipilih.",
-                        snackPosition: SnackPosition.TOP,
-                      );
-                    } else {
-                      controller.checkout(bookIds).then((status) {
-                        if (status = true) {
-                          cartController.removeCheckedItems();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Dialog(
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 24,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Color(0XFFC9D6F4),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SvgPicture.asset(
-                                        AssetConstant.icCheck,
-                                        width: 50,
-                                        color: kColorPrimary,
-                                      ),
-                                      SizedBox(height: 24),
-                                      Text(
-                                        "Checkout Berhasil",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 8),
-                                      Text("Buku Anda berhasil di-checkout."),
-                                      SizedBox(height: 24),
-                                      Buttonprimary(
-                                        fontSize: 16,
-                                        title: "Lihat detail peminjaman saya",
-                                        color: kColorPrimary,
-                                        width: Get.width,
-                                        onPressed: () {
-                                          Get.offNamed(
-                                              RouteName.detailPeminjamanPage);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                //     if (bookIds.isEmpty) {
+                //       Get.snackbar(
+                //         "Peringatan",
+                //         "Tidak ada buku yang dipilih.",
+                //         snackPosition: SnackPosition.TOP,
+                //       );
+                //     } else {
+                //       controller.checkout(bookIds).then(
+                //         (status) {
+                //           if (status == true) {
+                //             cartController.removeCheckedItems();
+
+                //             showDialog(
+                //               context: context,
+                //               builder: (BuildContext context) {
+                //                 return Dialog(
+                //                   child: Container(
+                //                     padding: EdgeInsets.symmetric(
+                //                       horizontal: 16,
+                //                       vertical: 24,
+                //                     ),
+                //                     decoration: BoxDecoration(
+                //                       color: Color(0XFFC9D6F4),
+                //                       borderRadius: BorderRadius.circular(10),
+                //                     ),
+                //                     child: Column(
+                //                       mainAxisSize: MainAxisSize.min,
+                //                       children: [
+                //                         SvgPicture.asset(
+                //                           AssetConstant.icCheck,
+                //                           width: 50,
+                //                           color: kColorPrimary,
+                //                         ),
+                //                         SizedBox(height: 24),
+                //                         Text(
+                //                           "Checkout Berhasil",
+                //                           style: TextStyle(
+                //                             fontSize: 20,
+                //                             fontWeight: FontWeight.bold,
+                //                           ),
+                //                         ),
+                //                         SizedBox(height: 8),
+                //                         Text("Buku Anda berhasil di-checkout."),
+                //                         SizedBox(height: 24),
+                //                         Buttonprimary(
+                //                           fontSize: 16,
+                //                           title: "Lihat detail peminjaman saya",
+                //                           color: kColorPrimary,
+                //                           width: Get.width,
+                //                           onPressed: () {
+                //                             Get.offNamed(
+                //                                 RouteName.detailPeminjamanPage);
+                //                           },
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   ),
+                //                 );
+                //               },
+                //             );
+                //           } else {
+                //             Get.snackbar(
+                //               "Gagal",
+                //               "Kamu sudah meminjam buku ini",
+                //               snackPosition: SnackPosition.TOP,
+                //               backgroundColor: Colors.red,
+                //               colorText: Colors.white,
+                //             );
+                //           }
+                //         },
+                //       );
+                //     }
+                //   },
+                // ),
+
+                Obx(
+                  () => Buttonprimary(
+                    title: "Konfirmasi",
+                    color: (controller.borrowDate.value != null &&
+                            controller.returnDate.value != null)
+                        ? kColorPrimary
+                        : kColorPrimary.withOpacity(0.5),
+                    width: Get.width,
+                    fontSize: 18,
+                    onPressed: (controller.borrowDate.value != null &&
+                            controller.returnDate.value != null)
+                        ? () {
+                            final bookIds = selectedBooks
+                                    ?.map<int>((book) => book['id'])
+                                    .toList() ??
+                                [];
+
+                            if (bookIds.isEmpty) {
+                              Get.snackbar(
+                                "Peringatan",
+                                "Tidak ada buku yang dipilih.",
+                                snackPosition: SnackPosition.TOP,
                               );
-                            },
-                          );
-                        } else {
-                          Get.snackbar(
-                            "Gagal",
-                            "Proses checkout gagal. Coba lagi.",
-                            snackPosition: SnackPosition.TOP,
-                            backgroundColor: Colors.red,
-                            colorText: Colors.white,
-                          );
-                        }
-                      });
-                    }
-                  },
+                            } else {
+                              controller.checkout(bookIds).then(
+                                (status) {
+                                  if (status == true) {
+                                    cartController.removeCheckedItems();
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 16,
+                                              vertical: 24,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Color(0XFFC9D6F4),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SvgPicture.asset(
+                                                  AssetConstant.icCheck,
+                                                  width: 50,
+                                                  color: kColorPrimary,
+                                                ),
+                                                SizedBox(height: 24),
+                                                Text(
+                                                  "Checkout Berhasil",
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 8),
+                                                Text(
+                                                    "Buku Anda berhasil di-checkout."),
+                                                SizedBox(height: 24),
+                                                Buttonprimary(
+                                                  fontSize: 16,
+                                                  title:
+                                                      "Lihat detail peminjaman saya",
+                                                  color: kColorPrimary,
+                                                  width: Get.width,
+                                                  onPressed: () {
+                                                    Get.offNamed(
+                                                      RouteName
+                                                          .detailPeminjamanPage,
+                                                    );
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    Get.snackbar(
+                                      "Gagal",
+                                      "Kamu sudah meminjam buku ini",
+                                      snackPosition: SnackPosition.TOP,
+                                      backgroundColor: Colors.red,
+                                      colorText: Colors.white,
+                                    );
+                                  }
+                                },
+                              );
+                            }
+                          }
+                        : () {},
+                  ),
                 ),
-                
               ],
             ),
           ),

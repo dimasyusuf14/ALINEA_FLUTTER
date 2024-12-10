@@ -19,6 +19,10 @@ class BorrowingsController extends GetxController {
   var borrowDate = Rxn<DateTime>();
   var returnDate = Rxn<DateTime>();
 
+
+  
+
+
   /// Fetch borrowing history
   Future<void> fetchBorrowingsHistory() async {
     isLoading(true);
@@ -98,39 +102,6 @@ class BorrowingsController extends GetxController {
     return borrowDate.value != null && returnDate.value != null;
   }
 
-  // Future<bool> checkout(List<int> bookId) async {
-  //   isLoading(true);
-
-  //   var requestBodyMap = {
-  //     "book_id": bookId,
-  //     "borrow_date": formatDate(borrowDate.value),
-  //     "return_date": formatDate(returnDate.value),
-  //   };
-
-  //   try {
-  //     final response = await APIServices.api(
-  //       endPoint: APIEndpoint.checkOut,
-  //       type: APIMethod.post,
-  //       withToken: true,
-  //       requestBodyMap: requestBodyMap,
-  //     );
-
-  //     if (response != null && response['status'] == true) {
-  //       logPrint("Checkout successful: ${response['message']}");
-  //       fetchBorrowingsHistory(); // Refresh data after checkout
-  //       return true; // Berhasil
-  //     } else {
-  //       logPrint("Checkout failed: ${response?['message'] ?? 'Unknown error'}");
-  //       return false; // Gagal0
-  //     }
-  //   } catch (e) {
-  //     logPrint("Checkout error: $e");
-  //     return false; // Gagal
-  //   } finally {
-  //     isLoading(false);
-  //   }
-  // }
-
   Future<bool> checkout(List<int> bookIds) async {
     isLoading(true);
 
@@ -149,38 +120,51 @@ class BorrowingsController extends GetxController {
       );
 
       if (response != null) {
-        // Periksa apakah ada pesan kesalahan mengenai buku yang sudah dipinjam
-        if (response['status'] == false && response['message'] != null) {
-          // Misalnya: "You have already borrowed these books: Doggy Style"
+        if (response['status'] == false) {
           Get.snackbar(
             "Peringatan",
-            response['message'], // Menampilkan pesan dari respons
+            response['message'] ?? '',
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.red,
             colorText: Colors.white,
           );
-          return false; // Menandakan checkout gagal
+          logPrint(
+              "Checkout failed: ${response['message'] ?? 'Unknown error'}");
+          return false;
         }
 
         if (response['status'] == true) {
           logPrint("Checkout successful: ${response['message']}");
-          fetchBorrowingsHistory(); // Refresh data setelah checkout
-          return true; // Berhasil
-        } else {
-          logPrint(
-              "Checkout failed: ${response?['message'] ?? 'Unknown error'}");
-          return false; // Gagal
+          fetchBorrowingsHistory();
+          return true;
         }
       } else {
+        Get.snackbar(
+          "Kesalahan",
+          "Tidak ada respons dari server. Silakan coba lagi.",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
         logPrint("No response from server");
-        return false; // Gagal
+        return false;
       }
     } catch (e) {
+      Get.snackbar(
+        "Kesalahan",
+        "Terjadi kesalahan: $e",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       logPrint("Checkout error: $e");
-      return false; // Gagal
+      return false;
     } finally {
       isLoading(false);
     }
+
+    // Add a default return at the end to handle all paths
+    return false;
   }
 
   /// Prepare checkout data
