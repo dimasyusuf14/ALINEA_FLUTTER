@@ -189,11 +189,13 @@ class _RiwayatPeminjamanPageState extends State<RiwayatPeminjamanPage> {
                                               width: 150,
                                               child: ButtonAction(
                                                 onTap: () {
-                                                  pdfController.downloadPDF(
-                                                      controller
+                                                  final invoice = controller
                                                           .listHistoryPeminjaman[
-                                                              index]
-                                                          .id);
+                                                      index];
+                                                  pdfController.downloadPDF(
+                                                      invoice.id,
+                                                      invoice.noInvoice
+                                                          .toString());
                                                 },
                                                 padding: 0,
                                                 child: Row(

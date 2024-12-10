@@ -64,7 +64,7 @@ void showCustomModal(BuildContext context, BookController controller) {
                       ),
                       ButtonCategory(
                         onTap: () {
-                          controller.filterBooksByCategory(5);
+                          controller.filterBooksByCategory(2);
                           overlayEntry.remove();
                         },
                         icon: AssetConstant.icFiksi,
@@ -74,7 +74,7 @@ void showCustomModal(BuildContext context, BookController controller) {
                       ),
                       ButtonCategory(
                         onTap: () {
-                          controller.filterBooksByCategory(2);
+                          controller.filterBooksByCategory(3);
                           overlayEntry.remove();
                         },
                         icon: AssetConstant.icRomance,
@@ -94,7 +94,7 @@ void showCustomModal(BuildContext context, BookController controller) {
                       ),
                       ButtonCategory(
                         onTap: () {
-                          controller.filterBooksByCategory(3);
+                          controller.filterBooksByCategory(5);
                           overlayEntry.remove();
                         },
                         icon: AssetConstant.icSejarah,

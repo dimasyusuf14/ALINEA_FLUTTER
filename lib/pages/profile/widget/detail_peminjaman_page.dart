@@ -1,5 +1,7 @@
+import 'package:alinea/controller/invoice/invoice_controller.dart';
 import 'package:alinea/controller/invoice/riwayat_invoice_controller.dart';
 import 'package:alinea/controller/main/main_controller.dart';
+import 'package:alinea/pages/cart/cart_page.dart';
 import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
@@ -26,6 +28,7 @@ class _DetailPeminjamanPage extends State<DetailPeminjamanPage> {
   final MainController mainController = Get.put(MainController());
   RefreshController refreshController = RefreshController();
   RiwayatInvoiceController controller = Get.put(RiwayatInvoiceController());
+  InvoiceController pdfController = Get.put(InvoiceController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +37,9 @@ class _DetailPeminjamanPage extends State<DetailPeminjamanPage> {
         children: [
           AppBarSecondary(
             title: "Detail Peminjaman",
+            onTapBack: () {
+              Navigator.popUntil(context, ModalRoute.withName('/cart'));
+            },
           ),
           Expanded(
             child: SmartRefresher(
@@ -206,10 +212,15 @@ class _DetailPeminjamanPage extends State<DetailPeminjamanPage> {
                                                     width: 150,
                                                     child: ButtonAction(
                                                       onTap: () {
-                                                        logPrint('tes');
-                                                        Get.toNamed(
-                                                          RouteName.pdfPage,
-                                                        );
+                                                        final invoice = controller
+                                                                .listHistoryPeminjaman[
+                                                            index];
+                                                        pdfController
+                                                            .downloadPDF(
+                                                                invoice.id,
+                                                                invoice
+                                                                    .noInvoice
+                                                                    .toString());
                                                       },
                                                       padding: 0,
                                                       child: Row(
