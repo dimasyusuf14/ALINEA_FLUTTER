@@ -27,7 +27,6 @@ void showCustomModal(BuildContext context, BookController controller) {
                 color: Colors.transparent,
                 child: Container(
                   width: 150,
-                  height: Get.height * 0.6,
                   padding: EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -52,6 +51,9 @@ void showCustomModal(BuildContext context, BookController controller) {
                         iccolor: Color(0XFF445DCC),
                         title: "All",
                       ),
+                      SizedBox(
+                        height: 2,
+                      ),
                       ButtonCategory(
                         onTap: () {
                           controller.filterBooksByCategory(1);
@@ -61,6 +63,9 @@ void showCustomModal(BuildContext context, BookController controller) {
                         bgcolor: Color(0XFFFFDADA),
                         iccolor: Color(0XFFFF0000),
                         title: "Aksi",
+                      ),
+                      SizedBox(
+                        height: 3,
                       ),
                       ButtonCategory(
                         onTap: () {
@@ -72,6 +77,9 @@ void showCustomModal(BuildContext context, BookController controller) {
                         iccolor: Color(0XFF009F2C),
                         title: "Fiksi",
                       ),
+                      SizedBox(
+                        height: 4,
+                      ),
                       ButtonCategory(
                         onTap: () {
                           controller.filterBooksByCategory(3);
@@ -81,6 +89,9 @@ void showCustomModal(BuildContext context, BookController controller) {
                         bgcolor: Color(0XFFFFE0F6),
                         iccolor: Color(0XFFFF00B8),
                         title: "Romansa",
+                      ),
+                      SizedBox(
+                        height: 5,
                       ),
                       ButtonCategory(
                         onTap: () {
@@ -92,6 +103,9 @@ void showCustomModal(BuildContext context, BookController controller) {
                         iccolor: Color(0XFF0075FF),
                         title: "Horor",
                       ),
+                      SizedBox(
+                        height: 6,
+                      ),
                       ButtonCategory(
                         onTap: () {
                           controller.filterBooksByCategory(5);
@@ -101,6 +115,19 @@ void showCustomModal(BuildContext context, BookController controller) {
                         bgcolor: Color(0XFFFFF8B7),
                         iccolor: Color(0XFFC4B000),
                         title: "Sejarah",
+                      ),
+                      SizedBox(
+                        height: 1,
+                      ),
+                      ButtonCategory(
+                        onTap: () {
+                          controller.filterBooksByCategory(16);
+                          overlayEntry.remove();
+                        },
+                        icon: AssetConstant.icPendidikan,
+                        bgcolor: Color(0XFFfed6ca),
+                        iccolor: Color(0XFFed6b46),
+                        title: "Pendidikan",
                       ),
                     ],
                   ),

@@ -19,10 +19,6 @@ class BorrowingsController extends GetxController {
   var borrowDate = Rxn<DateTime>();
   var returnDate = Rxn<DateTime>();
 
-
-  
-
-
   /// Fetch borrowing history
   Future<void> fetchBorrowingsHistory() async {
     isLoading(true);
@@ -102,6 +98,70 @@ class BorrowingsController extends GetxController {
     return borrowDate.value != null && returnDate.value != null;
   }
 
+  // Future<bool> checkout(List<int> bookIds) async {
+  //   isLoading(true);
+
+  //   var requestBodyMap = {
+  //     "book_id": bookIds,
+  //     "borrow_date": formatDate(borrowDate.value),
+  //     "return_date": formatDate(returnDate.value),
+  //   };
+
+  //   try {
+  //     final response = await APIServices.api(
+  //       endPoint: APIEndpoint.checkOut,
+  //       type: APIMethod.post,
+  //       withToken: true,
+  //       requestBodyMap: requestBodyMap,
+  //     );
+
+  //     if (response != null) {
+  //       if (response['status'] == false) {
+  //         Get.snackbar(
+  //           "Peringatan",
+  //           response['message'] ?? '',
+  //           snackPosition: SnackPosition.TOP,
+  //           backgroundColor: Colors.red,
+  //           colorText: Colors.white,
+  //         );
+  //         logPrint(
+  //             "Checkout failed: ${response['message'] ?? 'Unknown error'}");
+  //         return false;
+  //       }
+
+  //       if (response['status'] == true) {
+  //         logPrint("Checkout successful: ${response['message']}");
+  //         fetchBorrowingsHistory();
+  //         return true;
+  //       }
+  //     } else {
+  //       Get.snackbar(
+  //         "Kesalahan",
+  //         "Tidak ada respons dari server. Silakan coba lagi.",
+  //         snackPosition: SnackPosition.TOP,
+  //         backgroundColor: Colors.red,
+  //         colorText: Colors.white,
+  //       );
+  //       logPrint("No response from server");
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     Get.snackbar(
+  //       "Kesalahan",
+  //       "Terjadi kesalahan: $e",
+  //       snackPosition: SnackPosition.TOP,
+  //       backgroundColor: Colors.red,
+  //       colorText: Colors.white,
+  //     );
+  //     logPrint("Checkout error: $e");
+  //     return false;
+  //   } finally {
+  //     isLoading(false);
+  //   }
+
+  //   // Add a default return at the end to handle all paths
+  //   return false;
+  // }
   Future<bool> checkout(List<int> bookIds) async {
     isLoading(true);
 
@@ -120,10 +180,11 @@ class BorrowingsController extends GetxController {
       );
 
       if (response != null) {
-        if (response['status'] == false) {
+        // Modify the response check to match the actual response status
+        if (response['status'] != "Books successfully borrowed!") {
           Get.snackbar(
             "Peringatan",
-            response['message'] ?? '',
+            response['message'] ?? 'Gagal meminjam buku.',
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.red,
             colorText: Colors.white,
@@ -133,11 +194,10 @@ class BorrowingsController extends GetxController {
           return false;
         }
 
-        if (response['status'] == true) {
-          logPrint("Checkout successful: ${response['message']}");
-          fetchBorrowingsHistory();
-          return true;
-        }
+        // Successful checkout
+        logPrint("Checkout successful: ${response['status']}");
+        fetchBorrowingsHistory();
+        return true;
       } else {
         Get.snackbar(
           "Kesalahan",
@@ -162,9 +222,6 @@ class BorrowingsController extends GetxController {
     } finally {
       isLoading(false);
     }
-
-    // Add a default return at the end to handle all paths
-    return false;
   }
 
   /// Prepare checkout data
