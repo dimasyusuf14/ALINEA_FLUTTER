@@ -339,6 +339,7 @@ class CheckOutPage extends StatelessWidget {
                 //         : () {},
                 //   ),
                 // ),
+
                 Obx(
                   () => Buttonprimary(
                     title: "Konfirmasi",
@@ -363,68 +364,10 @@ class CheckOutPage extends StatelessWidget {
                                 snackPosition: SnackPosition.TOP,
                               );
                             } else {
-                              controller.checkout(bookIds).then(
+                              controller.checkout(bookIds, context).then(
                                 (status) {
                                   if (status == true) {
                                     cartController.removeCheckedItems();
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 16, vertical: 24),
-                                            decoration: BoxDecoration(
-                                              color: Color(0XFFC9D6F4),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                SvgPicture.asset(
-                                                  AssetConstant.icCheck,
-                                                  width: 50,
-                                                  color: kColorPrimary,
-                                                ),
-                                                SizedBox(height: 24),
-                                                Text(
-                                                  "Checkout Berhasil",
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 8),
-                                                Text(
-                                                    "Buku Anda berhasil di-checkout."),
-                                                SizedBox(height: 24),
-                                                Buttonprimary(
-                                                  fontSize: 16,
-                                                  title:
-                                                      "Lihat detail peminjaman saya",
-                                                  color: kColorPrimary,
-                                                  width: Get.width,
-                                                  onPressed: () {
-                                                    Get.offNamed(RouteName
-                                                        .detailPeminjamanPage);
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  } else {
-                                    // Snackbar shows if checkout status is false
-                                    Get.snackbar(
-                                      "Gagal",
-                                      "Kamu sudah meminjam buku ini",
-                                      snackPosition: SnackPosition.TOP,
-                                      backgroundColor: Colors.red,
-                                      colorText: Colors.white,
-                                    );
                                   }
                                 },
                               );

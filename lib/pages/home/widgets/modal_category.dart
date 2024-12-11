@@ -121,7 +121,7 @@ void showCustomModal(BuildContext context, BookController controller) {
                       ),
                       ButtonCategory(
                         onTap: () {
-                          controller.filterBooksByCategory(16);
+                          controller.filterBooksByCategory(6);
                           overlayEntry.remove();
                         },
                         icon: AssetConstant.icPendidikan,

@@ -2,10 +2,14 @@ import 'dart:convert';
 
 import 'package:alinea/model/borrowing/borrowing_history.dart';
 import 'package:alinea/model/home/home_model.dart';
+import 'package:alinea/routes/route_name.dart';
 import 'package:alinea/services/api_services.dart';
 import 'package:alinea/services/utilities/api_constant.dart';
+import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
+import 'package:alinea/widgets/button/button_primary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -116,10 +120,11 @@ class BorrowingsController extends GetxController {
   //     );
 
   //     if (response != null) {
-  //       if (response['status'] == false) {
+  //       // Modify the response check to match the actual response status
+  //       if (response['status'] != "Books successfully borrowed!") {
   //         Get.snackbar(
   //           "Peringatan",
-  //           response['message'] ?? '',
+  //           response['message'] ?? 'Gagal meminjam buku.',
   //           snackPosition: SnackPosition.TOP,
   //           backgroundColor: Colors.red,
   //           colorText: Colors.white,
@@ -129,11 +134,10 @@ class BorrowingsController extends GetxController {
   //         return false;
   //       }
 
-  //       if (response['status'] == true) {
-  //         logPrint("Checkout successful: ${response['message']}");
-  //         fetchBorrowingsHistory();
-  //         return true;
-  //       }
+  //       // Successful checkout
+  //       logPrint("Checkout successful: ${response['status']}");
+  //       fetchBorrowingsHistory();
+  //       return true;
   //     } else {
   //       Get.snackbar(
   //         "Kesalahan",
@@ -158,11 +162,75 @@ class BorrowingsController extends GetxController {
   //   } finally {
   //     isLoading(false);
   //   }
-
-  //   // Add a default return at the end to handle all paths
-  //   return false;
   // }
-  Future<bool> checkout(List<int> bookIds) async {
+
+  // Future<bool> checkout(List<int> bookIds) async {
+  //   isLoading(true);
+
+  //   var requestBodyMap = {
+  //     "book_id": bookIds,
+  //     "borrow_date": formatDate(borrowDate.value),
+  //     "return_date": formatDate(returnDate.value),
+  //   };
+
+  //   try {
+  //     final response = await APIServices.api(
+  //       endPoint: APIEndpoint.checkOut,
+  //       type: APIMethod.post,
+  //       withToken: true,
+  //       requestBodyMap: requestBodyMap,
+  //     );
+
+  //     if (response != true) {
+  //       if (response['status'] != true) {
+  //         logPrint(
+  //             "Full response: $response"); // Pastikan pesan terlihat di sini
+
+  //         String errorMessage = response['message'] ?? 'Gagal meminjam buku.';
+
+  //         Get.snackbar(
+  //           "Peringatan",
+  //           errorMessage,
+  //           snackPosition: SnackPosition.TOP,
+  //           backgroundColor: Colors.red,
+  //           colorText: Colors.white,
+  //         );
+
+  //         logPrint(
+  //             "Checkout failed: $errorMessage"); // Log pesan error yang dipakai
+  //         return false;
+  //       }
+
+  //       logPrint("Checkout successful: ${response['message']}");
+  //       fetchBorrowingsHistory();
+  //       return true;
+  //     } else {
+  //       Get.snackbar(
+  //         "Kesalahan",
+  //         "Tidak ada respons dari server. Silakan coba lagi.",
+  //         snackPosition: SnackPosition.TOP,
+  //         backgroundColor: Colors.red,
+  //         colorText: Colors.white,
+  //       );
+  //       logPrint("No response from server");
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     Get.snackbar(
+  //       "Kesalahan",
+  //       "Terjadi kesalahan: $e",
+  //       snackPosition: SnackPosition.TOP,
+  //       backgroundColor: Colors.red,
+  //       colorText: Colors.white,
+  //     );
+  //     logPrint("Checkout error: $e");
+  //     return false;
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
+
+  Future<bool> checkout(List<int> bookIds, BuildContext context) async {
     isLoading(true);
 
     var requestBodyMap = {
@@ -179,24 +247,72 @@ class BorrowingsController extends GetxController {
         requestBodyMap: requestBodyMap,
       );
 
-      if (response != null) {
-        // Modify the response check to match the actual response status
-        if (response['status'] != "Books successfully borrowed!") {
+      if (response != true) {
+        if (response['status'] != true) {
+          logPrint("Full response: $response");
+
+          String errorMessage = response['message'] ?? 'Gagal meminjam buku.';
           Get.snackbar(
-            "Peringatan",
-            response['message'] ?? 'Gagal meminjam buku.',
+            "Warning",
+            "Buku ini sudah dalam peminjaman anda!",
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.red,
             colorText: Colors.white,
           );
-          logPrint(
-              "Checkout failed: ${response['message'] ?? 'Unknown error'}");
+
+          logPrint("Checkout failed: $errorMessage");
           return false;
         }
 
-        // Successful checkout
-        logPrint("Checkout successful: ${response['status']}");
+        logPrint("Checkout successful: ${response['message']}");
         fetchBorrowingsHistory();
+
+        // Tampilkan dialog konfirmasi
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                decoration: BoxDecoration(
+                  color: Color(0XFFC9D6F4),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(
+                      AssetConstant.icCheck,
+                      width: 50,
+                      color: kColorPrimary,
+                    ),
+                    SizedBox(height: 24),
+                    Text(
+                      "Checkout Berhasil",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text("Buku Anda berhasil di-checkout."),
+                    SizedBox(height: 24),
+                    Buttonprimary(
+                      fontSize: 16,
+                      title: "Lihat detail peminjaman saya",
+                      color: kColorPrimary,
+                      width: Get.width,
+                      onPressed: () {
+                        Get.offNamed(RouteName.detailPeminjamanPage);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+
         return true;
       } else {
         Get.snackbar(
