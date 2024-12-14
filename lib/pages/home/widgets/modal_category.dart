@@ -1,3 +1,4 @@
+import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:alinea/controller/home/book_controller.dart';
@@ -21,12 +22,11 @@ void showCustomModal(BuildContext context, BookController controller) {
             ),
             Positioned(
               top: Get.height * 0.15,
-              left: Get.width * 0.7,
+              left: Get.width * 0.68,
               right: Get.width * 0.04,
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                  width: 150,
                   padding: EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -48,7 +48,7 @@ void showCustomModal(BuildContext context, BookController controller) {
                         },
                         icon: AssetConstant.icAll,
                         bgcolor: Color(0XFFC9D6F4),
-                        iccolor: Color(0XFF445DCC),
+                        iccolor: kColorPrimary,
                         title: "All",
                       ),
                       SizedBox(

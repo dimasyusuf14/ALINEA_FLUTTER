@@ -35,7 +35,7 @@ class PagesRoute {
     GetPage(
         name: RouteName.riwayatPeminjamanPage,
         page: () => RiwayatPeminjamanPage()),
-    GetPage(name: RouteName.dendaPage, page: () => DendaPage()),
+    GetPage(name: RouteName.dendaPeminjamanPage, page: () => DendaPeminjamanPage()),
     GetPage(name: RouteName.checkOutPage, page: () => CheckOutPage()),
     GetPage(name: RouteName.pdfPage, page: () => PdfPage()),
   ];

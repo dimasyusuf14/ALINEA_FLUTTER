@@ -137,7 +137,7 @@ class LoginPage extends StatelessWidget {
                                     value: controller.checkC.value,
                                     onChanged: (value) =>
                                         controller.checkC.toggle(),
-                                    activeColor: Color(0XFF445DCC),
+                                    activeColor: kColorPrimary,
                                   ),
                                 ),
                                 Text(
@@ -183,7 +183,7 @@ class LoginPage extends StatelessWidget {
                               child: Text(
                                 "Daftar",
                                 style: TextStyle(
-                                  color: Color(0XFF445DCC),
+                                  color: kColorPrimary,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 15,
                                 ),

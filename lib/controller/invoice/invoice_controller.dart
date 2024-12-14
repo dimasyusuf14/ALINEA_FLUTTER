@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:alinea/model/invoice/invoice_model.dart';
 import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,48 +15,100 @@ class InvoiceController extends GetxController {
   var downloadProgress = 0.0.obs;
   var invoices = <InvoiceModel>[].obs;
 
-  Future<void> downloadPDF(int id, String noInvoice) async {
-    loadingFetchPdf.value = DataLoad.loading;
+  /// Memeriksa izin penyimpanan/media berdasarkan versi Android
+  Future<bool> checkStoragePermission() async {
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      final sdkInt = androidInfo.version.sdkInt; // Dapatkan versi SDK Android
 
-    try {
-      if (Platform.isAndroid || Platform.isIOS) {
-        var status = await Permission.storage.request();
-        if (!status.isGranted) {
+      if (sdkInt >= 33) {
+        // Android 13 ke atas membutuhkan izin khusus media
+        PermissionStatus imagesPermission = await Permission.photos.request();
+        PermissionStatus videosPermission = await Permission.videos.request();
+        PermissionStatus audioPermission = await Permission.audio.request();
+
+        if (!imagesPermission.isGranted ||
+            !videosPermission.isGranted ||
+            !audioPermission.isGranted) {
           Get.snackbar(
             "Izin Ditolak",
-            "Mohon izinkan akses penyimpanan untuk mengunduh file.",
+            "Mohon izinkan akses media untuk melanjutkan.",
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.red,
             colorText: Colors.white,
           );
-          loadingFetchPdf.value = DataLoad.failed;
-          return;
+          return false;
+        }
+      } else {
+        // Android 12 ke bawah hanya membutuhkan izin storage
+        PermissionStatus storagePermission = await Permission.storage.request();
+        if (!storagePermission.isGranted) {
+          Get.snackbar(
+            "Izin Ditolak",
+            "Mohon izinkan akses penyimpanan untuk melanjutkan.",
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+          );
+          return false;
         }
       }
+    }
+    return true;
+  }
 
+  /// Mengunduh file PDF dari server
+  Future<void> downloadPDF(int id, String noInvoice) async {
+    loadingFetchPdf.value = DataLoad.loading;
+
+    try {
+      // Memeriksa izin sebelum melanjutkan
+      if (!await checkStoragePermission()) {
+        loadingFetchPdf.value = DataLoad.failed;
+        return;
+      }
+
+      // Menentukan direktori unduhan berdasarkan platform dan versi SDK
       Directory? downloadsDirectory;
       if (Platform.isAndroid) {
-        downloadsDirectory = Directory('/storage/emulated/0/Download');
+        final androidInfo = await DeviceInfoPlugin().androidInfo;
+        final sdkInt = androidInfo.version.sdkInt; // Versi SDK Android
+        if (sdkInt >= 29) {
+          // Scoped storage untuk Android 10+
+          downloadsDirectory = await getExternalStorageDirectory();
+        } else {
+          downloadsDirectory = Directory('/storage/emulated/0/Download');
+        }
       } else if (Platform.isIOS) {
         downloadsDirectory = await getApplicationDocumentsDirectory();
       }
 
-      final filePath = "${downloadsDirectory!.path}/invoice_$noInvoice.pdf";
+      if (downloadsDirectory == null) {
+        throw Exception("Direktori unduhan tidak ditemukan.");
+      }
+
+      final filePath = "${downloadsDirectory.path}/invoice_$noInvoice.pdf";
       final file = File(filePath);
 
       final url = "$kBaseUrl${APIEndpoint.pdfInvoice}/$id";
       final box = GetStorage();
       var token = box.read("token");
+
       final request = http.Request("GET", Uri.parse(url))
         ..headers.addAll({"Authorization": "Bearer $token"});
 
       final streamedResponse = await request.send();
 
       if (streamedResponse.statusCode == 200) {
+        final totalBytes = streamedResponse.contentLength ?? 1;
         final fileSink = file.openWrite();
+        int downloadedBytes = 0;
+
         streamedResponse.stream.listen(
           (chunk) {
             fileSink.add(chunk);
+            downloadedBytes += chunk.length;
+            downloadProgress.value = downloadedBytes / totalBytes;
           },
           onDone: () async {
             await fileSink.close();

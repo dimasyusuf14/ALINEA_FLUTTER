@@ -171,7 +171,7 @@ class CarouselBook extends StatelessWidget {
                                         category.name,
                                         style: const TextStyle(
                                           fontSize: 16,
-                                          color: Color(0XFF445DCC),
+                                          color: kColorPrimary,
                                           fontWeight: FontWeight.w500,
                                         ),
                                         maxLines: 1,

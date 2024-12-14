@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            color: Color(0XFF445DCC),
+            color: kColorPrimary,
             child: Padding(
               padding: const EdgeInsets.only(
                 top: 50,

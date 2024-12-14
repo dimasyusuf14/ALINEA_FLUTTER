@@ -92,7 +92,7 @@ class _DetailPeminjamanPage extends State<DetailPeminjamanPage> {
                               ? Container(
                                   margin: const EdgeInsets.only(bottom: 12),
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 16),
+                                      vertical: 16, horizontal: 16),
                                   width: Get.width,
                                   decoration: BoxDecoration(
                                     color: const Color(0XFFE0E8F9),
@@ -313,38 +313,43 @@ class _DetailPeminjamanPage extends State<DetailPeminjamanPage> {
                                                   ),
                                                 ),
                                                 const SizedBox(width: 12),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 255,
-                                                      child: Text(
-                                                        book.book.title,
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 255,
+                                                        child: Text(
+                                                          book.book.title,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        book.book.author,
                                                         style: const TextStyle(
-                                                          fontSize: 14,
+                                                          fontSize: 12,
                                                           fontWeight:
-                                                              FontWeight.bold,
+                                                              FontWeight.w500,
                                                         ),
                                                         maxLines: 2,
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      book.book.author,
-                                                      style: const TextStyle(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                    const SizedBox(height: 10),
-                                                    Text('1x'),
-                                                  ],
+                                                      const SizedBox(
+                                                          height: 10),
+                                                      Text('1x'),
+                                                    ],
+                                                  ),
                                                 ),
                                               ],
                                             ),

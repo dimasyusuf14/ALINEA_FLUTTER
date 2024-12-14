@@ -52,7 +52,7 @@ class DetailPage extends StatelessWidget {
                 height: Get.width * 0.65,
                 width: Get.width,
                 decoration: BoxDecoration(
-                  color: const Color(0XFF445DCC),
+                  color: kColorPrimary,
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),

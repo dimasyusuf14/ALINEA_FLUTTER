@@ -1,3 +1,4 @@
+import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 
 class TabbarCard extends StatelessWidget {
@@ -19,7 +20,7 @@ class TabbarCard extends StatelessWidget {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: isActive ? Color(0XFF445DCC) : Color(0XFFC9CCF4),
+          color: isActive ? kColorPrimary : Color(0XFFC9CCF4),
           borderRadius: isFirstIndex
               ? const BorderRadius.only(
                   bottomLeft: Radius.circular(6),
@@ -42,8 +43,7 @@ class TabbarCard extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
-                  color:
-                      isActive ? Color(0XFFC9CCF4) : Color(0XFF445DCC),
+                  color: isActive ? Color(0XFFC9CCF4) : kColorPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),

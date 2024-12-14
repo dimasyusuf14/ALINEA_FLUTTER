@@ -26,16 +26,24 @@ class ItemNavbar extends StatelessWidget {
             const SizedBox(
               height: 8.0,
             ),
-            SvgPicture.asset(
-              model.icon,
-              width: 25,
-              color: isActive ? Color(0XFF295EFF) : Colors.indigo[900],
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                color: isActive ? kColorPrimary : Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: SvgPicture.asset(
+                model.icon,
+                width: isActive ? 18 : 20,
+                color: isActive ? Colors.white : kColorPrimary,
+              ),
             ),
             Text(
               model.title.tr,
               style: TextStyle(
-                color: isActive ? Color(0XFF295EFF): Colors.indigo[900],
+                color: isActive ? kColorPrimary : Colors.indigo[900],
                 fontSize: 12,
+                fontWeight: FontWeight.w500,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

@@ -1,6 +1,7 @@
 import 'package:alinea/controller/auth/login/login_controller.dart';
 import 'package:alinea/controller/auth/signUp/sign_up_controller.dart';
 import 'package:alinea/routes/route_name.dart';
+import 'package:alinea/services/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -93,7 +94,7 @@ class WellcomePage extends StatelessWidget {
                             Get.toNamed(RouteName.login);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0XFF445DCC),
+                            backgroundColor: kColorPrimary,
                             padding: EdgeInsets.symmetric(vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(9),
@@ -119,7 +120,7 @@ class WellcomePage extends StatelessWidget {
                             Get.toNamed(RouteName.signUp);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0XFF445DCC),
+                            backgroundColor: kColorPrimary,
                             padding: EdgeInsets.symmetric(vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(9),
