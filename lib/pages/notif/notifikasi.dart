@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class NotifikasiPage extends StatelessWidget {
   NotifikasiPage({super.key});
@@ -63,7 +64,7 @@ class NotifikasiPage extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.zero,
-                        itemCount: 10,
+                        itemCount: controller.listNotification.length,
                         itemBuilder: (context, index) {
                           return Container(
                             margin: EdgeInsets.symmetric(
@@ -87,7 +88,8 @@ class NotifikasiPage extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "New Release: Anak Kecil Yang Kehilangan Pundaknya",
+                                            controller.listNotification[index]
+                                                .message,
                                             style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w700,
@@ -96,7 +98,8 @@ class NotifikasiPage extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Text(
-                                            "Buku Novel “Anak Kecil yang Kehilangan Pundaknya”  kini tersedia di Alinea. Temukan cerita yang menarik.",
+                                            controller.listNotification[index]
+                                                .message,
                                             style: TextStyle(
                                               fontSize: 11,
                                               fontWeight: FontWeight.w500,
@@ -105,7 +108,10 @@ class NotifikasiPage extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Text(
-                                            "10-27-2024",
+                                            DateFormat('dd MMM yyy HH:mm')
+                                                .format(controller
+                                                    .listNotification[index]
+                                                    .createdAt),
                                             style: TextStyle(
                                               fontSize: 10,
                                               fontWeight: FontWeight.w600,
