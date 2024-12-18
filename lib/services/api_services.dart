@@ -64,27 +64,21 @@ class APIServices {
         headers: headers,
       );
     } else if (type == APIMethod.multipart) {
-      // Handle multipart request for file upload
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse("$kBaseUrl$endPoint$param"),
-      );
+      logPrint('Ini dari multipart method');
 
-      // Add headers
+      var request = http.MultipartRequest('POST', Uri.parse("$kBaseUrl$endPoint$param"));
       request.headers.addAll(headers);
 
-      // Add fields
-      request.fields.addAll(
-        requestBodyMap.map((key, value) => MapEntry(key, value.toString())),
-      );
+      requestBodyMap.forEach((key, value) async {
+        if (value is File) {
+          request.files.add(await http.MultipartFile.fromPath(key, value.path));
+        } else {
+          request.fields[key] = value.toString();
+        }
+      });
 
-      // Add file if provided
       if (file != null) {
-        var fileStream = await http.MultipartFile.fromPath(
-          'image',
-          file.path,
-        );
-        request.files.add(fileStream);
+        request.files.add(await http.MultipartFile.fromPath('image', file.path));
       }
 
       var streamedResponse = await request.send();

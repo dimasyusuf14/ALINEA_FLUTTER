@@ -73,9 +73,15 @@ class NotifikasiPage extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Image.asset(
-                                      AssetConstant.coverHarryPoter,
+                                    Image.network(
+                                      controller.listNotification[index].book.coverUrl,
                                       width: 80,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Image.asset(
+                                          AssetConstant.logoAlinea, // Gambar placeholder dari asset lokal
+                                          width: 80,
+                                        );
+                                      },
                                     ),
                                     Image.network(
                                       controller.listBook[index].coverUrl,
@@ -102,13 +108,13 @@ class NotifikasiPage extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Text(
-                                            controller.listNotification[index]
-                                                .message,
+                                            Helper.removeHtmlTags(controller.listNotification[index]
+                                                .book.description),
                                             style: TextStyle(
                                               fontSize: 11,
                                               fontWeight: FontWeight.w500,
                                             ),
-                                            maxLines: 4,
+                                            maxLines: 3,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Text(

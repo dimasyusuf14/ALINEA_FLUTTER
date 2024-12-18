@@ -2,6 +2,7 @@ import 'package:alinea/model/home/home_model.dart';
 import 'package:alinea/pages/home/widgets/book_carousel.dart';
 import 'package:alinea/pages/home/widgets/modal_category.dart';
 import 'package:alinea/routes/route_name.dart';
+import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
 import 'package:alinea/widgets/shimmer/shimmer_grid.dart';
 import 'package:alinea/widgets/shimmer/shimmer_loading.dart';
@@ -226,6 +227,14 @@ class HomePage extends StatelessWidget {
                                             width: Get.width,
                                             height: Get.height * 0.2,
                                             fit: BoxFit.cover,
+                                            errorBuilder: (context, error, stackTrace) {
+                                              return Image.asset(
+                                                AssetConstant.logoAlinea, // Gambar placeholder dari asset lokal
+                                                width: Get.width,
+                                                height: Get.height * 0.2,
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
                                           ),
                                         ),
                                         SizedBox(height: 4),

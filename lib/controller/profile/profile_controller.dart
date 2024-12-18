@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -13,7 +15,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
 class ProfileController extends GetxController {
-  Rx<File?> selectedImage = Rx<File?>(null);
+  var selectedImage = Rxn<File>();
   var isLoading = false.obs;
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
@@ -76,7 +78,6 @@ class ProfileController extends GetxController {
     isLoading.value = true;
     try {
       var requestBody = {
-        'image_url': imageProfileController.value,
         'first_name': firstNameController.text,
         'last_name': lastNameController.text,
         if (passwordController.text.isNotEmpty)
@@ -89,7 +90,7 @@ class ProfileController extends GetxController {
       if (selectedImage.value != null) {
         response = await APIServices.api(
           endPoint: APIEndpoint.updateProfile,
-          type: APIMethod.post,
+          type: APIMethod.multipart,
           withToken: true,
           requestBodyMap: requestBody,
           file: selectedImage.value,
