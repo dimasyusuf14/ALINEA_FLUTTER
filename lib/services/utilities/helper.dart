@@ -124,4 +124,8 @@ class Helper {
       duration: Duration(seconds: durations),
     );
   }
+
+  static removeHtmlTags(String html) {
+    return html.replaceAll(RegExp(r'<[^>]*>'), '');
+  }
 }

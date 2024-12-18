@@ -8,7 +8,7 @@ class BooksModel {
   final String description;
   final DateTime publishedDate;
   final String status;
-  final String categoryId; // Ensure this is String
+  final String categoryId;
   final DateTime createdAt;
   final DateTime updatedAt;
   final String coverUrl;
@@ -29,20 +29,38 @@ class BooksModel {
     required this.coverUrl,
   });
 
+  // /// Tambahkan metode empty untuk mengembalikan object kosong
+  // factory BooksModel.empty() {
+  //   return BooksModel(
+  //     id: 0,
+  //     cover: '',
+  //     title: '',
+  //     author: '',
+  //     isbn: '',
+  //     stock: 0,
+  //     description: '',
+  //     publishedDate: DateTime(1970, 1, 1),
+  //     status: '',
+  //     categoryId: '',
+  //     createdAt: DateTime(1970, 1, 1),
+  //     updatedAt: DateTime(1970, 1, 1),
+  //     coverUrl: '',
+  //   );
+  // }
+
   BooksModel.fromJson(Map<String, dynamic> json)
       : id = json['id'] ?? 0,
         cover = json['cover'] ?? '',
         title = json['title'] ?? '',
         author = json['author'] ?? '',
         isbn = json['isbn'] ?? '',
-        stock = int.parse(json['stock'] ?? '0'),
+        stock = int.tryParse(json['stock']?.toString() ?? '0') ?? 0,
         description = json['description'] ?? '',
-        publishedDate = DateTime.parse(json['published_date'] ?? '1970-01-01'),
+        publishedDate = DateTime.tryParse(json['published_date'] ?? '1970-01-01') ?? DateTime(1970, 1, 1),
         status = json['status'] ?? '',
-        categoryId =
-            json['category_id']?.toString() ?? '', // Ensure it’s a String
-        createdAt = DateTime.parse(json['created_at'] ?? '1970-01-01'),
-        updatedAt = DateTime.parse(json['updated_at'] ?? '1970-01-01'),
+        categoryId = json['category_id']?.toString() ?? '',
+        createdAt = DateTime.tryParse(json['created_at'] ?? '1970-01-01') ?? DateTime(1970, 1, 1),
+        updatedAt = DateTime.tryParse(json['updated_at'] ?? '1970-01-01') ?? DateTime(1970, 1, 1),
         coverUrl = json['cover_url'] ?? '';
 
   Map<String, dynamic> toJson() => {
@@ -51,7 +69,7 @@ class BooksModel {
         'title': title,
         'author': author,
         'isbn': isbn,
-        'stock': stock.toString(), // Convert to String if needed in JSON
+        'stock': stock.toString(),
         'description': description,
         'published_date': publishedDate.toIso8601String(),
         'status': status,
@@ -61,6 +79,7 @@ class BooksModel {
         'cover_url': coverUrl,
       };
 }
+
 
 class Category {
   final int id;
