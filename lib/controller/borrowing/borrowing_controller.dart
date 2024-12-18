@@ -87,10 +87,7 @@ class BorrowingsController extends GetxController {
     }
   }
 
-  // String formatDate(DateTime? date) {
-  //   if (date == null) return "-";
-  //   return DateFormat('dd/mmm/yyyy').format(date);
-  // }
+
 
   String formatDate(DateTime? date) {
     if (date == null) return "-";
@@ -102,133 +99,6 @@ class BorrowingsController extends GetxController {
     return borrowDate.value != null && returnDate.value != null;
   }
 
-  // Future<bool> checkout(List<int> bookIds) async {
-  //   isLoading(true);
-
-  //   var requestBodyMap = {
-  //     "book_id": bookIds,
-  //     "borrow_date": formatDate(borrowDate.value),
-  //     "return_date": formatDate(returnDate.value),
-  //   };
-
-  //   try {
-  //     final response = await APIServices.api(
-  //       endPoint: APIEndpoint.checkOut,
-  //       type: APIMethod.post,
-  //       withToken: true,
-  //       requestBodyMap: requestBodyMap,
-  //     );
-
-  //     if (response != null) {
-  //       // Modify the response check to match the actual response status
-  //       if (response['status'] != "Books successfully borrowed!") {
-  //         Get.snackbar(
-  //           "Peringatan",
-  //           response['message'] ?? 'Gagal meminjam buku.',
-  //           snackPosition: SnackPosition.TOP,
-  //           backgroundColor: Colors.red,
-  //           colorText: Colors.white,
-  //         );
-  //         logPrint(
-  //             "Checkout failed: ${response['message'] ?? 'Unknown error'}");
-  //         return false;
-  //       }
-
-  //       // Successful checkout
-  //       logPrint("Checkout successful: ${response['status']}");
-  //       fetchBorrowingsHistory();
-  //       return true;
-  //     } else {
-  //       Get.snackbar(
-  //         "Kesalahan",
-  //         "Tidak ada respons dari server. Silakan coba lagi.",
-  //         snackPosition: SnackPosition.TOP,
-  //         backgroundColor: Colors.red,
-  //         colorText: Colors.white,
-  //       );
-  //       logPrint("No response from server");
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     Get.snackbar(
-  //       "Kesalahan",
-  //       "Terjadi kesalahan: $e",
-  //       snackPosition: SnackPosition.TOP,
-  //       backgroundColor: Colors.red,
-  //       colorText: Colors.white,
-  //     );
-  //     logPrint("Checkout error: $e");
-  //     return false;
-  //   } finally {
-  //     isLoading(false);
-  //   }
-  // }
-
-  // Future<bool> checkout(List<int> bookIds) async {
-  //   isLoading(true);
-
-  //   var requestBodyMap = {
-  //     "book_id": bookIds,
-  //     "borrow_date": formatDate(borrowDate.value),
-  //     "return_date": formatDate(returnDate.value),
-  //   };
-
-  //   try {
-  //     final response = await APIServices.api(
-  //       endPoint: APIEndpoint.checkOut,
-  //       type: APIMethod.post,
-  //       withToken: true,
-  //       requestBodyMap: requestBodyMap,
-  //     );
-
-  //     if (response != true) {
-  //       if (response['status'] != true) {
-  //         logPrint(
-  //             "Full response: $response"); // Pastikan pesan terlihat di sini
-
-  //         String errorMessage = response['message'] ?? 'Gagal meminjam buku.';
-
-  //         Get.snackbar(
-  //           "Peringatan",
-  //           errorMessage,
-  //           snackPosition: SnackPosition.TOP,
-  //           backgroundColor: Colors.red,
-  //           colorText: Colors.white,
-  //         );
-
-  //         logPrint(
-  //             "Checkout failed: $errorMessage"); // Log pesan error yang dipakai
-  //         return false;
-  //       }
-
-  //       logPrint("Checkout successful: ${response['message']}");
-  //       fetchBorrowingsHistory();
-  //       return true;
-  //     } else {
-  //       Get.snackbar(
-  //         "Kesalahan",
-  //         "Tidak ada respons dari server. Silakan coba lagi.",
-  //         snackPosition: SnackPosition.TOP,
-  //         backgroundColor: Colors.red,
-  //         colorText: Colors.white,
-  //       );
-  //       logPrint("No response from server");
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     Get.snackbar(
-  //       "Kesalahan",
-  //       "Terjadi kesalahan: $e",
-  //       snackPosition: SnackPosition.TOP,
-  //       backgroundColor: Colors.red,
-  //       colorText: Colors.white,
-  //     );
-  //     logPrint("Checkout error: $e");
-  //     return false;
-  //   } finally {
-  //     isLoading(false);
-  //   }
-  // }
 
   Future<bool> checkout(List<int> bookIds, BuildContext context) async {
     isLoading(true);

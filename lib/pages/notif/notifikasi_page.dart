@@ -11,14 +11,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NotifikasiPage extends StatelessWidget {
   NotifikasiPage({super.key});
 
   NotifikasiController controller = Get.put(NotifikasiController());
+  RefreshController refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      controller.fetchNotifications(); // Call the fetchCarts method
+    });
     return Scaffold(
       body: Column(
         children: [
@@ -57,161 +62,174 @@ class NotifikasiPage extends StatelessWidget {
             height: 16,
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Obx(
-                () => controller.selectedIndex.value == 0
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.zero,
-                        itemCount: controller.listNotification.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 5),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Image.network(
-                                      controller.listNotification[index].book.coverUrl,
-                                      width: 80,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return Image.asset(
-                                          AssetConstant.logoAlinea, // Gambar placeholder dari asset lokal
-                                          width: 80,
-                                        );
-                                      },
-                                    ),
-                                    Image.network(
-                                      controller.listBook[index].coverUrl,
-                                      width: 80,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            controller.listNotification[index]
-                                                .message,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                            maxLines: 3,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Text(
-                                            Helper.removeHtmlTags(controller.listNotification[index]
-                                                .book.description),
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            maxLines: 3,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Text(
-                                            DateFormat('dd MMM yyy HH:mm')
-                                                .format(controller
-                                                    .listNotification[index]
-                                                    .createdAt),
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.grey[700],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      )
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.zero,
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 5),
-                            child: Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(0XFFC9D6F4),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: SvgPicture.asset(
-                                      AssetConstant.icDenda,
-                                      fit: BoxFit.fill,
-                                      color: Colors.black,
-                                      width: 40,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+            child: SmartRefresher(
+              enablePullDown: true,
+              controller: refreshController,
+              onRefresh: () async {
+                controller.fetchNotifications();
+                refreshController.refreshCompleted();
+              },
+              child: SingleChildScrollView(
+                child: Obx(
+                  () => controller.selectedIndex.value == 0
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          itemCount: controller.listNotification.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 5),
+                              child: Column(
+                                children: [
+                                  Row(
                                     children: [
-                                      Text.rich(
-                                        TextSpan(
-                                          children: const [
-                                            TextSpan(
-                                              text:
-                                                  "Denda Keterlambatan Pengembalian Buku denga ID Peminjaman",
+                                      Image.network(
+                                        controller.listNotification[index].book
+                                            .coverUrl,
+                                        width: 80,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Image.asset(
+                                            AssetConstant
+                                                .logoAlinea, // Gambar placeholder dari asset lokal
+                                            width: 80,
+                                            fit: BoxFit.cover,
+                                            alignment: Alignment.center,
+                                          );
+                                        },
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              controller.listNotification[index]
+                                                  .message,
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w700,
-                                                overflow: TextOverflow.ellipsis,
                                               ),
+                                              maxLines: 3,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            TextSpan(
-                                              text: " BKU109432.",
+                                            Text(
+                                              Helper.removeHtmlTags(controller
+                                                  .listNotification[index]
+                                                  .book
+                                                  .description),
                                               style: TextStyle(
-                                                color: Color(0XFF3A4BBB),
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14,
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              maxLines: 3,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              DateFormat('dd MMM yyy HH:mm')
+                                                  .format(controller
+                                                      .listNotification[index]
+                                                      .createdAt),
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.grey[700],
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      Text(
-                                        "10-27-2024",
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.grey[700],
-                                        ),
-                                      ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                                ],
+                              ),
+                            );
+                          },
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          itemCount: 10,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 5),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0XFFC9D6F4),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: SvgPicture.asset(
+                                        AssetConstant.icDenda,
+                                        fit: BoxFit.fill,
+                                        color: Colors.black,
+                                        width: 40,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text.rich(
+                                          TextSpan(
+                                            children: const [
+                                              TextSpan(
+                                                text:
+                                                    "Denda Keterlambatan Pengembalian Buku denga ID Peminjaman",
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: " BKU109432.",
+                                                style: TextStyle(
+                                                  color: Color(0XFF3A4BBB),
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Text(
+                                          "10-27-2024",
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.grey[700],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                ),
               ),
             ),
           ),

@@ -36,7 +36,7 @@ class ProfilePage extends StatelessWidget {
               color: Color(0XFF5878D9),
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
-                image: AssetImage('assets/images/banner_profile.jpeg'),
+                image: AssetImage('assets/images/book.jpeg'),
                 fit: BoxFit.cover,
               ),
             ),
