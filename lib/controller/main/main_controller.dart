@@ -1,7 +1,7 @@
 import 'package:alinea/model/main/item_navbar_model.dart';
 import 'package:alinea/pages/cart/cart_page.dart';
 import 'package:alinea/pages/home/home_page.dart';
-import 'package:alinea/pages/notif/notifikasi.dart';
+import 'package:alinea/pages/notif/notifikasi_page.dart';
 import 'package:alinea/pages/profile/profile_page.dart';
 import 'package:alinea/services/utilities/asset_constant.dart';
 import 'package:flutter/material.dart';

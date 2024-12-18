@@ -1,4 +1,4 @@
-import 'dart:io';
+ import 'dart:io';
 import 'package:alinea/model/invoice/invoice_model.dart';
 import 'package:alinea/services/utilities/api_constant.dart';
 import 'package:alinea/services/utilities/utilities.dart';
@@ -57,6 +57,18 @@ class InvoiceController extends GetxController {
     return true;
   }
 
+  /// Mendapatkan path ke folder Download
+  Future<Directory?> getDownloadDirectory() async {
+    if (Platform.isAndroid) {
+      // Android menggunakan folder umum Download
+      return Directory('/storage/emulated/0/Download');
+    } else if (Platform.isIOS) {
+      // iOS menggunakan application document directory
+      return await getApplicationDocumentsDirectory();
+    }
+    return null;
+  }
+
   /// Mengunduh file PDF dari server
   Future<void> downloadPDF(int id, String noInvoice) async {
     loadingFetchPdf.value = DataLoad.loading;
@@ -68,21 +80,8 @@ class InvoiceController extends GetxController {
         return;
       }
 
-      // Menentukan direktori unduhan berdasarkan platform dan versi SDK
-      Directory? downloadsDirectory;
-      if (Platform.isAndroid) {
-        final androidInfo = await DeviceInfoPlugin().androidInfo;
-        final sdkInt = androidInfo.version.sdkInt; // Versi SDK Android
-        if (sdkInt >= 29) {
-          // Scoped storage untuk Android 10+
-          downloadsDirectory = await getExternalStorageDirectory();
-        } else {
-          downloadsDirectory = Directory('/storage/emulated/0/Download');
-        }
-      } else if (Platform.isIOS) {
-        downloadsDirectory = await getApplicationDocumentsDirectory();
-      }
-
+      // Mendapatkan path folder Download
+      Directory? downloadsDirectory = await getDownloadDirectory();
       if (downloadsDirectory == null) {
         throw Exception("Direktori unduhan tidak ditemukan.");
       }

@@ -77,6 +77,10 @@ class NotifikasiPage extends StatelessWidget {
                                       AssetConstant.coverHarryPoter,
                                       width: 80,
                                     ),
+                                    Image.network(
+                                      controller.listBook[index].coverUrl,
+                                      width: 80,
+                                    ),
                                     SizedBox(
                                       width: 10,
                                     ),

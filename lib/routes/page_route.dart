@@ -5,7 +5,7 @@ import 'package:alinea/pages/home/detail_page.dart';
 import 'package:alinea/pages/home/home_page.dart';
 import 'package:alinea/pages/login/login_page.dart';
 import 'package:alinea/pages/main/main_page.dart';
-import 'package:alinea/pages/notif/notifikasi.dart';
+import 'package:alinea/pages/notif/notifikasi_page.dart';
 import 'package:alinea/pages/pdf/pdf_page.dart';
 import 'package:alinea/pages/profile/widget/denda_page.dart';
 import 'package:alinea/pages/profile/widget/detail_peminjaman_page.dart';

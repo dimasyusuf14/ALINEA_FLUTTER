@@ -1,3 +1,4 @@
+import 'package:alinea/controller/denda/denda_controller.dart';
 import 'package:alinea/controller/invoice/invoice_controller.dart';
 import 'package:alinea/controller/invoice/riwayat_invoice_controller.dart';
 import 'package:alinea/model/borrowing/borrowing_model.dart';
@@ -27,7 +28,7 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
   int? expandedIndex;
   InvoiceController pdfController = Get.put(InvoiceController());
   RefreshController refreshController = RefreshController();
-  RiwayatInvoiceController controller = Get.put(RiwayatInvoiceController());
+  DendaController controller = Get.put(DendaController());
 
   @override
   Widget build(BuildContext context) {
@@ -44,15 +45,15 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
               controller: refreshController,
               onRefresh: () async {
                 refreshController.refreshCompleted();
-                controller.fetchHistoryPeminjaman();
+                controller.fetchDendaPeminjaman();
               },
               child: SingleChildScrollView(
                 child: Obx(
                   () {
-                    if (controller.loadingFetchHistoryPeminjaman.value ==
+                    if (controller.loadingfetchDendaPeminjaman.value ==
                         DataLoad.loading) {
                       return ShimmerList(count: 5, heightCard: 250);
-                    } else if (controller.loadingFetchHistoryPeminjaman.value ==
+                    } else if (controller.loadingfetchDendaPeminjaman.value ==
                         DataLoad.failed) {
                       return Container(
                         padding: EdgeInsets.symmetric(vertical: 100),
@@ -80,7 +81,7 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
                             horizontal: 16, vertical: 8),
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: controller.listHistoryPeminjaman.length,
+                        itemCount: controller.listDendaPeminjaman.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             margin: const EdgeInsets.only(bottom: 12),
@@ -107,7 +108,7 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
                                               children: [
                                                 Container(
                                                   decoration: BoxDecoration(
-                                                    color: kColorSecondary,
+                                                    color: Color(0xFFec1616),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             6),
@@ -118,7 +119,7 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
                                                       vertical: 5),
                                                   child: Text(
                                                     controller
-                                                        .listHistoryPeminjaman[
+                                                        .listDendaPeminjaman[
                                                             index]
                                                         .status,
                                                     textAlign: TextAlign.center,
@@ -135,7 +136,7 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
                                                 ),
                                                 Expanded(
                                                   child: Text(
-                                                    "ALN ${controller.listHistoryPeminjaman[index].noInvoice.toString()}",
+                                                    "ALN ${controller.listDendaPeminjaman[index].noInvoice.toString()}",
                                                     style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -154,7 +155,7 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
                                                 Text(
                                                   controller.formatDate(
                                                       controller
-                                                          .listHistoryPeminjaman[
+                                                          .listDendaPeminjaman[
                                                               index]
                                                           .borrowings[0]
                                                           .borrowDate),
@@ -173,7 +174,7 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
                                                 Text(
                                                   controller.formatDate(
                                                       controller
-                                                          .listHistoryPeminjaman[
+                                                          .listDendaPeminjaman[
                                                               index]
                                                           .borrowings[0]
                                                           .returnDate),
@@ -193,7 +194,7 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
                                               child: ButtonAction(
                                                 onTap: () {
                                                   final invoice = controller
-                                                          .listHistoryPeminjaman[
+                                                          .listDendaPeminjaman[
                                                       index];
                                                   pdfController.downloadPDF(
                                                       invoice.id,
@@ -235,7 +236,7 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
                                           vertical: 5),
                                       child: QrImageView(
                                         data: controller
-                                            .listHistoryPeminjaman[index]
+                                            .listDendaPeminjaman[index]
                                             .noInvoice
                                             .toString(),
                                         version: QrVersions.auto,
@@ -262,14 +263,12 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
                                         const NeverScrollableScrollPhysics(),
                                     padding: EdgeInsets.zero,
                                     itemCount: expandedIndex == index
-                                        ? controller
-                                            .listHistoryPeminjaman[index]
-                                            .borrowings
-                                            .length
+                                        ? controller.listDendaPeminjaman[index]
+                                            .borrowings.length
                                         : 1,
                                     itemBuilder: (context, bookIndex) {
                                       final book = controller
-                                          .listHistoryPeminjaman[index]
+                                          .listDendaPeminjaman[index]
                                           .borrowings[bookIndex];
                                       return Container(
                                         margin:
@@ -350,7 +349,7 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
                                     });
                                   },
                                   child: Obx(() => controller
-                                              .listHistoryPeminjaman[index]
+                                              .listDendaPeminjaman[index]
                                               .borrowings
                                               .length >
                                           1
@@ -392,15 +391,16 @@ class _DendaPeminjamanPageState extends State<DendaPeminjamanPage> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 8, vertical: 5),
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          color: Colors.amber),
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: Color(0xFFec1616),
+                                      ),
                                       child: Text(
-                                        controller.listHistoryPeminjaman[index]
+                                        controller.listDendaPeminjaman[index]
                                             .totalAmount,
                                         style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w500,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),

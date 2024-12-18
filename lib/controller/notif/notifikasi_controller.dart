@@ -1,3 +1,4 @@
+import 'package:alinea/model/home/home_model.dart';
 import 'package:get/get.dart';
 import 'package:alinea/model/notif/notifikasi_model.dart';
 import 'package:alinea/services/api_services.dart';
@@ -6,8 +7,9 @@ import 'package:alinea/services/utilities/utilities.dart';
 
 class NotifikasiController extends GetxController {
   var selectedIndex = 0.obs;
-  var loadingFetchNotification = DataLoad.loading.obs; // Initialize loading state
-  var listNotification = <NotificationsModel>[].obs; // Reactive list of notifications
+  var loadingFetchNotification = DataLoad.loading.obs;
+  var listNotification = <NotificationsModel>[].obs;
+  var listBook = <BooksModel>[].obs;
 
   List<String> listTab = [
     "Notifikasi",
@@ -16,7 +18,7 @@ class NotifikasiController extends GetxController {
 
   @override
   void onInit() {
-    fetchNotifications(); // Fetch notifications when controller is initialized
+    fetchNotifications();
     super.onInit();
   }
 

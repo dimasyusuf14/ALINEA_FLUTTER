@@ -17,4 +17,5 @@ class APIEndpoint {
   static String pdfInvoice = "/invoices/download";
   static String updateProfile = "/profile/update";
   static String myNotification = "/notifications/mynotif";
+  static String myDenda = "/invoices/myinvoice/fined";
 }

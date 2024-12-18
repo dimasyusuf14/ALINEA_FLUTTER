@@ -1,6 +1,6 @@
 import 'package:alinea/pages/main/main_page.dart';
 import 'package:alinea/pages/wellcome/wellcome_page.dart';
-import 'package:alinea/pages/notif/notifikasi.dart';
+import 'package:alinea/pages/notif/notifikasi_page.dart';
 
 abstract class RouteName {
   static const splash = "/splash";
