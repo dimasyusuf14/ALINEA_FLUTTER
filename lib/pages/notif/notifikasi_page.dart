@@ -22,7 +22,7 @@ class NotifikasiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration.zero, () {
-      controller.fetchNotifications(); // Call the fetchCarts method
+      controller.fetchNotifications();
     });
     return Scaffold(
       body: Column(
@@ -85,20 +85,23 @@ class NotifikasiPage extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Image.network(
-                                        controller.listNotification[index].book
-                                            .coverUrl,
-                                        width: 80,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return Image.asset(
-                                            AssetConstant
-                                                .logoAlinea, // Gambar placeholder dari asset lokal
-                                            width: 80,
-                                            fit: BoxFit.cover,
-                                            alignment: Alignment.center,
-                                          );
-                                        },
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.network(
+                                          controller.listNotification[index]
+                                              .book.coverUrl,
+                                          width: 80,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return Image.asset(
+                                              AssetConstant
+                                                  .logoAlinea, // Gambar placeholder dari asset lokal
+                                              width: 80,
+                                              fit: BoxFit.cover,
+                                              alignment: Alignment.center,
+                                            );
+                                          },
+                                        ),
                                       ),
                                       SizedBox(
                                         width: 10,
